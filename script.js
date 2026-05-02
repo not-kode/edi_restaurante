@@ -158,6 +158,16 @@ function getFilteredMenu() {
 }
 
 let cart = [];
+let toastTimer = null;
+
+function showToast() {
+  const toast = document.querySelector("#cart-toast");
+  toast.classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.add("hidden");
+  }, 3000);
+}
 
 const DAY_NAMES = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
@@ -224,6 +234,7 @@ function addToCart(id, name, price, label, dayLabel) {
     cart.push({ id, name, price: Number(price), label, dayLabel, qty: 1 });
   }
   updateCartUI();
+  showToast();
 }
 
 function removeFromCart(id) {
