@@ -319,10 +319,10 @@ textarea {
 
 .menu-day--daily {
   border-bottom: none;
-  padding-top: 44px;
-  padding-bottom: 20px;
-  border-top: 2px solid var(--accent);
-  margin-top: 0.5rem;
+  padding-top: 0;
+  padding-bottom: 48px;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 1rem;
 }
 
 .menu-day--daily .menu-day__header {
@@ -332,6 +332,37 @@ textarea {
 
 .menu-day--daily .menu-day__title {
   color: var(--green-strong);
+}
+
+.menu-day--daily .menu-card {
+  border-color: rgba(31, 109, 83, 0.2);
+  background: linear-gradient(180deg, rgba(240, 251, 244, 0.7), rgba(232, 245, 236, 0.7));
+}
+
+.menu-day--daily .menu-card:hover {
+  border-color: rgba(31, 109, 83, 0.35);
+}
+
+.menu-day--daily .menu-card__badge--highlight {
+  background: rgba(31, 109, 83, 0.16);
+}
+
+.menu-day:not(.menu-day--daily) .menu-card {
+  background: linear-gradient(180deg, rgba(255, 251, 246, 0.7), rgba(255, 245, 228, 0.7));
+  box-shadow: 0 8px 22px rgba(87, 34, 13, 0.06);
+}
+
+.menu-day:not(.menu-day--daily) .menu-card__photo {
+  aspect-ratio: 4 / 2.2;
+}
+
+.menu-day:not(.menu-day--daily) .menu-card__body {
+  gap: 0.5rem;
+  padding: 0.8rem 0.85rem 0.85rem;
+}
+
+.menu-day:not(.menu-day--daily) .menu-card h3 {
+  font-size: 1.35rem;
 }
 
 .menu-day__items {
