@@ -356,6 +356,8 @@ textarea {
 
 .menu-card {
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--line);
   border-radius: 26px;
   background: linear-gradient(180deg, rgba(255, 251, 246, 0.98), rgba(255, 246, 232, 0.98));
@@ -385,90 +387,37 @@ textarea {
 }
 
 .menu-card__body {
-  display: grid;
-  gap: 0.8rem;
-  padding: 1.05rem 1rem 1rem;
-}
-
-.menu-card__top {
-  display: grid;
-  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+  flex: 1;
 }
 
 .menu-card h3 {
-  font-size: 1.7rem;
-  line-height: 0.92;
+  font-size: 1.4rem;
+  line-height: 1.1;
   text-transform: uppercase;
-}
-
-.menu-card__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.menu-card__badge {
-  display: inline-flex;
-  width: fit-content;
-  padding: 0.25rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-}
-
-.menu-card__badge--highlight {
-  background: rgba(31, 109, 83, 0.12);
-  color: var(--green-strong);
-}
-
-.menu-card__badge--sale {
-  background: rgba(231, 164, 59, 0.22);
-  color: var(--text);
-}
-
-.menu-card__price {
-  display: inline-flex;
-  width: fit-content;
-  padding: 0.38rem 0.75rem;
-  border-radius: 999px;
-  background: var(--surface-strong);
-  color: var(--text);
-  font-weight: 700;
 }
 
 .menu-card__description {
   margin: 0;
   color: var(--text-soft);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
-.menu-card__meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.8rem;
-}
-
-.menu-card__price-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  align-items: center;
+.menu-card__price {
+  display: inline-flex;
+  width: fit-content;
+  font-weight: 700;
+  font-size: 1.05rem;
 }
 
 .menu-card__price--old {
-  padding: 0;
-  background: transparent;
   color: rgba(82, 33, 20, 0.58);
   text-decoration: line-through;
-}
-
-.menu-card__serving {
-  color: var(--text-soft);
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
 }
 
 .menu-card__button,
@@ -509,16 +458,22 @@ textarea {
 }
 
 .menu-card__variant {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
   padding: 0.3rem 0.6rem;
   border: 1.5px solid var(--line);
-  border-radius: 999px;
+  border-radius: 14px;
   background: rgba(255, 253, 248, 0.92);
   cursor: pointer;
   font-size: 0.8rem;
   transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.menu-card__variant-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .menu-card__variant:hover {
@@ -528,6 +483,13 @@ textarea {
 .menu-card__variant.is-selected {
   border-color: var(--green);
   background: rgba(31, 109, 83, 0.08);
+}
+
+.menu-card__variant-desc {
+  font-size: 0.65rem;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .menu-card__variant-plus {
@@ -542,11 +504,6 @@ textarea {
 .menu-card__variant-price {
   font-weight: 700;
   color: var(--green-strong);
-}
-
-.menu-card__variant-desc {
-  font-size: 0.7rem;
-  color: var(--text-soft);
 }
 
 .menu-card--variants .menu-card__button {

@@ -167,10 +167,12 @@ function renderDishCard(dish, dayLabel) {
     const btns = dish.variacoes.map(
       (v) => `
         <button class="menu-card__variant" type="button" data-id="${id}" data-preco="${v.preco}" data-label="${v.label}" data-name="${dish.name}" data-day="${dayLabel}">
-          <span class="menu-card__variant-plus">+</span>
-          <span class="menu-card__variant-label">${v.label}</span>
-          <span class="menu-card__variant-price">${formatPrice(v.preco)}</span>
           ${v.descricao ? `<span class="menu-card__variant-desc">${v.descricao}</span>` : ""}
+          <span class="menu-card__variant-row">
+            <span class="menu-card__variant-plus">+</span>
+            <span class="menu-card__variant-label">${v.label}</span>
+            <span class="menu-card__variant-price">${formatPrice(v.preco)}</span>
+          </span>
         </button>`
     ).join("");
 
@@ -182,7 +184,7 @@ function renderDishCard(dish, dayLabel) {
           <p class="menu-card__description">${dish.description}</p>
           <div class="menu-card__variants">${btns}</div>
           <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${def.preco}" data-label="${def.label}" data-day="${dayLabel}" type="button">
-            Pedir no Whats
+            + Pedir
           </button>
         </div>
       </article>`;
@@ -198,7 +200,7 @@ function renderDishCard(dish, dayLabel) {
         <span class="menu-card__price">${formatPrice(p)}</span>
         ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
         <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${p}" data-label="" data-day="${dayLabel}" type="button">
-          Pedir no Whats
+          + Pedir
         </button>
       </div>
     </article>`;
