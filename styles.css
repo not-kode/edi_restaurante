@@ -541,9 +541,11 @@ textarea {
 }
 
 .menu-card--disabled {
-  opacity: 0.45;
+  opacity: 0.4;
   pointer-events: none;
-  filter: grayscale(0.6);
+  filter: grayscale(0.7);
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .menu-card--today {
