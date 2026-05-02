@@ -275,13 +275,10 @@ textarea {
 }
 
 .menu-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: block;
 }
 
 .menu-grid__empty {
-  grid-column: 1 / -1;
   text-align: center;
   color: var(--text-soft);
   padding: 2rem 0;
@@ -907,11 +904,6 @@ body.site-admin .cta-panel__button:focus-visible {
 
   .admin-auth {
     grid-template-columns: 1fr;
-  }
-
-  .menu-grid {
-    gap: 1rem;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .menu-daily-grid {
