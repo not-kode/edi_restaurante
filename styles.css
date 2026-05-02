@@ -317,8 +317,11 @@ textarea {
 .menu-day-column__header {
   padding: 0.5rem 0.25rem;
   text-align: center;
-  border-bottom: 2px solid var(--accent);
   margin-bottom: 0.65rem;
+}
+
+.menu-day-column--today .menu-day-column__header {
+  border-bottom: 2px solid var(--accent);
 }
 
 .menu-day-column__title {

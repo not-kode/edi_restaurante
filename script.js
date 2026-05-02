@@ -13,11 +13,11 @@ const clearFiltersButton = document.querySelector("#clear-filters");
 const menuStatus = document.querySelector("#menu-status");
 
 const dayNotes = {
-  Segunda: { kicker: "Começo da semana", note: "Virado a Paulista — clássico de segunda." },
-  Terça: { kicker: "Saída a partir das 11h", note: "Strogonoff de frango fresquinho." },
-  Quarta: { kicker: "Dia de feijoada", note: "Pequena, média ou grande — escolha a sua." },
-  Quinta: { kicker: "Cardápio do dia", note: "Macarrão com frango assado." },
-  Sexta: { kicker: "Fechamento da semana", note: "Peixe frito: merluza ou tilápia." },
+  Segunda: { kicker: "Viradouuu!", note: "Virado a Paulista — clássico de segunda." },
+  Terça: { kicker: "Tá com fome? Strogonoff!", note: "Strogonoff de frango fresquinho." },
+  Quarta: { kicker: "Quarta é dia de feijão!", note: "Pequena, média ou grande — escolha a sua." },
+  Quinta: { kicker: "Quinta que encanta", note: "Macarrão com frango assado." },
+  Sexta: { kicker: "Sextou com peixe!", note: "Peixe frito: merluza ou tilápia." },
   Sábado: { kicker: "Sábado com sabor", note: "Feijoada igual de quarta — aproveite!" },
 };
 
