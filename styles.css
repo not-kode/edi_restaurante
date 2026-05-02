@@ -920,7 +920,9 @@ body.site-admin .cta-panel__button:focus-visible {
 }
 
 .cart-fab__icon {
-  font-size: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cart-fab__count {
