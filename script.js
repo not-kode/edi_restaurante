@@ -319,7 +319,6 @@ function renderMenu() {
   const allDishes = filteredMenu.flatMap((day) =>
     day.dishes.map((dish) => ({ ...dish, dayLabel: day.day }))
   );
-
   updateResultsSummary(allDishes);
 
   if (allDishes.length === 0) {
@@ -331,9 +330,44 @@ function renderMenu() {
     return;
   }
 
-  menuContainer.innerHTML = allDishes
-    .map((dish, i) => renderDishCard(dish, dish.dayLabel === "Diário" ? "hoje" : dish.dayLabel, `dish-${i}`))
-    .join("");
+  const dailySection = filteredMenu.find((d) => d.day === "Diário");
+  const weeklyDays = filteredMenu.filter((d) => d.day !== "Diário");
+
+  let html = "";
+
+  if (dailySection) {
+    html += `
+      <div class="menu-daily-grid">
+        ${dailySection.dishes.map((dish, i) => renderDishCard(dish, "hoje", `daily-${i}`)).join("")}
+      </div>
+    `;
+  }
+
+  if (weeklyDays.length > 0) {
+    const columns = weeklyDays
+      .map(
+        (day) => `
+        <div class="menu-day-column" aria-labelledby="${day.day.toLowerCase()}-title">
+          <div class="menu-day-column__header">
+            <h3 class="menu-day-column__title" id="${day.day.toLowerCase()}-title">${day.day}</h3>
+            <p class="menu-day-column__kicker">${dayNotes[day.day]?.kicker || ""}</p>
+          </div>
+          <div class="menu-day-column__dishes">
+            ${day.dishes.map((dish, i) => renderDishCard(dish, day.day, `week-${day.day}-${i}`)).join("")}
+          </div>
+        </div>
+      `
+      )
+      .join("");
+
+    html += `
+      <div class="menu-days-row">
+        ${columns}
+      </div>
+    `;
+  }
+
+  menuContainer.innerHTML = html;
 
   menuContainer.querySelectorAll(".menu-card__variant").forEach((btn) => {
     btn.addEventListener("click", () => {

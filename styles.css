@@ -287,6 +287,76 @@ textarea {
   padding: 2rem 0;
 }
 
+.menu-daily-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.menu-days-row {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.menu-day-column {
+  min-width: 0;
+}
+
+.menu-day-column__header {
+  padding: 0.5rem 0.25rem;
+  text-align: center;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 0.65rem;
+}
+
+.menu-day-column__title {
+  margin: 0;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.menu-day-column__kicker {
+  margin: 0.15rem 0 0;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.menu-day-column__dishes {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.menu-day-column .menu-card__photo {
+  aspect-ratio: 4 / 2;
+}
+
+.menu-day-column .menu-card__body {
+  gap: 0.4rem;
+  padding: 0.6rem 0.7rem 0.7rem;
+}
+
+.menu-day-column .menu-card h3 {
+  font-size: 1rem;
+}
+
+.menu-day-column .menu-card__description {
+  font-size: 0.82rem;
+}
+
+.menu-day-column .menu-card__button {
+  min-height: 2.2rem;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.85rem;
+}
+
 .menu-card {
   overflow: hidden;
   border: 1px solid var(--line);
@@ -841,6 +911,14 @@ body.site-admin .cta-panel__button:focus-visible {
 
   .menu-grid {
     gap: 1rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .menu-daily-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .menu-days-row {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -881,14 +959,12 @@ body.site-admin .cta-panel__button:focus-visible {
     padding-top: 1.35rem;
   }
 
-  .menu-day {
-    grid-template-columns: 260px minmax(0, 1fr);
-    align-items: start;
-    column-gap: 1.6rem;
+  .menu-daily-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .menu-day__items {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .menu-days-row {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .menu-card__body {
@@ -909,6 +985,10 @@ body.site-admin .cta-panel__button:focus-visible {
 @media (min-width: 1180px) {
   .menu-grid {
     gap: 1.2rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .menu-daily-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
