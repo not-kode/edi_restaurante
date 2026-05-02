@@ -301,6 +301,8 @@ function buildWhatsAppMessage() {
   });
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   msg += `\nTotal: ${formatPrice(total)}`;
+  const obs = document.querySelector("#cart-obs")?.value?.trim();
+  if (obs) msg += `\n\nObs.: ${obs}`;
   return msg;
 }
 
