@@ -31,6 +31,6 @@ Cadastre as mesmas variáveis do `.env.local` no painel da Vercel:
 - `SUPABASE_BUCKET`
 - `ADMIN_PASSWORD`
 
-## Observação
+## Upload de imagens
 
-O painel admin atual aceita `foto_url` pública. O próximo passo natural é adicionar upload direto para o bucket `marmitas`.
+No painel admin, arraste ou escolha uma foto do computador. O upload é feito automaticamente para o bucket `marmitas` do Supabase e a URL pública é preenchida no cadastro.
