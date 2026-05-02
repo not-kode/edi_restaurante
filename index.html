@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurante da Edi | Marmitas do Dia</title>
+    <meta
+      name="description"
+      content="Marmitas do dia do Restaurante da Edi com pedido rápido no WhatsApp."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23f5a623'/%3E%3Cpath d='M14 18h36v6H14zm0 11h36v6H14zm0 11h23v6H14z' fill='%23691807'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="site-public">
+    <div class="page-shell">
+      <main class="menu-page">
+        <header class="hero">
+          <div class="hero__media">
+            <img class="hero__banner" src="./assets/hero.jpg" alt="Restaurante da Edi" />
+          </div>
+          <div class="hero__copy">
+            <h1>Escolha sua marmita e peça no Whats</h1>
+            <p class="hero__note">Peça rápido pelo WhatsApp e confirme a disponibilidade do dia.</p>
+          </div>
+        </header>
+
+        <section class="menu-section" aria-labelledby="marmitas-title">
+          <div class="section-header">
+            <div>
+              <p class="section-header__eyebrow">Cardápio</p>
+              <h2 id="marmitas-title">Marmitas do dia</h2>
+              <p class="section-header__note">Filtre por dia, preço ou procure o prato pelo nome.</p>
+            </div>
+          </div>
+
+          <div class="menu-toolbar" aria-label="Busca e filtros">
+            <label class="toolbar-field">
+              <span>Buscar prato</span>
+              <input id="search-input" type="search" placeholder="Ex.: feijoada, omelete..." />
+            </label>
+
+            <label class="toolbar-field">
+              <span>Filtrar por dia</span>
+              <select id="day-filter">
+                <option value="todos">Todos os dias</option>
+              </select>
+            </label>
+
+            <label class="toolbar-field">
+              <span>Filtrar por preço</span>
+              <select id="price-filter">
+                <option value="todos">Todos os preços</option>
+                <option value="ate-22">Até R$ 22,00</option>
+                <option value="23-24">R$ 23,00 a R$ 24,00</option>
+                <option value="25-mais">R$ 25,00 ou mais</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="toolbar-meta" aria-live="polite">
+            <p id="results-summary" class="toolbar-meta__summary"></p>
+            <button id="clear-filters" class="toolbar-meta__clear" type="button">Limpar filtros</button>
+          </div>
+
+          <div class="content-layout">
+            <div id="menu-status" class="menu-status" aria-live="polite"></div>
+            <div id="menu-container" class="menu-grid"></div>
+          </div>
+        </section>
+
+        <section class="cta-section" aria-label="Chamada do restaurante">
+          <div class="cta-section__media">
+            <img class="cta-panel__image" src="./assets/cta.jpg" alt="Cliente no Restaurante da Edi" />
+          </div>
+          <div class="cta-section__content">
+            <p class="cta-panel__eyebrow">Congeladas</p>
+            <h3>Você deseja marmitas congeladas?</h3>
+            <p>Corre e chama a gente no Whats, temos os melhores pacotes.</p>
+            <a class="cta-panel__button" href="#" id="main-whatsapp">Pedir no Whats</a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
