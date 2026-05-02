@@ -159,14 +159,22 @@ function getFilteredMenu() {
 
 let cart = [];
 
+const DAY_NAMES = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+function getToday() {
+  return DAY_NAMES[new Date().getDay()];
+}
+
 function renderDishCard(dish, dayLabel) {
   const id = `${dayLabel}-${dish.id}`;
+  const isToday = dayLabel === getToday();
+  const isDisabled = !dish.diario && dayLabel !== "hoje" && dayLabel !== getToday();
 
   if (dish.variacoes?.length) {
     const def = dish.variacoes[0];
     const btns = dish.variacoes.map(
       (v) => `
-        <button class="menu-card__variant" type="button" data-id="${id}" data-preco="${v.preco}" data-label="${v.label}" data-name="${dish.name}" data-day="${dayLabel}">
+        <button class="menu-card__variant" type="button" data-id="${id}" data-preco="${v.preco}" data-label="${v.label}" data-name="${dish.name}" data-day="${dayLabel}" ${isDisabled ? "disabled" : ""}>
           ${v.descricao ? `<span class="menu-card__variant-desc">${v.descricao}</span>` : ""}
           <span class="menu-card__variant-row">
             <span class="menu-card__variant-plus">+</span>
@@ -177,31 +185,33 @@ function renderDishCard(dish, dayLabel) {
     ).join("");
 
     return `
-      <article class="menu-card menu-card--variants" data-card-id="${id}">
+      <article class="menu-card menu-card--variants${isDisabled ? " menu-card--disabled" : ""}${isToday ? " menu-card--today" : ""}" data-card-id="${id}">
         <div class="menu-card__photo"><img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'"></div>
         <div class="menu-card__body">
           <h3>${dish.name}</h3>
           <p class="menu-card__description">${dish.description}</p>
           <div class="menu-card__variants">${btns}</div>
+          ${isDisabled ? "" : `
           <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${def.preco}" data-label="${def.label}" data-day="${dayLabel}" type="button">
             + Pedir
-          </button>
+          </button>`}
         </div>
       </article>`;
   }
 
   const p = dish.isOnSale && dish.salePrice != null ? dish.salePrice : dish.price;
   return `
-    <article class="menu-card" data-card-id="${id}">
+    <article class="menu-card${isDisabled ? " menu-card--disabled" : ""}${isToday ? " menu-card--today" : ""}" data-card-id="${id}">
       <div class="menu-card__photo"><img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'"></div>
       <div class="menu-card__body">
         <h3>${dish.name}</h3>
         <p class="menu-card__description">${dish.description}</p>
         <span class="menu-card__price">${formatPrice(p)}</span>
         ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
+        ${isDisabled ? "" : `
         <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${p}" data-label="" data-day="${dayLabel}" type="button">
           + Pedir
-        </button>
+        </button>`}
       </div>
     </article>`;
 }
@@ -308,13 +318,15 @@ function renderMenu() {
   }
 
   if (weekly.length > 0) {
+    const today = getToday();
     html += '<div class="menu-days-row">';
     html += weekly.map((d) => {
-      const id = d.day.toLowerCase();
+      const isToday = d.day === today;
       return `
-        <div class="menu-day-column">
+        <div class="menu-day-column${isToday ? " menu-day-column--today" : ""}">
           <div class="menu-day-column__header">
             <h3 class="menu-day-column__title">${d.day}</h3>
+            ${isToday ? '<span class="menu-day-column__badge">Hoje</span>' : ""}
             <p class="menu-day-column__kicker">${dayNotes[d.day]?.kicker || ""}</p>
           </div>
           <div class="menu-day-column__dishes">

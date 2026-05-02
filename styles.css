@@ -326,6 +326,29 @@ textarea {
   color: var(--text-soft);
 }
 
+.menu-day-column--today .menu-day-column__header {
+  background: linear-gradient(180deg, rgba(231, 164, 59, 0.12), transparent);
+  border-bottom-color: var(--accent);
+  border-radius: 14px 14px 0 0;
+}
+
+.menu-day-column--today .menu-day-column__title {
+  color: var(--accent-deep);
+}
+
+.menu-day-column__badge {
+  display: inline-flex;
+  margin: 0.15rem 0 0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 .menu-day-column__dishes {
   display: grid;
   gap: 0.65rem;
@@ -504,6 +527,21 @@ textarea {
 .menu-card__variant-price {
   font-weight: 700;
   color: var(--green-strong);
+}
+
+.menu-card--disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  filter: grayscale(0.6);
+}
+
+.menu-card--today {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(231, 164, 59, 0.25), var(--shadow-soft);
+}
+
+.menu-card--today .menu-card__button {
+  background: var(--accent-deep);
 }
 
 .menu-card--variants .menu-card__button {
