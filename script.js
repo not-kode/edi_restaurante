@@ -45,32 +45,28 @@ const menuData = [
   // === TERÇA ===
   { id: 2, dia_semana: "Terça", nome: "Strogonoff de frango", descricao: "Arroz, batata palha, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
   // === QUARTA ===
-  { id: 3, dia_semana: "Quarta", nome: "Feijoada Pequena", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
-  { id: 4, dia_semana: "Quarta", nome: "Feijoada Média", descricao: "Arroz, bisteca, couve, torresmo, farofa, vinagrete, molho.", preco: 59, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true },
-  { id: 5, dia_semana: "Quarta", nome: "Feijoada Grande", descricao: "Arroz, 2 bistecas, couve, torresmo, vinagrete, farofa, molho.", preco: 79, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 3, ativo: true },
+  { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true, variacoes: [{ label: "Pequena", preco: 49 }, { label: "Média", preco: 59, descricao: "com bisteca" }, { label: "Grande", preco: 79, descricao: "2 bistecas" }] },
   // === QUINTA ===
-  { id: 6, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
+  { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
   // === SEXTA ===
-  { id: 7, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
-  { id: 8, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true },
-  // === SÁBADO (repete Quarta) ===
-  { id: 9, dia_semana: "Sábado", nome: "Feijoada Pequena", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
-  { id: 10, dia_semana: "Sábado", nome: "Feijoada Média", descricao: "Arroz, bisteca, couve, torresmo, farofa, vinagrete, molho.", preco: 59, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true },
-  { id: 11, dia_semana: "Sábado", nome: "Feijoada Grande", descricao: "Arroz, 2 bistecas, couve, torresmo, vinagrete, farofa, molho.", preco: 79, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 3, ativo: true },
+  { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
+  { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true },
+  // === SÁBADO ===
+  { id: 7, dia_semana: "Sábado", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true, variacoes: [{ label: "Pequena", preco: 49 }, { label: "Média", preco: 59, descricao: "com bisteca" }, { label: "Grande", preco: 79, descricao: "2 bistecas" }] },
   // === PRATOS DIÁRIOS ===
-  { id: 12, dia_semana: "Diário", nome: "Bife acebolado", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true, diario: true },
-  { id: 13, dia_semana: "Diário", nome: "Filé de frango à milanesa", descricao: "Arroz, feijão, salada.", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true, diario: true },
-  { id: 14, dia_semana: "Diário", nome: "Omelete com presunto e queijo", descricao: "Arroz, feijão, salada.", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 3, ativo: true, diario: true },
-  { id: 15, dia_semana: "Diário", nome: "Costela com mandioca", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 4, ativo: true, diario: true },
-  { id: 16, dia_semana: "Diário", nome: "Picadinho", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 5, ativo: true, diario: true },
-  { id: 17, dia_semana: "Diário", nome: "Bisteca acebolada", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 6, ativo: true, diario: true },
-  { id: 18, dia_semana: "Diário", nome: "Frango ao molho", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 7, ativo: true, diario: true },
-  { id: 19, dia_semana: "Diário", nome: "Calabresa", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 8, ativo: true, diario: true },
-  { id: 20, dia_semana: "Diário", nome: "Bife de fígado acebolado", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 9, ativo: true, diario: true },
-  { id: 21, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 10, ativo: true, diario: true },
-  { id: 22, dia_semana: "Diário", nome: "Parmegiana de carne", descricao: "Arroz, feijão, fritas e salada.", preco: 42, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 11, ativo: true, diario: true },
-  { id: 23, dia_semana: "Diário", nome: "Parmegiana de frango", descricao: "Arroz, feijão, fritas e salada.", preco: 40, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 12, ativo: true, diario: true },
-  { id: 24, dia_semana: "Diário", nome: "Adicional de fritas", descricao: "Porção extra de fritas.", preco: 8, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 13, ativo: true, diario: true },
+  { id: 8, dia_semana: "Diário", nome: "Bife acebolado", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true, diario: true },
+  { id: 9, dia_semana: "Diário", nome: "Filé de frango à milanesa", descricao: "Arroz, feijão, salada.", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true, diario: true },
+  { id: 10, dia_semana: "Diário", nome: "Omelete com presunto e queijo", descricao: "Arroz, feijão, salada.", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 3, ativo: true, diario: true },
+  { id: 11, dia_semana: "Diário", nome: "Costela com mandioca", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 4, ativo: true, diario: true },
+  { id: 12, dia_semana: "Diário", nome: "Picadinho", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 5, ativo: true, diario: true },
+  { id: 13, dia_semana: "Diário", nome: "Bisteca acebolada", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 6, ativo: true, diario: true },
+  { id: 14, dia_semana: "Diário", nome: "Frango ao molho", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 7, ativo: true, diario: true },
+  { id: 15, dia_semana: "Diário", nome: "Calabresa", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 8, ativo: true, diario: true },
+  { id: 16, dia_semana: "Diário", nome: "Bife de fígado acebolado", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 9, ativo: true, diario: true },
+  { id: 17, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 10, ativo: true, diario: true },
+  { id: 18, dia_semana: "Diário", nome: "Parmegiana de carne", descricao: "Arroz, feijão, fritas e salada.", preco: 42, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 11, ativo: true, diario: true },
+  { id: 19, dia_semana: "Diário", nome: "Parmegiana de frango", descricao: "Arroz, feijão, fritas e salada.", preco: 40, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 12, ativo: true, diario: true },
+  { id: 20, dia_semana: "Diário", nome: "Adicional de fritas", descricao: "Porção extra de fritas.", preco: 8, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 13, ativo: true, diario: true },
 ];
 
 let weeklyMenu = [];
@@ -130,6 +126,7 @@ function normalizeMenu(rows) {
       isHighlighted: Boolean(item.destaque_dia),
       image: item.foto_url || fallbackPhoto,
       order: item.ordem || 0,
+      variacoes: item.variacoes || null,
     };
 
     if (!accumulator.has(day)) {
@@ -229,7 +226,12 @@ function getFilteredMenu() {
         const matchesSearch =
           !searchTerm || `${dish.name} ${dish.description}`.toLowerCase().includes(searchTerm);
 
-        return matchesSearch && matchesPriceFilter(dish.isOnSale ? dish.salePrice : dish.price, selectedPrice);
+        let dishPrice = dish.isOnSale && dish.salePrice != null ? dish.salePrice : dish.price;
+        if (dish.variacoes && Array.isArray(dish.variacoes)) {
+          dishPrice = Math.min(...dish.variacoes.map((v) => v.preco));
+        }
+
+        return matchesSearch && matchesPriceFilter(dishPrice, selectedPrice);
       }),
     }))
     .filter((day) => day.dishes.length > 0);
@@ -249,6 +251,79 @@ function updateResultsSummary(filteredMenu) {
   resultsSummary.textContent = `${totalDishes} ${dishLabel} em ${totalDays} ${dayLabel}.`;
 }
 
+function renderDishCard(dish, dayLabel, uniqueId) {
+  const baseMessage = `Oi! Quero pedir ${dish.name} de ${dayLabel} no ${restaurantName}.`;
+
+  if (dish.variacoes && Array.isArray(dish.variacoes)) {
+    const defaultVariacao = dish.variacoes[0];
+    const variacaoButtons = dish.variacoes
+      .map(
+        (v) => `
+          <button class="menu-card__variant" type="button"
+            data-message="${encodeURIComponent(`Oi! Quero pedir ${dish.name} (${v.label}) de ${dayLabel} no ${restaurantName}.`)}"
+            data-preco="${v.preco}"
+            data-label="${v.label}">
+            <span class="menu-card__variant-label">${v.label}</span>
+            <span class="menu-card__variant-price">${formatPrice(v.preco)}</span>
+            ${v.descricao ? `<span class="menu-card__variant-desc">${v.descricao}</span>` : ""}
+          </button>
+        `
+      )
+      .join("");
+
+    return `
+      <article class="menu-card menu-card--variants">
+        <div class="menu-card__photo">
+          <img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'" />
+        </div>
+        <div class="menu-card__body">
+          <div class="menu-card__top">
+            <h3>${dish.name}</h3>
+            <div class="menu-card__badges">
+              ${dish.isHighlighted ? '<span class="menu-card__badge menu-card__badge--highlight">Destaque do dia</span>' : ""}
+            </div>
+          </div>
+          <p class="menu-card__description">${dish.description}</p>
+          <div class="menu-card__variants">
+            ${variacaoButtons}
+          </div>
+          <a class="menu-card__button" href="${createWhatsappLink(`Oi! Quero pedir ${dish.name} (${defaultVariacao.label}) de ${dayLabel} no ${restaurantName}.`)}" data-base-link id="${uniqueId}-whatsapp">
+            Pedir no Whats — ${formatPrice(defaultVariacao.preco)}
+          </a>
+        </div>
+      </article>
+    `;
+  }
+
+  const displayPrice = dish.isOnSale && dish.salePrice != null ? dish.salePrice : dish.price;
+
+  return `
+    <article class="menu-card">
+      <div class="menu-card__photo">
+        <img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'" />
+      </div>
+      <div class="menu-card__body">
+        <div class="menu-card__top">
+          <h3>${dish.name}</h3>
+          <div class="menu-card__badges">
+            ${dish.isHighlighted ? '<span class="menu-card__badge menu-card__badge--highlight">Destaque do dia</span>' : ""}
+            ${dish.isOnSale ? '<span class="menu-card__badge menu-card__badge--sale">Promoção</span>' : ""}
+          </div>
+        </div>
+        <div class="menu-card__meta">
+          <div class="menu-card__price-group">
+            <span class="menu-card__price">${formatPrice(displayPrice)}</span>
+            ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
+          </div>
+          <span class="menu-card__serving">Prato do dia</span>
+        </div>
+        <p class="menu-card__description">${dish.description}</p>
+        <a class="menu-card__button" href="${createWhatsappLink(baseMessage)}">Pedir no Whats</a>
+      </div>
+    </article>
+  `;
+}
+
 function renderMenu() {
   const filteredMenu = getFilteredMenu();
   updateResultsSummary(filteredMenu);
@@ -264,61 +339,75 @@ function renderMenu() {
     return;
   }
 
-  menuContainer.innerHTML = filteredMenu
-    .map(
-      (day) => {
-        const isDaily = day.day === "Diário";
-        const dayLabel = isDaily ? "Pratos diários" : day.day;
-        const dayId = dayLabel.toLowerCase().replace(/\s+/g, "-");
-        const kicker = isDaily ? "Disponível todos os dias" : (dayNotes[day.day]?.kicker || "Cardápio do dia");
-        const note = isDaily ? "Peça junto com qualquer prato do dia." : (dayNotes[day.day]?.note || "");
+  const dailySection = filteredMenu.find((d) => d.day === "Diário");
+  const weeklyDays = filteredMenu.filter((d) => d.day !== "Diário");
 
-        return `
-        <section class="menu-day${isDaily ? " menu-day--daily" : ""}" aria-labelledby="${dayId}-title">
-          <div class="menu-day__header">
-            <p class="menu-day__kicker">${kicker}</p>
-            <h2 class="menu-day__title" id="${dayId}-title">${dayLabel}</h2>
-            <p class="menu-day__note">${note}</p>
-          </div>
-          <div class="menu-day__items">
-            ${day.dishes
-              .map((dish) => {
-                const message = `Oi! Quero pedir ${dish.name} de ${day.day === "Diário" ? "hoje" : day.day} no ${restaurantName}.`;
-                const displayPrice = dish.isOnSale && dish.salePrice != null ? dish.salePrice : dish.price;
+  let html = "";
 
-                return `
-                  <article class="menu-card">
-                    <div class="menu-card__photo">
-                      <img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'" />
-                    </div>
-                    <div class="menu-card__body">
-                      <div class="menu-card__top">
-                        <h3>${dish.name}</h3>
-                        <div class="menu-card__badges">
-                          ${dish.isHighlighted ? '<span class="menu-card__badge menu-card__badge--highlight">Destaque do dia</span>' : ""}
-                          ${dish.isOnSale ? '<span class="menu-card__badge menu-card__badge--sale">Promoção</span>' : ""}
-                        </div>
-                      </div>
-                      <div class="menu-card__meta">
-                        <div class="menu-card__price-group">
-                          <span class="menu-card__price">${formatPrice(displayPrice)}</span>
-                          ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
-                        </div>
-                        <span class="menu-card__serving">${isDaily ? "Disponível hoje" : "Prato do dia"}</span>
-                      </div>
-                      <p class="menu-card__description">${dish.description}</p>
-                      <a class="menu-card__button" href="${createWhatsappLink(message)}">Pedir no Whats</a>
-                    </div>
-                  </article>
-                `;
-              })
-              .join("")}
+  if (dailySection) {
+    html += `
+      <section class="menu-day menu-day--daily" aria-labelledby="diario-title">
+        <div class="menu-day__header">
+          <p class="menu-day__kicker">Disponível todos os dias</p>
+          <h2 class="menu-day__title" id="diario-title">Pratos diários</h2>
+          <p class="menu-day__note">Peça junto com qualquer prato do dia.</p>
+        </div>
+        <div class="menu-day__items">
+          ${dailySection.dishes.map((dish, i) => renderDishCard(dish, "hoje", `daily-${i}`)).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  if (weeklyDays.length > 0) {
+    const columns = weeklyDays
+      .map(
+        (day) => `
+        <div class="menu-day-column" aria-labelledby="${day.day.toLowerCase()}-title">
+          <div class="menu-day-column__header">
+            <h3 class="menu-day-column__title" id="${day.day.toLowerCase()}-title">${day.day}</h3>
+            <p class="menu-day-column__kicker">${dayNotes[day.day]?.kicker || ""}</p>
           </div>
-        </section>
-      `;
+          <div class="menu-day-column__dishes">
+            ${day.dishes.map((dish, i) => renderDishCard(dish, day.day, `week-${day.day}-${i}`)).join("")}
+          </div>
+        </div>
+      `
+      )
+      .join("");
+
+    html += `
+      <section class="menu-week" aria-label="Pratos do dia por dia da semana">
+        <div class="menu-week__header">
+          <h2 class="menu-week__title">Pratos do dia</h2>
+        </div>
+        <div class="menu-days-row">
+          ${columns}
+        </div>
+      </section>
+    `;
+  }
+
+  menuContainer.innerHTML = html;
+
+  menuContainer.querySelectorAll(".menu-card__variant").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".menu-card--variants");
+      const allBtns = card.querySelectorAll(".menu-card__variant");
+      const whatsappLink = card.querySelector("[data-base-link]");
+
+      allBtns.forEach((b) => b.classList.remove("is-selected"));
+      btn.classList.add("is-selected");
+
+      if (whatsappLink) {
+        const msg = btn.dataset.message;
+        const preco = btn.dataset.preco;
+        const label = btn.dataset.label;
+        whatsappLink.href = `https://wa.me/${whatsappNumber}?text=${msg}`;
+        whatsappLink.textContent = `Pedir no Whats — ${formatPrice(Number(preco))}`;
       }
-    )
-    .join("");
+    });
+  });
 }
 
 function setupMainCta() {
