@@ -203,7 +203,7 @@ function renderDishCard(dish, dayLabel) {
           <div class="menu-card__variants">${btns}</div>
           ${isDisabled ? "" : `
           <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${def.preco}" data-label="${def.label}" data-day="${dayLabel}" type="button">
-            + Pedir
+            + Adicionar
           </button>`}
         </div>
       </article>`;
@@ -220,7 +220,7 @@ function renderDishCard(dish, dayLabel) {
         ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
         ${isDisabled ? "" : `
         <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${p}" data-label="" data-day="${dayLabel}" type="button">
-          + Pedir
+          + Adicionar
         </button>`}
       </div>
     </article>`;
