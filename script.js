@@ -332,6 +332,7 @@ function renderMenu() {
 
   if (weekly.length > 0) {
     const today = getToday();
+    html += '<h2 class="menu-weekly-title">Pratos do dia</h2>';
     html += '<div class="menu-days-row">';
     html += weekly.map((d) => {
       const isToday = d.day === today;

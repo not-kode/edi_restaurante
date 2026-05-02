@@ -300,6 +300,16 @@ textarea {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.menu-weekly-title {
+  margin: 0 0 0.75rem;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  text-transform: uppercase;
+  color: var(--text-soft);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
+
 .menu-day-column {
   min-width: 0;
 }
@@ -361,7 +371,7 @@ textarea {
 
 .menu-day-column .menu-card__body {
   gap: 0.4rem;
-  padding: 0.6rem 0.7rem 0.7rem;
+  padding: 1rem;
 }
 
 .menu-day-column .menu-card h3 {
