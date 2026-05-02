@@ -90,6 +90,27 @@
       </main>
     </div>
 
+    <div class="cart-fab" id="cart-fab" aria-label="Abrir carrinho">
+      <span class="cart-fab__icon">🛒</span>
+      <span class="cart-fab__count" id="cart-count">0</span>
+    </div>
+
+    <div class="cart-overlay hidden" id="cart-overlay"></div>
+    <div class="cart-drawer hidden" id="cart-drawer">
+      <div class="cart-drawer__header">
+        <h2>Seu pedido</h2>
+        <button class="cart-drawer__close" id="cart-close" type="button">✕</button>
+      </div>
+      <div class="cart-drawer__items" id="cart-items"></div>
+      <div class="cart-drawer__footer">
+        <div class="cart-drawer__total">
+          <span>Total</span>
+          <span id="cart-total">R$ 0,00</span>
+        </div>
+        <a class="cart-drawer__button" href="#" id="cart-whatsapp" target="_blank">Pedir no Whats</a>
+      </div>
+    </div>
+
     <script src="./script.js"></script>
   </body>
 </html>

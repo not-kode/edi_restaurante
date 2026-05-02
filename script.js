@@ -157,16 +157,17 @@ function getFilteredMenu() {
     .filter((d) => d.dishes.length > 0);
 }
 
+let cart = [];
+
 function renderDishCard(dish, dayLabel) {
-  const msg = `Oi! Quero pedir ${dish.name} de ${dayLabel} no ${restaurantName}.`;
+  const id = `${dayLabel}-${dish.id}`;
 
   if (dish.variacoes?.length) {
     const def = dish.variacoes[0];
     const btns = dish.variacoes.map(
       (v) => `
-        <button class="menu-card__variant" type="button"
-          data-msg="${encodeURIComponent(`Oi! Quero pedir ${dish.name} (${v.label}) de ${dayLabel} no ${restaurantName}.`)}"
-          data-preco="${v.preco}">
+        <button class="menu-card__variant" type="button" data-id="${id}" data-preco="${v.preco}" data-label="${v.label}" data-name="${dish.name}" data-day="${dayLabel}">
+          <span class="menu-card__variant-plus">+</span>
           <span class="menu-card__variant-label">${v.label}</span>
           <span class="menu-card__variant-price">${formatPrice(v.preco)}</span>
           ${v.descricao ? `<span class="menu-card__variant-desc">${v.descricao}</span>` : ""}
@@ -174,38 +175,110 @@ function renderDishCard(dish, dayLabel) {
     ).join("");
 
     return `
-      <article class="menu-card menu-card--variants">
+      <article class="menu-card menu-card--variants" data-card-id="${id}">
         <div class="menu-card__photo"><img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'"></div>
         <div class="menu-card__body">
-          <div class="menu-card__top">
-            <h3>${dish.name}</h3>
-          </div>
+          <h3>${dish.name}</h3>
           <p class="menu-card__description">${dish.description}</p>
           <div class="menu-card__variants">${btns}</div>
-          <a class="menu-card__button" href="${createWhatsappLink(`Oi! Quero pedir ${dish.name} (${def.label}) de ${dayLabel} no ${restaurantName}.`)}" data-base-link>
-            Pedir no Whats — ${formatPrice(def.preco)}
-          </a>
+          <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${def.preco}" data-label="${def.label}" data-day="${dayLabel}" type="button">
+            Pedir no Whats
+          </button>
         </div>
       </article>`;
   }
 
   const p = dish.isOnSale && dish.salePrice != null ? dish.salePrice : dish.price;
   return `
-    <article class="menu-card">
+    <article class="menu-card" data-card-id="${id}">
       <div class="menu-card__photo"><img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'"></div>
       <div class="menu-card__body">
-        <div class="menu-card__top">
-          <h3>${dish.name}</h3>
-          ${dish.isOnSale ? '<span class="menu-card__badge menu-card__badge--sale">Promoção</span>' : ""}
-        </div>
-        <div class="menu-card__meta">
-          <span class="menu-card__price">${formatPrice(p)}</span>
-          ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
-        </div>
+        <h3>${dish.name}</h3>
         <p class="menu-card__description">${dish.description}</p>
-        <a class="menu-card__button" href="${createWhatsappLink(msg)}">Pedir no Whats</a>
+        <span class="menu-card__price">${formatPrice(p)}</span>
+        ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
+        <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${p}" data-label="" data-day="${dayLabel}" type="button">
+          Pedir no Whats
+        </button>
       </div>
     </article>`;
+}
+
+function addToCart(id, name, price, label, dayLabel) {
+  const existing = cart.find((item) => item.id === id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ id, name, price: Number(price), label, dayLabel, qty: 1 });
+  }
+  updateCartUI();
+}
+
+function removeFromCart(id) {
+  const idx = cart.findIndex((item) => item.id === id);
+  if (idx >= 0) {
+    if (cart[idx].qty > 1) {
+      cart[idx].qty--;
+    } else {
+      cart.splice(idx, 1);
+    }
+  }
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  document.querySelector("#cart-count").textContent = count;
+
+  const fab = document.querySelector("#cart-fab");
+  const drawer = document.querySelector("#cart-drawer");
+  const overlay = document.querySelector("#cart-overlay");
+
+  if (count > 0) {
+    fab.classList.add("is-visible");
+  } else {
+    fab.classList.remove("is-visible");
+    drawer.classList.add("hidden");
+    overlay.classList.add("hidden");
+  }
+
+  const itemsEl = document.querySelector("#cart-items");
+  itemsEl.innerHTML = cart.map((item) => {
+    const label = item.label ? ` (${item.label})` : "";
+    const dayInfo = item.dayLabel === "hoje" ? "" : ` — ${item.dayLabel}`;
+    return `
+      <div class="cart-item">
+        <div class="cart-item__info">
+          <span class="cart-item__name">${item.name}${label}</span>
+          <span class="cart-item__day">${dayInfo}</span>
+          <span class="cart-item__price">${formatPrice(item.price * item.qty)}</span>
+        </div>
+        <div class="cart-item__qty">
+          <button class="cart-item__btn" data-action="remove" data-cart-id="${item.id}" type="button">−</button>
+          <span>${item.qty}</span>
+          <button class="cart-item__btn" data-action="add" data-cart-id="${item.id}" type="button">+</button>
+        </div>
+      </div>`;
+  }).join("");
+
+  document.querySelector("#cart-total").textContent = formatPrice(total);
+  document.querySelector("#cart-whatsapp").href = createWhatsappLink(buildWhatsAppMessage());
+}
+
+function buildWhatsAppMessage() {
+  if (cart.length === 0) return `Oi! Quero saber mais sobre o ${restaurantName}.`;
+  let msg = `Oi! Quero pedir no ${restaurantName}:\n\n`;
+  cart.forEach((item) => {
+    const label = item.label ? ` (${item.label})` : "";
+    const dayInfo = item.dayLabel === "hoje" ? "" : ` de ${item.dayLabel}`;
+    const qty = item.qty > 1 ? ` (${item.qty}x)` : "";
+    msg += `• ${item.name}${label}${dayInfo}${qty} — ${formatPrice(item.price * item.qty)}\n`;
+  });
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  msg += `\nTotal: ${formatPrice(total)}`;
+  return msg;
 }
 
 function renderMenu() {
@@ -270,6 +343,66 @@ function setupMainCta() {
   mainWhatsapp.href = createWhatsappLink(`Oi! Quero saber mais sobre as marmitas congeladas do ${restaurantName}.`);
 }
 
+function setupCart() {
+  document.querySelector("#cart-fab").addEventListener("click", () => {
+    document.querySelector("#cart-drawer").classList.remove("hidden");
+    document.querySelector("#cart-overlay").classList.remove("hidden");
+  });
+
+  document.querySelector("#cart-overlay").addEventListener("click", () => {
+    document.querySelector("#cart-drawer").classList.add("hidden");
+    document.querySelector("#cart-overlay").classList.add("hidden");
+  });
+
+  document.querySelector("#cart-close").addEventListener("click", () => {
+    document.querySelector("#cart-drawer").classList.add("hidden");
+    document.querySelector("#cart-overlay").classList.add("hidden");
+  });
+
+  document.querySelector("#cart-items").addEventListener("click", (e) => {
+    const btn = e.target.closest(".cart-item__btn");
+    if (!btn) return;
+    const id = btn.dataset.cartId;
+    if (btn.dataset.action === "add") {
+      const item = cart.find((i) => i.id === id);
+      if (item) { item.qty++; updateCartUI(); }
+    } else {
+      removeFromCart(id);
+    }
+  });
+
+  menuContainer.addEventListener("click", (e) => {
+    const btn = e.target.closest(".menu-card__button");
+    const variantBtn = e.target.closest(".menu-card__variant");
+
+    if (variantBtn) {
+      e.preventDefault();
+      const card = variantBtn.closest(".menu-card--variants");
+      card.querySelectorAll(".menu-card__variant").forEach((b) => b.classList.remove("is-selected"));
+      variantBtn.classList.add("is-selected");
+
+      const buttonEl = card.querySelector(".menu-card__button");
+      if (buttonEl) {
+        buttonEl.dataset.name = variantBtn.dataset.name;
+        buttonEl.dataset.preco = variantBtn.dataset.preco;
+        buttonEl.dataset.label = variantBtn.dataset.label;
+      }
+      return;
+    }
+
+    if (btn) {
+      e.preventDefault();
+      const name = btn.dataset.name;
+      const price = btn.dataset.preco;
+      const label = btn.dataset.label || "";
+      const day = btn.dataset.day || "hoje";
+      const id = btn.dataset.id;
+      const cartId = label ? `${id}(${label})` : id;
+      addToCart(cartId, name, price, label, day);
+    }
+  });
+}
+
 function setupFilters() {
   [searchInput, dayFilter, priceFilter].forEach((el) => {
     el.addEventListener("input", renderMenu);
@@ -289,4 +422,5 @@ function setupClearFilters() {
 setupFilters();
 setupClearFilters();
 setupMainCta();
+setupCart();
 loadMenu();
