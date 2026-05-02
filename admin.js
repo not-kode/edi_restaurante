@@ -21,6 +21,7 @@ const fields = {
   ativo: document.querySelector("#dish-active"),
   destaque_dia: document.querySelector("#dish-highlight"),
   promocao: document.querySelector("#dish-sale"),
+  diario: document.querySelector("#dish-diario"),
 };
 
 const photoPreview = document.querySelector("#dish-photo-preview");
@@ -36,20 +37,30 @@ const PASSWORD_KEY = "edi-admin-senha";
 const ADMIN_PASSWORD = "edi2024";
 
 const DEFAULT_DISHES = [
-  { id: 1, dia_semana: "Segunda", nome: "Frango ao molho", descricao: "Arroz, feijão e salada.", preco: 22, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/frango ao molho.jpg", ordem: 1, ativo: true },
-  { id: 2, dia_semana: "Segunda", nome: "Contra filé", descricao: "Arroz, feijão, salada e contra filé.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/contra filé.jpg", ordem: 2, ativo: true },
-  { id: 3, dia_semana: "Segunda", nome: "Omelete", descricao: "Arroz, feijão e salada.", preco: 20, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/omelete.jpg", ordem: 3, ativo: true },
-  { id: 4, dia_semana: "Terça", nome: "Carne de panela", descricao: "Arroz, feijão e salada.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/carne de panela.jpg", ordem: 1, ativo: true },
-  { id: 5, dia_semana: "Terça", nome: "Calabresa acebolada", descricao: "Arroz, feijão e salada.", preco: 21, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/calabresa acebolada.jpg", ordem: 2, ativo: true },
-  { id: 6, dia_semana: "Terça", nome: "Frango ao molho", descricao: "Arroz, feijão e salada.", preco: 22, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/frango ao molho.jpg", ordem: 3, ativo: true },
-  { id: 7, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, farofa e laranja.", preco: 25, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/feijoada.jpg", ordem: 1, ativo: true },
-  { id: 8, dia_semana: "Quarta", nome: "Contra filé", descricao: "Arroz, feijão, salada e contra filé.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/contra filé.jpg", ordem: 2, ativo: true },
-  { id: 9, dia_semana: "Quinta", nome: "Macarronada com frango assado", descricao: "Macarronada com molho e frango assado.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/macarronada com frango assado.jpg", ordem: 1, ativo: true },
-  { id: 10, dia_semana: "Quinta", nome: "Filé de Merluza", descricao: "Arroz, feijão, salada e purê.", preco: 25, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/Filé de Merlusa.jpg", ordem: 2, ativo: true },
-  { id: 11, dia_semana: "Quinta", nome: "Omelete", descricao: "Arroz, feijão e salada.", preco: 20, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/omelete.jpg", ordem: 3, ativo: true },
-  { id: 12, dia_semana: "Sexta", nome: "Tutu de feijão", descricao: "Arroz, salada, bisteca, banana frita e torresmo.", preco: 27, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/Tutu de Feijão.jpg", ordem: 1, ativo: true },
-  { id: 13, dia_semana: "Sexta", nome: "Carne de panela", descricao: "Arroz, feijão e salada.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/carne de panela.jpg", ordem: 2, ativo: true },
-  { id: 14, dia_semana: "Sexta", nome: "Calabresa acebolada", descricao: "Arroz, feijão e salada.", preco: 21, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/calabresa acebolada.jpg", ordem: 3, ativo: true },
+  { id: 1, dia_semana: "Segunda", nome: "Virado a Paulista", descricao: "Arroz, tutu de feijão, bisteca, calabresa, torresmo, ovo, couve, banana frita.", preco: 40, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
+  { id: 2, dia_semana: "Terça", nome: "Strogonoff de frango", descricao: "Arroz, batata palha, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
+  { id: 3, dia_semana: "Quarta", nome: "Feijoada Pequena", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
+  { id: 4, dia_semana: "Quarta", nome: "Feijoada Média", descricao: "Arroz, bisteca, couve, torresmo, farofa, vinagrete, molho.", preco: 59, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true },
+  { id: 5, dia_semana: "Quarta", nome: "Feijoada Grande", descricao: "Arroz, 2 bistecas, couve, torresmo, vinagrete, farofa, molho.", preco: 79, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 3, ativo: true },
+  { id: 6, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
+  { id: 7, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
+  { id: 8, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada.", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true },
+  { id: 9, dia_semana: "Sábado", nome: "Feijoada Pequena", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true },
+  { id: 10, dia_semana: "Sábado", nome: "Feijoada Média", descricao: "Arroz, bisteca, couve, torresmo, farofa, vinagrete, molho.", preco: 59, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true },
+  { id: 11, dia_semana: "Sábado", nome: "Feijoada Grande", descricao: "Arroz, 2 bistecas, couve, torresmo, vinagrete, farofa, molho.", preco: 79, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 3, ativo: true },
+  { id: 12, dia_semana: "Diário", nome: "Bife acebolado", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 1, ativo: true, diario: true },
+  { id: 13, dia_semana: "Diário", nome: "Filé de frango à milanesa", descricao: "Arroz, feijão, salada.", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 2, ativo: true, diario: true },
+  { id: 14, dia_semana: "Diário", nome: "Omelete com presunto e queijo", descricao: "Arroz, feijão, salada.", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 3, ativo: true, diario: true },
+  { id: 15, dia_semana: "Diário", nome: "Costela com mandioca", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 4, ativo: true, diario: true },
+  { id: 16, dia_semana: "Diário", nome: "Picadinho", descricao: "Arroz, feijão, salada.", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 5, ativo: true, diario: true },
+  { id: 17, dia_semana: "Diário", nome: "Bisteca acebolada", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 6, ativo: true, diario: true },
+  { id: 18, dia_semana: "Diário", nome: "Frango ao molho", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 7, ativo: true, diario: true },
+  { id: 19, dia_semana: "Diário", nome: "Calabresa", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 8, ativo: true, diario: true },
+  { id: 20, dia_semana: "Diário", nome: "Bife de fígado acebolado", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 9, ativo: true, diario: true },
+  { id: 21, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada.", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 10, ativo: true, diario: true },
+  { id: 22, dia_semana: "Diário", nome: "Parmegiana de carne", descricao: "Arroz, feijão, fritas e salada.", preco: 42, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 11, ativo: true, diario: true },
+  { id: 23, dia_semana: "Diário", nome: "Parmegiana de frango", descricao: "Arroz, feijão, fritas e salada.", preco: 40, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 12, ativo: true, diario: true },
+  { id: 24, dia_semana: "Diário", nome: "Adicional de fritas", descricao: "Porção extra de fritas.", preco: 8, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/hero.jpg", ordem: 13, ativo: true, diario: true },
 ];
 
 let dishes = [];
@@ -244,6 +255,7 @@ function fillForm(dish) {
   fields.ativo.checked = Boolean(dish.ativo);
   fields.destaque_dia.checked = Boolean(dish.destaque_dia);
   fields.promocao.checked = Boolean(dish.promocao);
+  fields.diario.checked = Boolean(dish.diario);
   formTitle.textContent = `Editando: ${dish.nome}`;
   updatePhotoPreview();
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -264,6 +276,7 @@ function saveDish(event) {
     ativo: fields.ativo.checked,
     destaque_dia: fields.destaque_dia.checked,
     promocao: fields.promocao.checked,
+    diario: fields.diario.checked,
   };
 
   if (!payload.nome || !payload.dia_semana || isNaN(payload.preco)) {
@@ -316,6 +329,18 @@ refreshButton.addEventListener("click", fetchAdminMenu);
 dishForm.addEventListener("submit", saveDish);
 resetFormButton.addEventListener("click", resetForm);
 fields.foto_url.addEventListener("input", updatePhotoPreview);
+
+fields.diario.addEventListener("change", () => {
+  if (fields.diario.checked) {
+    fields.dia_semana.value = "Diário";
+  }
+});
+
+fields.dia_semana.addEventListener("change", () => {
+  if (fields.dia_semana.value !== "Diário") {
+    fields.diario.checked = false;
+  }
+});
 
 photoBrowseBtn.addEventListener("click", (e) => {
   e.stopPropagation();

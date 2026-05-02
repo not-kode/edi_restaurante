@@ -317,6 +317,23 @@ textarea {
   line-height: 1.45;
 }
 
+.menu-day--daily {
+  border-bottom: none;
+  padding-top: 44px;
+  padding-bottom: 20px;
+  border-top: 2px solid var(--accent);
+  margin-top: 0.5rem;
+}
+
+.menu-day--daily .menu-day__header {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--accent);
+}
+
+.menu-day--daily .menu-day__title {
+  color: var(--green-strong);
+}
+
 .menu-day__items {
   display: grid;
   gap: 1.1rem;
