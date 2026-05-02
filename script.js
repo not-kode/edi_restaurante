@@ -15,10 +15,10 @@ const menuStatus = document.querySelector("#menu-status");
 const dayNotes = {
   Segunda: { kicker: "Viradouuu!", note: "Virado a Paulista — clássico de segunda." },
   Terça: { kicker: "Tá com fome? Strogonoff!", note: "Strogonoff de frango fresquinho." },
-  Quarta: { kicker: "Quarta é dia de feijão!", note: "Pequena, média ou grande — escolha a sua." },
+  Quarta: { kicker: "É dia de FEIJOADA! 🔥", note: "Pequena, média ou grande — escolha a sua." },
   Quinta: { kicker: "Quinta que encanta", note: "Macarrão com frango assado." },
   Sexta: { kicker: "Sextou com peixe!", note: "Peixe frito: merluza ou tilápia." },
-  Sábado: { kicker: "Sábado com sabor", note: "Feijoada igual de quarta — aproveite!" },
+  Sábado: { kicker: "Sábado também é FEIJOADA! 🔥", note: "Repeteco de quarta — porque ninguém cansa." },
 };
 
 const menuData = [
