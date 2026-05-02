@@ -161,12 +161,6 @@ function normalizeMenu(rows) {
       return a.order - b.order;
     });
     result.push({ day: "Diário", dishes: dailyDishes });
-
-  // move diarios to the top
-  const dailyIndex = result.findIndex((d) => d.day === "Diário");
-  if (dailyIndex >= 0) {
-    const daily = result.splice(dailyIndex, 1)[0];
-    result.unshift(daily);
   }
 
   return result;
