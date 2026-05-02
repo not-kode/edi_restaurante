@@ -35,7 +35,7 @@ const dayNotes = {
   },
 };
 
-const fallbackMenuRows = [
+const menuData = [
   {
     id: 1,
     dia_semana: "Segunda",
@@ -274,33 +274,29 @@ function normalizeMenu(rows) {
     }));
 }
 
-async function loadMenu() {
-  setStatus("Carregando cardápio...", "loading");
+function loadMenu() {
+  const STORAGE_KEY = "edi-restaurante-pratos";
 
-  try {
-    const response = await fetch("/api/menu");
-    const contentType = response.headers.get("content-type") || "";
-
-    if (!contentType.includes("application/json")) {
-      throw new Error("Preview local sem API. Carregando cardápio de demonstração.");
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    try {
+      const items = JSON.parse(stored);
+      if (Array.isArray(items) && items.length > 0) {
+        weeklyMenu = normalizeMenu(items.filter((item) => item.ativo !== false));
+        populateDayFilter();
+        renderMenu();
+        clearStatus();
+        return;
+      }
+    } catch (e) {
+      // fallback abaixo
     }
-
-    const payload = await response.json();
-
-    if (!response.ok) {
-      throw new Error(payload.error || "Falha ao carregar o cardápio.");
-    }
-
-    weeklyMenu = normalizeMenu(payload.items || []);
-    populateDayFilter();
-    renderMenu();
-    clearStatus();
-  } catch (error) {
-    weeklyMenu = normalizeMenu(fallbackMenuRows);
-    populateDayFilter();
-    renderMenu();
-    setStatus("Mostrando cardápio local de demonstração.", "success");
   }
+
+  weeklyMenu = normalizeMenu(menuData);
+  populateDayFilter();
+  renderMenu();
+  clearStatus();
 }
 
 function populateDayFilter() {

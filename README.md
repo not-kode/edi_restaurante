@@ -1,36 +1,31 @@
 # Restaurante da Edi
 
-Site estático com catálogo público de marmitas e um painel admin mínimo apoiado por funções da Vercel.
+Site estático com catálogo público de marmitas e painel admin integrado (localStorage).
 
-## Variáveis de ambiente
+## Como funciona
 
-Crie um `.env.local` na raiz com:
-
-```env
-SUPABASE_URL=https://seu-projeto.supabase.co
-SUPABASE_ANON_KEY=sua_publishable_key
-SUPABASE_SERVICE_ROLE_KEY=sua_service_role_key
-SUPABASE_BUCKET=marmitas
-ADMIN_PASSWORD=defina-uma-senha-forte
-```
+- **Catálogo público** (`/index.html`): exibe as marmitas ativas com fotos e link para pedido no WhatsApp.
+- **Painel admin** (`/admin.html`): login com senha, cadastro/edição/exclusão de marmitas, upload de fotos.
+- **Armazenamento**: `localStorage` do navegador. Os dados do admin são compartilhados com o catálogo público no mesmo navegador.
+- **Senha padrão do admin**: `edi2024` (alterável no `admin.js`).
 
 ## Estrutura
 
-- `/api/menu`: lê as marmitas ativas no Supabase
-- `/api/admin/menu`: lista, cria, atualiza e exclui marmitas com senha do admin
-- `/index.html`: catálogo público
-- `/admin.html`: painel do restaurante
+```
+index.html        catálogo público
+admin.html        painel administrativo
+script.js         lógica do catálogo
+admin.js          lógica do painel admin
+styles.css        estilos
+assets/           imagens e fotos das marmitas
+```
 
 ## Deploy na Vercel
 
-Cadastre as mesmas variáveis do `.env.local` no painel da Vercel:
+```bash
+npx vercel --prod
+```
 
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `SUPABASE_BUCKET`
-- `ADMIN_PASSWORD`
+## Dados iniciais
 
-## Upload de imagens
-
-No painel admin, arraste ou escolha uma foto do computador. O upload é feito automaticamente para o bucket `marmitas` do Supabase e a URL pública é preenchida no cadastro.
+O catálogo público já vem com 14 marmitas pré-cadastradas. Ao usar o painel admin, os dados são salvos no `localStorage` e substituem os dados iniciais naquele navegador.

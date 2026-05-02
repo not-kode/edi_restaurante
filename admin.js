@@ -31,8 +31,12 @@ const photoBrowseBtn = document.querySelector("#photo-browse-btn");
 const photoUploadProgress = document.querySelector("#photo-upload-progress");
 const photoUploadBar = document.querySelector("#photo-upload-bar");
 
-let adminPassword = sessionStorage.getItem("admin-password") || "";
+const STORAGE_KEY = "edi-restaurante-pratos";
+const PASSWORD_KEY = "edi-admin-senha";
+const ADMIN_PASSWORD = "edi2024";
+
 let dishes = [];
+let nextId = 1;
 
 function showAdminPanel() {
   authSection.classList.add("hidden");
@@ -56,37 +60,43 @@ function formatPrice(value) {
   }).format(Number(value || 0));
 }
 
-function getHeaders() {
-  return {
-    "Content-Type": "application/json",
-    "x-admin-password": adminPassword,
-  };
+function loadDishes() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    dishes = JSON.parse(stored);
+  }
+  if (dishes.length > 0) {
+    nextId = Math.max(...dishes.map((d) => d.id)) + 1;
+  }
+  exportDishesToSite();
 }
 
-async function fetchAdminMenu() {
-  if (!adminPassword) return;
+function saveDishes() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(dishes));
+  exportDishesToSite();
+}
 
-  setStatus("Carregando marmitas...", "loading");
+function exportDishesToSite() {
+  const script = document.createElement("script");
+  script.textContent = `
+    (function() {
+      var data = ${JSON.stringify(dishes)};
+      localStorage.setItem("${STORAGE_KEY}", JSON.stringify(data));
+      window.dispatchEvent(new CustomEvent("menu-updated", { detail: data }));
+      if (document.querySelector("#menu-container") && document.querySelector("#menu-container").innerHTML !== "") {
+        var event = new Event("menurefresh");
+        document.dispatchEvent(event);
+      }
+    })();
+  `;
+  document.head.appendChild(script);
+  script.remove();
+}
 
-  try {
-    const response = await fetch("/api/admin/menu", {
-      headers: {
-        "x-admin-password": adminPassword,
-      },
-    });
-
-    const payload = await response.json();
-
-    if (!response.ok) {
-      throw new Error(payload.error || "Falha ao carregar o painel.");
-    }
-
-    dishes = payload.items || [];
-    renderDishList();
-    clearStatus();
-  } catch (error) {
-    setStatus(error.message, "error");
-  }
+function fetchAdminMenu() {
+  loadDishes();
+  renderDishList();
+  clearStatus();
 }
 
 function renderDishList() {
@@ -99,7 +109,16 @@ function renderDishList() {
     return;
   }
 
-  adminList.innerHTML = dishes
+  const dayOrder = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+
+  const sorted = [...dishes].sort((a, b) => {
+    const dayDiff = dayOrder.indexOf(a.dia_semana) - dayOrder.indexOf(b.dia_semana);
+    if (dayDiff !== 0) return dayDiff;
+    if (a.destaque_dia !== b.destaque_dia) return Number(b.destaque_dia) - Number(a.destaque_dia);
+    return (a.ordem || 0) - (b.ordem || 0);
+  });
+
+  adminList.innerHTML = sorted
     .map(
       (dish) => `
         <article class="admin-list__item">
@@ -132,7 +151,7 @@ function renderDishList() {
 }
 
 function updatePhotoPreview() {
-  const url = fields.foto_url.value.trim();
+  const url = fields.foto_url.value;
   if (url) {
     photoPreview.src = url;
     photoPreviewWrapper.classList.add("is-visible");
@@ -149,17 +168,11 @@ function resetUploadState() {
   photoUploadZone.classList.remove("is-uploading");
 }
 
-function readFileAsBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(",")[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-async function uploadPhoto(file) {
-  if (!file) return;
+function handleFileSelect(file) {
+  if (!file || !file.type.startsWith("image/")) {
+    setStatus("Selecione um arquivo de imagem valido.", "error");
+    return;
+  }
 
   const maxSize = 5 * 1024 * 1024;
   if (file.size > maxSize) {
@@ -169,49 +182,24 @@ async function uploadPhoto(file) {
 
   photoUploadZone.classList.add("is-uploading");
   photoUploadProgress.classList.add("is-active");
-  photoUploadBar.style.width = "30%";
+  photoUploadBar.style.width = "50%";
 
-  try {
-    const base64 = await readFileAsBase64(file);
-    photoUploadBar.style.width = "60%";
-
-    const response = await fetch("/api/admin/upload", {
-      method: "POST",
-      headers: getHeaders(),
-      body: JSON.stringify({
-        filename: file.name,
-        contentType: file.type,
-        base64,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Falha no upload.");
-    }
-
+  const reader = new FileReader();
+  reader.onload = () => {
     photoUploadBar.style.width = "100%";
-
-    fields.foto_url.value = data.url;
+    fields.foto_url.value = reader.result;
     updatePhotoPreview();
-    setStatus("Foto enviada com sucesso.", "success");
+    setStatus("Foto carregada com sucesso.", "success");
 
     setTimeout(() => {
       resetUploadState();
     }, 800);
-  } catch (error) {
+  };
+  reader.onerror = () => {
     resetUploadState();
-    setStatus(error.message, "error");
-  }
-}
-
-function handleFileSelect(file) {
-  if (!file || !file.type.startsWith("image/")) {
-    setStatus("Selecione um arquivo de imagem valido.", "error");
-    return;
-  }
-  uploadPhoto(file);
+    setStatus("Erro ao carregar a foto.", "error");
+  };
+  reader.readAsDataURL(file);
 }
 
 function resetForm() {
@@ -241,79 +229,67 @@ function fillForm(dish) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-async function saveDish(event) {
+function saveDish(event) {
   event.preventDefault();
 
   const payload = {
-    id: fields.id.value || null,
+    id: fields.id.value ? Number(fields.id.value) : nextId,
     nome: fields.nome.value.trim(),
     descricao: fields.descricao.value.trim(),
-    preco: fields.preco.value,
-    preco_promocional: fields.preco_promocional.value,
-    foto_url: fields.foto_url.value.trim(),
+    preco: Number(fields.preco.value),
+    preco_promocional: fields.preco_promocional.value ? Number(fields.preco_promocional.value) : null,
+    foto_url: fields.foto_url.value || null,
     dia_semana: fields.dia_semana.value,
-    ordem: fields.ordem.value,
+    ordem: Number(fields.ordem.value),
     ativo: fields.ativo.checked,
     destaque_dia: fields.destaque_dia.checked,
     promocao: fields.promocao.checked,
   };
 
-  setStatus("Salvando marmita...", "loading");
-
-  try {
-    const response = await fetch("/api/admin/menu", {
-      method: "POST",
-      headers: getHeaders(),
-      body: JSON.stringify(payload),
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Nao foi possivel salvar.");
-    }
-
-    resetForm();
-    setStatus("Marmita salva com sucesso.", "success");
-    await fetchAdminMenu();
-  } catch (error) {
-    setStatus(error.message, "error");
+  if (!payload.nome || !payload.dia_semana || isNaN(payload.preco)) {
+    setStatus("Nome, dia da semana e preco sao obrigatorios.", "error");
+    return;
   }
+
+  const existingIndex = dishes.findIndex((d) => d.id === payload.id);
+
+  if (existingIndex >= 0) {
+    dishes[existingIndex] = payload;
+  } else {
+    dishes.push(payload);
+    nextId++;
+  }
+
+  saveDishes();
+  resetForm();
+  renderDishList();
+  setStatus("Marmita salva com sucesso.", "success");
 }
 
-async function deleteDish(id) {
+function deleteDish(id) {
   const confirmed = window.confirm("Excluir esta marmita?");
 
   if (!confirmed) return;
 
-  setStatus("Excluindo marmita...", "loading");
-
-  try {
-    const response = await fetch(`/api/admin/menu?id=${encodeURIComponent(id)}`, {
-      method: "DELETE",
-      headers: {
-        "x-admin-password": adminPassword,
-      },
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Nao foi possivel excluir.");
-    }
-
-    setStatus("Marmita excluida.", "success");
-    resetForm();
-    await fetchAdminMenu();
-  } catch (error) {
-    setStatus(error.message, "error");
-  }
+  dishes = dishes.filter((d) => d.id !== id);
+  saveDishes();
+  resetForm();
+  renderDishList();
+  setStatus("Marmita excluida.", "success");
 }
 
-authForm.addEventListener("submit", async (event) => {
+authForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  adminPassword = passwordInput.value;
-  sessionStorage.setItem("admin-password", adminPassword);
+  const senha = passwordInput.value;
+
+  if (senha !== ADMIN_PASSWORD) {
+    setStatus("Senha incorreta.", "error");
+    return;
+  }
+
+  sessionStorage.setItem(PASSWORD_KEY, senha);
   showAdminPanel();
-  await fetchAdminMenu();
+  fetchAdminMenu();
 });
 
 refreshButton.addEventListener("click", fetchAdminMenu);
@@ -356,7 +332,8 @@ adminList.addEventListener("click", (event) => {
 
   if (!button) return;
 
-  const dish = dishes.find((item) => item.id === button.dataset.id);
+  const id = Number(button.dataset.id);
+  const dish = dishes.find((item) => item.id === id);
   if (!dish) return;
 
   if (button.dataset.action === "edit") {
@@ -368,8 +345,10 @@ adminList.addEventListener("click", (event) => {
   }
 });
 
-if (adminPassword) {
-  passwordInput.value = adminPassword;
+const storedPassword = sessionStorage.getItem(PASSWORD_KEY);
+if (storedPassword === ADMIN_PASSWORD) {
+  passwordInput.value = storedPassword;
   showAdminPanel();
-  fetchAdminMenu();
+  loadDishes();
+  renderDishList();
 }
