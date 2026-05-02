@@ -179,7 +179,6 @@ function renderDishCard(dish, dayLabel) {
         <div class="menu-card__body">
           <div class="menu-card__top">
             <h3>${dish.name}</h3>
-            ${dish.isHighlighted ? '<span class="menu-card__badge menu-card__badge--highlight">Destaque do dia</span>' : ""}
           </div>
           <p class="menu-card__description">${dish.description}</p>
           <div class="menu-card__variants">${btns}</div>
@@ -197,13 +196,11 @@ function renderDishCard(dish, dayLabel) {
       <div class="menu-card__body">
         <div class="menu-card__top">
           <h3>${dish.name}</h3>
-          ${dish.isHighlighted ? '<span class="menu-card__badge menu-card__badge--highlight">Destaque do dia</span>' : ""}
           ${dish.isOnSale ? '<span class="menu-card__badge menu-card__badge--sale">Promoção</span>' : ""}
         </div>
         <div class="menu-card__meta">
           <span class="menu-card__price">${formatPrice(p)}</span>
           ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
-          <span class="menu-card__serving">Prato do dia</span>
         </div>
         <p class="menu-card__description">${dish.description}</p>
         <a class="menu-card__button" href="${createWhatsappLink(msg)}">Pedir no Whats</a>
