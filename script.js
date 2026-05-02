@@ -231,18 +231,13 @@ function getFilteredMenu() {
     .filter((day) => day.dishes.length > 0);
 }
 
-function updateResultsSummary(filteredMenu) {
-  const totalDishes = filteredMenu.reduce((sum, day) => sum + day.dishes.length, 0);
-  const totalDays = filteredMenu.length;
-
-  if (totalDishes === 0) {
+function updateResultsSummary(allDishes) {
+  if (!Array.isArray(allDishes) || allDishes.length === 0) {
     resultsSummary.textContent = "Nenhum prato encontrado com os filtros atuais.";
     return;
   }
-
-  const dishLabel = totalDishes === 1 ? "prato" : "pratos";
-  const dayLabel = totalDays === 1 ? "dia" : "dias";
-  resultsSummary.textContent = `${totalDishes} ${dishLabel} em ${totalDays} ${dayLabel}.`;
+  const dishLabel = allDishes.length === 1 ? "prato" : "pratos";
+  resultsSummary.textContent = `${allDishes.length} ${dishLabel} encontrados.`;
 }
 
 function renderDishCard(dish, dayLabel, uniqueId) {
@@ -320,69 +315,25 @@ function renderDishCard(dish, dayLabel, uniqueId) {
 
 function renderMenu() {
   const filteredMenu = getFilteredMenu();
-  updateResultsSummary(filteredMenu);
 
-  if (filteredMenu.length === 0) {
+  const allDishes = filteredMenu.flatMap((day) =>
+    day.dishes.map((dish) => ({ ...dish, dayLabel: day.day }))
+  );
+
+  updateResultsSummary(allDishes);
+
+  if (allDishes.length === 0) {
     menuContainer.innerHTML = `
-      <section class="menu-day">
-        <div class="menu-day__header">
-          <h2 class="menu-day__title">Nenhum prato encontrado</h2>
-        </div>
-      </section>
+      <div class="menu-grid__empty">
+        <p>Nenhum prato encontrado com os filtros atuais.</p>
+      </div>
     `;
     return;
   }
 
-  const dailySection = filteredMenu.find((d) => d.day === "Diário");
-  const weeklyDays = filteredMenu.filter((d) => d.day !== "Diário");
-
-  let html = "";
-
-  if (dailySection) {
-    html += `
-      <section class="menu-day menu-day--daily" aria-labelledby="diario-title">
-        <div class="menu-day__header">
-          <p class="menu-day__kicker">Disponível todos os dias</p>
-          <h2 class="menu-day__title" id="diario-title">Pratos diários</h2>
-          <p class="menu-day__note">Peça junto com qualquer prato do dia.</p>
-        </div>
-        <div class="menu-day__items">
-          ${dailySection.dishes.map((dish, i) => renderDishCard(dish, "hoje", `daily-${i}`)).join("")}
-        </div>
-      </section>
-    `;
-  }
-
-  if (weeklyDays.length > 0) {
-    const columns = weeklyDays
-      .map(
-        (day) => `
-        <div class="menu-day-column" aria-labelledby="${day.day.toLowerCase()}-title">
-          <div class="menu-day-column__header">
-            <h3 class="menu-day-column__title" id="${day.day.toLowerCase()}-title">${day.day}</h3>
-            <p class="menu-day-column__kicker">${dayNotes[day.day]?.kicker || ""}</p>
-          </div>
-          <div class="menu-day-column__dishes">
-            ${day.dishes.map((dish, i) => renderDishCard(dish, day.day, `week-${day.day}-${i}`)).join("")}
-          </div>
-        </div>
-      `
-      )
-      .join("");
-
-    html += `
-      <section class="menu-week" aria-label="Pratos do dia por dia da semana">
-        <div class="menu-week__header">
-          <h2 class="menu-week__title">Pratos do dia</h2>
-        </div>
-        <div class="menu-days-row">
-          ${columns}
-        </div>
-      </section>
-    `;
-  }
-
-  menuContainer.innerHTML = html;
+  menuContainer.innerHTML = allDishes
+    .map((dish, i) => renderDishCard(dish, dish.dayLabel === "Diário" ? "hoje" : dish.dayLabel, `dish-${i}`))
+    .join("");
 
   menuContainer.querySelectorAll(".menu-card__variant").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -396,7 +347,6 @@ function renderMenu() {
       if (whatsappLink) {
         const msg = btn.dataset.message;
         const preco = btn.dataset.preco;
-        const label = btn.dataset.label;
         whatsappLink.href = `https://wa.me/${whatsappNumber}?text=${msg}`;
         whatsappLink.textContent = `Pedir no Whats — ${formatPrice(Number(preco))}`;
       }

@@ -276,218 +276,15 @@ textarea {
 
 .menu-grid {
   display: grid;
-  gap: 1.7rem;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.menu-day {
-  display: grid;
-  gap: 1.2rem;
-  padding-top: 52px;
-  padding-bottom: 56px;
-  border-bottom: 1px solid var(--line);
-}
-
-.menu-day__header {
-  display: grid;
-  gap: 0.55rem;
-  align-content: start;
-}
-
-.menu-day__kicker {
-  margin: 0;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-soft);
-}
-
-.menu-day__title {
-  margin: 0;
-  font-family: "Oswald", sans-serif;
-  font-size: clamp(2rem, 7vw, 3rem);
-  line-height: 0.92;
-  text-transform: uppercase;
-}
-
-.menu-day__note {
-  margin: 0;
-  max-width: 17rem;
-  color: var(--text-soft);
-  line-height: 1.45;
-}
-
-.menu-day--daily {
-  border-bottom: none;
-  padding-top: 0;
-  padding-bottom: 48px;
-  border-bottom: 2px solid var(--accent);
-  margin-bottom: 1rem;
-}
-
-.menu-day--daily .menu-day__header {
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--accent);
-}
-
-.menu-day--daily .menu-day__title {
-  color: var(--green-strong);
-}
-
-.menu-day--daily .menu-card {
-  border-color: rgba(31, 109, 83, 0.2);
-  background: linear-gradient(180deg, rgba(240, 251, 244, 0.7), rgba(232, 245, 236, 0.7));
-}
-
-.menu-day--daily .menu-card:hover {
-  border-color: rgba(31, 109, 83, 0.35);
-}
-
-.menu-day--daily .menu-card__badge--highlight {
-  background: rgba(31, 109, 83, 0.16);
-}
-
-.menu-week {
-  padding-top: 0.5rem;
-}
-
-.menu-week__header {
-  padding-bottom: 0.75rem;
-}
-
-.menu-week__title {
-  margin: 0;
-  font-family: "Oswald", sans-serif;
-  font-size: clamp(1.5rem, 5vw, 2rem);
-  text-transform: uppercase;
-  color: var(--text-soft);
-}
-
-.menu-days-row {
-  display: grid;
-  gap: 0.75rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
-}
-
-.menu-day-column {
-  min-width: 0;
-  scroll-snap-align: start;
-}
-
-.menu-day-column__header {
-  padding: 0.5rem 0.25rem;
-  text-align: center;
-  border-bottom: 2px solid var(--accent);
-  margin-bottom: 0.65rem;
-}
-
-.menu-day-column__title {
-  margin: 0;
-  font-family: "Oswald", sans-serif;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  color: var(--text);
-}
-
-.menu-day-column__kicker {
-  margin: 0.15rem 0 0;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-soft);
-}
-
-.menu-day-column__dishes {
-  display: grid;
-  gap: 0.65rem;
-}
-
-.menu-day-column .menu-card__photo {
-  aspect-ratio: 4 / 2;
-}
-
-.menu-day-column .menu-card__body {
-  gap: 0.4rem;
-  padding: 0.6rem 0.7rem 0.7rem;
-}
-
-.menu-day-column .menu-card h3 {
-  font-size: 1rem;
-}
-
-.menu-day-column .menu-card__description {
-  font-size: 0.82rem;
-}
-
-.menu-day-column .menu-card__button {
-  min-height: 2.2rem;
-  padding: 0.55rem 0.8rem;
-  font-size: 0.85rem;
-}
-
-.menu-card__variants {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.menu-card__variant {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  gap: 0.1rem 0.5rem;
-  align-items: center;
-  padding: 0.4rem 0.65rem;
-  border: 1.5px solid var(--line);
-  border-radius: 14px;
-  background: rgba(255, 253, 248, 0.92);
-  cursor: pointer;
-  transition: border-color 150ms ease, background-color 150ms ease;
-  text-align: left;
-}
-
-.menu-card__variant:hover {
-  border-color: var(--accent);
-  background: rgba(231, 164, 59, 0.08);
-}
-
-.menu-card__variant.is-selected {
-  border-color: var(--green);
-  background: rgba(31, 109, 83, 0.08);
-}
-
-.menu-card__variant-label {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--text);
-}
-
-.menu-card__variant-price {
-  font-weight: 700;
-  color: var(--green-strong);
-  text-align: right;
-}
-
-.menu-card__variant-desc {
+.menu-grid__empty {
   grid-column: 1 / -1;
-  font-size: 0.72rem;
+  text-align: center;
   color: var(--text-soft);
-}
-
-.menu-card__variant.is-selected .menu-card__variant-label,
-.menu-card__variant.is-selected .menu-card__variant-price {
-  color: var(--green-strong);
-}
-
-.menu-card--variants .menu-card__button {
-  margin-top: 0.25rem;
-}
-
-.menu-day__items {
-  display: grid;
-  gap: 1.1rem;
+  padding: 2rem 0;
 }
 
 .menu-card {
@@ -1043,17 +840,13 @@ body.site-admin .cta-panel__button:focus-visible {
   }
 
   .menu-grid {
-    gap: 1.4rem;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .menu-day__items,
   .admin-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .menu-days-row {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    overflow-x: visible;
   }
 
   .cta-section {
@@ -1098,11 +891,6 @@ body.site-admin .cta-panel__button:focus-visible {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .menu-days-row {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    overflow-x: visible;
-  }
-
   .menu-card__body {
     min-height: 228px;
     align-content: start;
@@ -1120,7 +908,8 @@ body.site-admin .cta-panel__button:focus-visible {
 
 @media (min-width: 1180px) {
   .menu-grid {
-    gap: 1.4rem;
+    gap: 1.2rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .menu-day__items {
