@@ -35,6 +35,23 @@ const STORAGE_KEY = "edi-restaurante-pratos";
 const PASSWORD_KEY = "edi-admin-senha";
 const ADMIN_PASSWORD = "edi2024";
 
+const DEFAULT_DISHES = [
+  { id: 1, dia_semana: "Segunda", nome: "Frango ao molho", descricao: "Arroz, feijão e salada.", preco: 22, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/frango ao molho.jpg", ordem: 1, ativo: true },
+  { id: 2, dia_semana: "Segunda", nome: "Contra filé", descricao: "Arroz, feijão, salada e contra filé.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/contra filé.jpg", ordem: 2, ativo: true },
+  { id: 3, dia_semana: "Segunda", nome: "Omelete", descricao: "Arroz, feijão e salada.", preco: 20, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/omelete.jpg", ordem: 3, ativo: true },
+  { id: 4, dia_semana: "Terça", nome: "Carne de panela", descricao: "Arroz, feijão e salada.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/carne de panela.jpg", ordem: 1, ativo: true },
+  { id: 5, dia_semana: "Terça", nome: "Calabresa acebolada", descricao: "Arroz, feijão e salada.", preco: 21, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/calabresa acebolada.jpg", ordem: 2, ativo: true },
+  { id: 6, dia_semana: "Terça", nome: "Frango ao molho", descricao: "Arroz, feijão e salada.", preco: 22, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/frango ao molho.jpg", ordem: 3, ativo: true },
+  { id: 7, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, farofa e laranja.", preco: 25, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/feijoada.jpg", ordem: 1, ativo: true },
+  { id: 8, dia_semana: "Quarta", nome: "Contra filé", descricao: "Arroz, feijão, salada e contra filé.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/contra filé.jpg", ordem: 2, ativo: true },
+  { id: 9, dia_semana: "Quinta", nome: "Macarronada com frango assado", descricao: "Macarronada com molho e frango assado.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/macarronada com frango assado.jpg", ordem: 1, ativo: true },
+  { id: 10, dia_semana: "Quinta", nome: "Filé de Merluza", descricao: "Arroz, feijão, salada e purê.", preco: 25, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/Filé de Merlusa.jpg", ordem: 2, ativo: true },
+  { id: 11, dia_semana: "Quinta", nome: "Omelete", descricao: "Arroz, feijão e salada.", preco: 20, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/omelete.jpg", ordem: 3, ativo: true },
+  { id: 12, dia_semana: "Sexta", nome: "Tutu de feijão", descricao: "Arroz, salada, bisteca, banana frita e torresmo.", preco: 27, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/figma/Tutu de Feijão.jpg", ordem: 1, ativo: true },
+  { id: 13, dia_semana: "Sexta", nome: "Carne de panela", descricao: "Arroz, feijão e salada.", preco: 24, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/carne de panela.jpg", ordem: 2, ativo: true },
+  { id: 14, dia_semana: "Sexta", nome: "Calabresa acebolada", descricao: "Arroz, feijão e salada.", preco: 21, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/figma/calabresa acebolada.jpg", ordem: 3, ativo: true },
+];
+
 let dishes = [];
 let nextId = 1;
 
@@ -64,6 +81,9 @@ function loadDishes() {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
     dishes = JSON.parse(stored);
+  } else {
+    dishes = JSON.parse(JSON.stringify(DEFAULT_DISHES));
+    saveDishes();
   }
   if (dishes.length > 0) {
     nextId = Math.max(...dishes.map((d) => d.id)) + 1;
