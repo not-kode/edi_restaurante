@@ -159,7 +159,7 @@ button {
 }
 
 .menu-section {
-  margin-top: 3.5rem;
+  margin-top: 1.5rem;
   padding: 2rem;
 }
 
@@ -213,8 +213,8 @@ body.site-admin .section-header__admin-link {
 
 .content-layout {
   display: grid;
-  gap: 1.5rem;
-  padding-top: 1.5rem;
+  gap: 1rem;
+  padding-top: 1rem;
 }
 
 .menu-status {
