@@ -218,6 +218,21 @@ function getFilteredMenu() {
 
 let cart = [];
 let toastTimer = null;
+let orderNumber = "";
+
+function generateOrderNumber() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let result = "";
+  for (let i = 0; i < 5; i++) {
+    result += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return `EDI-${result}`;
+}
+
+function getPaymentMethod() {
+  const selected = document.querySelector('input[name="payment"]:checked');
+  return selected ? selected.value : "Pix";
+}
 
 function showToast() {
   const toast = document.querySelector("#cart-toast");
@@ -358,10 +373,12 @@ function updateCartUI() {
 
   if (count > 0) {
     fab.classList.add("is-visible");
+    if (!orderNumber) orderNumber = generateOrderNumber();
   } else {
     fab.classList.remove("is-visible");
     drawer.classList.add("hidden");
     overlay.classList.add("hidden");
+    orderNumber = "";
   }
 
   const itemsEl = document.querySelector("#cart-items");
@@ -388,18 +405,34 @@ function updateCartUI() {
 }
 
 function buildWhatsAppMessage() {
-  if (cart.length === 0) return `Oi! Quero saber mais sobre o ${restaurantName}.`;
-  let msg = `Oi! Quero pedir no ${restaurantName}:\n\n`;
+  if (cart.length === 0) return `Olá! Gostaria de saber mais sobre o ${restaurantName}.`;
+
+  const divider = "──────────────────";
+  let msg = `📋 *PEDIDO ${orderNumber}*\n\n`;
+  msg += `Olá, ${restaurantName}! Acabei de montar meu pedido:\n\n`;
+  msg += `🍽️ *Itens:*\n`;
+
   cart.forEach((item) => {
     const label = item.label ? ` (${item.label})` : "";
-    const dayInfo = item.dayLabel === "hoje" ? "" : ` de ${item.dayLabel}`;
-    const qty = item.qty > 1 ? ` (${item.qty}x)` : "";
-    msg += `• ${item.name}${label}${dayInfo}${qty} — ${formatPrice(item.price * item.qty)}\n`;
+    const dayInfo = item.dayLabel === "hoje" ? "" : ` — ${item.dayLabel}`;
+    const qty = item.qty > 1 ? ` ${item.qty}x` : "";
+    msg += `•${qty} ${item.name}${label}${dayInfo}\n`;
+    msg += `  ${formatPrice(item.price * item.qty)}\n`;
   });
+
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  msg += `\nTotal: ${formatPrice(total)}`;
+  const payment = getPaymentMethod();
+
+  msg += `\n${divider}\n`;
+  msg += `💰 *Total: ${formatPrice(total)}*\n`;
+  msg += `💳 *Pagamento: ${payment}*\n`;
+  msg += `${divider}\n`;
+
   const obs = document.querySelector("#cart-obs")?.value?.trim();
-  if (obs) msg += `\n\nObs.: ${obs}`;
+  if (obs) msg += `\n📝 *Obs.:* ${obs}\n`;
+
+  msg += `\n_Pedido feito pelo site. Aguardando confirmação!_`;
+
   return msg;
 }
 
@@ -494,6 +527,12 @@ function setupCart() {
   document.querySelector("#cart-close").addEventListener("click", () => {
     document.querySelector("#cart-drawer").classList.add("hidden");
     document.querySelector("#cart-overlay").classList.add("hidden");
+  });
+
+  document.querySelectorAll('input[name="payment"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
+      document.querySelector("#cart-whatsapp").href = createWhatsappLink(buildWhatsAppMessage());
+    });
   });
 
   document.querySelector("#cart-items").addEventListener("click", (e) => {

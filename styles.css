@@ -1283,6 +1283,53 @@ body.site-admin .cta-panel__button:focus-visible {
   font-size: 0.88rem;
 }
 
+.cart-drawer__payment {
+  padding: 0.85rem 1.15rem;
+  border-top: 1px solid rgba(82, 33, 20, 0.08);
+}
+
+.cart-drawer__payment-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #7a6e67;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.cart-drawer__payment-options {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cart-payment-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.cart-payment-option:has(input:checked) {
+  border-color: var(--green);
+  background: rgba(31, 111, 74, 0.08);
+  color: var(--green);
+}
+
+.cart-payment-option input {
+  appearance: none;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
 .cart-drawer__footer {
   padding: 0.85rem 1.15rem;
   border-top: 1px solid var(--line);
