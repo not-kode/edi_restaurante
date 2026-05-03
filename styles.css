@@ -339,7 +339,8 @@ textarea {
 }
 
 .menu-block--catalog .menu-block__header,
-.menu-block--others .menu-block__header {
+.menu-block--others .menu-block__header,
+.menu-block--featured .menu-block__header {
   padding-top: 32px;
   border-top: 1px solid var(--line);
 }
