@@ -1,5 +1,5 @@
 const restaurantName = "Restaurante da Edi";
-const whatsappNumber = "5511988881234";
+const whatsappNumber = "5511946042223";
 const fallbackPhoto = "./assets/hero.jpg";
 const CACHE_VERSION = Date.now();
 const dayOrder = ["Segunda", "Terca", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Sábado", "Domingo"];
@@ -221,12 +221,10 @@ let toastTimer = null;
 let orderNumber = "";
 
 function generateOrderNumber() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let result = "";
-  for (let i = 0; i < 5; i++) {
-    result += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return `EDI-${result}`;
+  const stored = parseInt(localStorage.getItem("edi-order-counter") || "0", 10);
+  const next = stored + 1;
+  localStorage.setItem("edi-order-counter", next.toString());
+  return next.toString().padStart(2, "0");
 }
 
 function getPaymentMethod() {
@@ -409,7 +407,7 @@ function buildWhatsAppMessage() {
 
   const divider = "──────────────────";
   let msg = `📋 *PEDIDO ${orderNumber}*\n\n`;
-  msg += `Olá, ${restaurantName}! Acabei de montar meu pedido:\n\n`;
+  msg += `Olá, acabei de finalizar o meu pedido:\n\n`;
   msg += `🍽️ *Itens:*\n`;
 
   cart.forEach((item) => {
