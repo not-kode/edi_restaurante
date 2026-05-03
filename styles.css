@@ -596,6 +596,7 @@ textarea {
 .menu-card__variant {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0.15rem;
   padding: 0.45rem 0.75rem;
   border: 1.5px solid var(--line);
@@ -603,6 +604,7 @@ textarea {
   background: #fff;
   cursor: pointer;
   font-size: 0.82rem;
+  text-align: left;
   transition: border-color 150ms ease, background-color 150ms ease;
 }
 
@@ -677,10 +679,6 @@ textarea {
 .menu-card--image-soft .menu-card__photo img {
   transform: scale(1.05);
   filter: saturate(1.03) drop-shadow(0 8px 14px rgba(59, 31, 22, 0.1));
-}
-
-.menu-card--image-left .menu-card__photo img {
-  object-position: left center;
 }
 
 .menu-card--variants .menu-card__button {
