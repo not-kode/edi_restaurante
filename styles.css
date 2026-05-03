@@ -187,7 +187,7 @@ body.site-admin .section-header__admin-link {
 }
 
 .section-header h2 {
-  font-size: clamp(1.9rem, 8vw, 3.25rem);
+  font-size: clamp(2.2rem, 8vw, 3.75rem);
   line-height: 1;
   text-transform: uppercase;
   color: #4a2419;

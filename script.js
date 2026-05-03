@@ -419,7 +419,8 @@ function buildWhatsAppMessage() {
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const payment = getPaymentMethod();
 
-  msg += `\n#Total: ${formatPrice(total)}\n`;
+  msg += `\n──────────────────\n`;
+  msg += `#Total: ${formatPrice(total)}\n`;
   msg += `#Pagamento: ${payment}\n`;
 
   const obs = document.querySelector("#cart-obs")?.value?.trim();
