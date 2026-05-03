@@ -678,6 +678,10 @@ textarea {
   filter: saturate(1.03) drop-shadow(0 8px 14px rgba(59, 31, 22, 0.1));
 }
 
+.menu-card--image-left .menu-card__photo img {
+  object-position: left center;
+}
+
 .menu-card--variants .menu-card__button {
   margin-top: 0.5rem;
 }

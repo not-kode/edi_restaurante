@@ -267,6 +267,7 @@ function getImageVariantClass(id) {
     2: "menu-card--image-shift",
     4: "menu-card--image-tight",
     11: "menu-card--image-shift",
+    13: "menu-card--image-left",
     14: "menu-card--image-tight",
     18: "menu-card--image-soft",
   };
