@@ -116,6 +116,30 @@
                     </div>
                   </div>
 
+                  <div class="admin-ai-section" id="ai-image-section">
+                    <button type="button" class="admin-ai-toggle" id="ai-toggle-btn">
+                      <span>Gerar imagem com IA (grátis)</span>
+                      <span class="admin-ai-toggle__arrow" id="ai-toggle-arrow">&#9660;</span>
+                    </button>
+                    <div class="admin-ai-body" id="ai-body">
+                      <p class="admin-ai__hint">Descreva a foto do prato em inglês, com detalhes de composição, ângulo, iluminação e estilo. Ex: <em>Brazilian feijoada, overhead shot, white ceramic plate, black beans, pork, rice, collard greens, farofa, natural window light, food photography, appetizing, 4k</em></p>
+                      <label class="toolbar-field">
+                        <span>Prompt da imagem (em inglês)</span>
+                        <textarea id="ai-prompt" rows="3" placeholder="Brazilian dish feijoada, top-down view, white plate, black beans with pork, rice, collard greens, farofa, natural daylight, food photography, high resolution"></textarea>
+                      </label>
+                      <button type="button" class="cta-panel__button admin-ai-generate" id="ai-generate-btn">
+                        Gerar imagem
+                      </button>
+                      <div class="admin-ai-status" id="ai-status" aria-live="polite"></div>
+                      <div class="admin-ai-preview" id="ai-preview-wrapper">
+                        <img id="ai-preview" src="" alt="Pré-visualização da imagem gerada por IA" />
+                      </div>
+                      <button type="button" class="admin-secondary-button admin-ai-use" id="ai-use-btn" style="display:none;">
+                        Usar esta foto
+                      </button>
+                    </div>
+                  </div>
+
                   <input id="dish-photo-url" type="hidden" />
 
                   <div class="admin-preview">

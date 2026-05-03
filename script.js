@@ -1,6 +1,7 @@
 const restaurantName = "Restaurante da Edi";
 const whatsappNumber = "5511988881234";
 const fallbackPhoto = "./assets/hero.jpg";
+const CACHE_VERSION = Date.now();
 const dayOrder = ["Segunda", "Terca", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Sábado", "Domingo"];
 const updatedDishPhotos = {
   "Virado a Paulista": "./fotos/Virado a Paulista.png",
@@ -18,7 +19,7 @@ const updatedDishPhotos = {
   "Frango ao molho": "./fotos/Frango ao molho.png",
   "Calabresa": "./fotos/Calabresa.png",
   "Bife de fígado acebolado": "./fotos/Bife de fígado acebolado.png",
-  "Almôndegas": "./fotos/Almôndegas.png",
+  "Almôndegas": "./fotos/Almondegas.png",
   "Parmegiana de carne": "./fotos/Parmegiana de carne.png",
   "Parmegiana de frango": "./fotos/Parmegiana de frango.png",
 };
@@ -32,7 +33,7 @@ const resultsSummary = document.querySelector("#results-summary");
 const clearFiltersButton = document.querySelector("#clear-filters");
 const menuStatus = document.querySelector("#menu-status");
 const closedOverlay = document.querySelector("#closed-overlay");
-const closedOverlayClose = document.querySelector("#closed-overlay-close");
+const closedOverlayBackdrop = document.querySelector("#closed-overlay .site-overlay__backdrop");
 let activeDayFilter = "todos";
 let activePriceFilter = "todos";
 const FEIJOADA_VARIANTS = [
@@ -48,6 +49,15 @@ const dayNotes = {
   Quinta: { kicker: "Quinta que encanta", note: "Macarrão com frango assado." },
   Sexta: { kicker: "Sextou com peixe!", note: "Peixe frito: merluza ou tilápia." },
   Sábado: { kicker: "Sábado também é FEIJOADA! 🔥", note: "Repeteco de quarta — porque ninguém cansa." },
+};
+
+const dayTagColors = {
+  Segunda: { bg: "#fef3c7", text: "#92400e" },
+  Terça:  { bg: "#cffafe", text: "#155e75" },
+  Quarta:  { bg: "#ede9fe", text: "#6d28d9" },
+  Quinta:  { bg: "#d1fae5", text: "#065f46" },
+  Sexta:   { bg: "#fce7f3", text: "#be185d" },
+  Sábado:  { bg: "#ffedd5", text: "#c2410c" },
 };
 
 const menuData = [
@@ -74,7 +84,7 @@ const menuData = [
   { id: 14, dia_semana: "Diário", nome: "Frango ao molho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Frango ao molho.png", ordem: 7, ativo: true, diario: true },
   { id: 15, dia_semana: "Diário", nome: "Calabresa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Calabresa.png", ordem: 8, ativo: true, diario: true },
   { id: 16, dia_semana: "Diário", nome: "Bife de fígado acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bife de fígado acebolado.png", ordem: 9, ativo: true, diario: true },
-  { id: 17, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Almôndegas.png", ordem: 10, ativo: true, diario: true },
+  { id: 17, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Almondegas.png", ordem: 10, ativo: true, diario: true },
   { id: 18, dia_semana: "Diário", nome: "Parmegiana de carne", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 42, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Parmegiana de carne.png", ordem: 11, ativo: true, diario: true },
   { id: 19, dia_semana: "Diário", nome: "Parmegiana de frango", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 40, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Parmegiana de frango.png", ordem: 12, ativo: true, diario: true },
   { id: 20, dia_semana: "Diário", nome: "Adicional de fritas", descricao: "Porção extra de fritas.", preco: 8, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Batata frita.png", ordem: 13, ativo: true, diario: true },
@@ -251,18 +261,26 @@ function getImageVariantClass(id) {
   return variants[id] || "";
 }
 
-function renderDishCard(dish, dayLabel) {
+function renderDishCard(dish, dayLabel, options = {}) {
   const id = `${dayLabel}-${dish.id}`;
   const isToday = dayLabel === getToday();
-  const isDisabled = !dish.diario && dayLabel !== "hoje" && dayLabel !== getToday();
   const imageVariantClass = getImageVariantClass(dish.id);
-  const badge = dish.isHighlighted ? '<span class="menu-card__tag">Mais pedido</span>' : "";
+  const imgSrc = `${dish.image}?v=${CACHE_VERSION}`;
+  const showButton = !options.suppressButton;
+
+  let badge = "";
+  if (options.showDayTag && dayLabel !== "hoje") {
+    const color = dayTagColors[dayLabel] || { bg: "#efe7e2", text: "#3b1f16" };
+    badge = `<span class="menu-card__tag menu-card__tag--day" style="background:${color.bg};color:${color.text}">${dayLabel}</span>`;
+  } else if (!options.suppressHighlight && dish.isHighlighted) {
+    badge = '<span class="menu-card__tag">Mais pedido</span>';
+  }
 
   if (dish.variacoes?.length) {
     const def = dish.variacoes[0];
     const btns = dish.variacoes.map(
       (v) => `
-        <button class="menu-card__variant" type="button" data-id="${id}" data-preco="${v.preco}" data-label="${v.label}" data-name="${dish.name}" data-day="${dayLabel}" ${isDisabled ? "disabled" : ""}>
+        <button class="menu-card__variant" type="button" data-id="${id}" data-preco="${v.preco}" data-label="${v.label}" data-name="${dish.name}" data-day="${dayLabel}">
           ${v.descricao ? `<span class="menu-card__variant-desc">${v.descricao}</span>` : ""}
           <span class="menu-card__variant-row">
             <span class="menu-card__variant-plus">+</span>
@@ -273,35 +291,35 @@ function renderDishCard(dish, dayLabel) {
     ).join("");
 
     return `
-      <article class="menu-card menu-card--variants ${imageVariantClass}${isDisabled ? " menu-card--disabled" : ""}${isToday ? " menu-card--today" : ""}" data-card-id="${id}">
-        <div class="menu-card__photo"><img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'"></div>
+      <article class="menu-card menu-card--variants ${imageVariantClass}${isToday ? " menu-card--today" : ""}" data-card-id="${id}">
+        <div class="menu-card__photo"><img src="${imgSrc}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'"></div>
         <div class="menu-card__body">
           ${badge}
           <h3>${dish.name}</h3>
           <p class="menu-card__description">${dish.description}</p>
           <div class="menu-card__variants">${btns}</div>
-          ${isDisabled ? "" : `
-          <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${def.preco}" data-label="${def.label}" data-day="${dayLabel}" type="button">
+          ${showButton ? `
+          <button class="menu-card__button hidden" data-id="${id}" data-name="${dish.name}" data-preco="${def.preco}" data-label="${def.label}" data-day="${dayLabel}" type="button">
             Adicionar ao pedido
-          </button>`}
+          </button>` : ""}
         </div>
       </article>`;
   }
 
   const p = dish.isOnSale && dish.salePrice != null ? dish.salePrice : dish.price;
   return `
-    <article class="menu-card ${imageVariantClass}${isDisabled ? " menu-card--disabled" : ""}${isToday ? " menu-card--today" : ""}" data-card-id="${id}">
-      <div class="menu-card__photo"><img src="${dish.image}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'"></div>
+    <article class="menu-card ${imageVariantClass}${isToday ? " menu-card--today" : ""}" data-card-id="${id}">
+      <div class="menu-card__photo"><img src="${imgSrc}" alt="${dish.name}" onerror="this.src='${fallbackPhoto}'"></div>
       <div class="menu-card__body">
         ${badge}
         <h3>${dish.name}</h3>
         <p class="menu-card__description">${dish.description}</p>
         <span class="menu-card__price">${formatPrice(p)}</span>
         ${dish.isOnSale ? `<span class="menu-card__price menu-card__price--old">${formatPrice(dish.price)}</span>` : ""}
-        ${isDisabled ? "" : `
+        ${showButton ? `
         <button class="menu-card__button" data-id="${id}" data-name="${dish.name}" data-preco="${p}" data-label="" data-day="${dayLabel}" type="button">
           Adicionar ao pedido
-        </button>`}
+        </button>` : ""}
       </div>
     </article>`;
 }
@@ -402,34 +420,41 @@ function renderMenu() {
 
   const daily = filtered.find((d) => d.day === "Diário");
   const weekly = filtered.filter((d) => d.day !== "Diário");
+  const today = getToday();
+
+  const todayWeekly = weekly.filter((d) => d.day === today);
+  const otherDays = weekly.filter((d) => d.day !== today);
 
   let html = "";
 
-  if (weekly.length > 0) {
-    const today = getToday();
-    html += '<section class="menu-block menu-block--featured"><div class="menu-block__header"><h2 class="menu-weekly-title">Pratos do dia</h2><p class="menu-block__note">Os destaques da semana com mais saída no restaurante.</p></div>';
-    html += '<div class="menu-days-row">';
-    html += weekly.map((d) => {
-      const isToday = d.day === today;
+  if (todayWeekly.length > 0) {
+    html += '<section class="menu-block menu-block--featured"><div class="menu-block__header"><h2 class="menu-weekly-title">Prato do dia</h2></div>';
+    html += '<div class="menu-daily-grid">';
+    html += todayWeekly.flatMap((d) => d.dishes.map((dish) => {
       return `
-        <div class="menu-day-column${isToday ? " menu-day-column--today" : ""}">
-          <div class="menu-day-column__header">
-            <h3 class="menu-day-column__title">${d.day}</h3>
-            ${isToday ? '<span class="menu-day-column__badge">Hoje</span>' : ""}
-            <p class="menu-day-column__kicker">${dayNotes[d.day]?.kicker || ""}</p>
+        <div class="menu-today-block">
+          <div class="menu-today-header">
+            <h3 class="menu-today-header__title">${d.day}</h3>
+            <span class="menu-today-header__badge">Hoje</span>
+            <p class="menu-today-header__kicker">${dayNotes[d.day]?.kicker || ""}</p>
           </div>
-          <div class="menu-day-column__dishes">
-            ${d.dishes.map((dish) => renderDishCard(dish, d.day)).join("")}
-          </div>
+          ${renderDishCard(dish, d.day, { suppressHighlight: true })}
         </div>`;
-    }).join("");
+    })).join("");
     html += '</div></section>';
   }
 
   if (daily) {
-    html += '<section class="menu-block menu-block--catalog"><div class="menu-block__header"><h2 class="menu-catalog-title">Escolha seu prato:</h2><p class="menu-block__note">Cardápio completo do dia para montar seu pedido.</p></div>';
+    html += '<section class="menu-block menu-block--catalog"><div class="menu-block__header"><h2 class="menu-catalog-title">Opções Diárias</h2></div>';
     html += '<div class="menu-daily-grid">';
     html += daily.dishes.map((d) => renderDishCard(d, "hoje")).join("");
+    html += '</div></section>';
+  }
+
+  if (otherDays.length > 0) {
+    html += '<section class="menu-block menu-block--others"><div class="menu-block__header"><h2 class="menu-catalog-title">Outros pratos do dia</h2><p class="menu-block__note">Disponível apenas no seu dia.</p></div>';
+    html += '<div class="menu-daily-grid">';
+    html += otherDays.flatMap((d) => d.dishes.map((dish) => renderDishCard(dish, d.day, { showDayTag: true, suppressButton: true }))).join("");
     html += '</div></section>';
   }
 
@@ -451,6 +476,10 @@ function renderMenu() {
 
 function setupMainCta() {
   mainWhatsapp.href = createWhatsappLink(`Oi! Quero saber mais sobre as marmitas congeladas do ${restaurantName}.`);
+  const overlayWhats = document.querySelector("#closed-overlay-whatsapp");
+  if (overlayWhats) {
+    overlayWhats.href = createWhatsappLink(`Oi! Gostaria de pedir no ${restaurantName}.`);
+  }
 }
 
 function setupCart() {
@@ -493,6 +522,7 @@ function setupCart() {
 
       const buttonEl = card.querySelector(".menu-card__button");
       if (buttonEl) {
+        buttonEl.classList.remove("hidden");
         buttonEl.dataset.name = variantBtn.dataset.name;
         buttonEl.dataset.preco = variantBtn.dataset.preco;
         buttonEl.dataset.label = variantBtn.dataset.label;
@@ -541,7 +571,7 @@ setupClearFilters();
 setupMainCta();
 setupCart();
 
-closedOverlayClose?.addEventListener("click", () => {
+closedOverlayBackdrop?.addEventListener("click", () => {
   closedOverlay.classList.add("hidden");
   document.body.classList.remove("is-locked");
 });

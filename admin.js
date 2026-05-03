@@ -423,6 +423,87 @@ adminList.addEventListener("click", (event) => {
   }
 });
 
+// ─── IA Image Generation (Pollinations.ai) ─────────────────
+
+const aiToggleBtn = document.querySelector("#ai-toggle-btn");
+const aiBody = document.querySelector("#ai-body");
+const aiToggleArrow = document.querySelector("#ai-toggle-arrow");
+const aiGenerateBtn = document.querySelector("#ai-generate-btn");
+const aiPrompt = document.querySelector("#ai-prompt");
+const aiStatus = document.querySelector("#ai-status");
+const aiPreviewWrapper = document.querySelector("#ai-preview-wrapper");
+const aiPreview = document.querySelector("#ai-preview");
+const aiUseBtn = document.querySelector("#ai-use-btn");
+
+let aiGeneratedDataUrl = null;
+
+function aiSetStatus(message, type) {
+  aiStatus.textContent = message;
+  aiStatus.className = `admin-ai-status is-${type}`;
+}
+
+function aiShowPreview(src) {
+  aiPreview.src = src;
+  aiPreviewWrapper.classList.add("is-visible");
+  aiUseBtn.style.display = "inline-flex";
+}
+
+function aiHidePreview() {
+  aiPreview.src = "";
+  aiPreviewWrapper.classList.remove("is-visible");
+  aiUseBtn.style.display = "none";
+}
+
+function aiSetLoading(loading) {
+  aiGenerateBtn.disabled = loading;
+  aiGenerateBtn.textContent = loading ? "Gerando..." : "Gerar imagem";
+}
+
+aiToggleBtn.addEventListener("click", () => {
+  const isOpen = aiBody.classList.toggle("is-open");
+  aiToggleArrow.innerHTML = isOpen ? "&#9650;" : "&#9660;";
+});
+
+aiGenerateBtn.addEventListener("click", async () => {
+  const prompt = aiPrompt.value.trim();
+  if (!prompt) {
+    aiSetStatus("Digite um prompt para gerar a imagem.", "error");
+    return;
+  }
+
+  aiSetLoading(true);
+  aiHidePreview();
+  aiSetStatus("Gerando imagem (pode levar até 60s)...", "info");
+
+  try {
+    const res = await fetch("/api/generate-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, width: 1024, height: 768 }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro ao gerar imagem");
+
+    aiGeneratedDataUrl = data.data_url;
+    fields.foto_url.value = data.data_url;
+    updatePhotoPreview();
+    aiShowPreview(data.data_url);
+    aiSetStatus(`Imagem gerada com sucesso! (${data.size_kb}KB)`, "success");
+  } catch (err) {
+    aiSetStatus(err.message || "Erro inesperado na geração", "error");
+  } finally {
+    aiSetLoading(false);
+  }
+});
+
+aiUseBtn.addEventListener("click", () => {
+  if (aiGeneratedDataUrl) {
+    fields.foto_url.value = aiGeneratedDataUrl;
+    updatePhotoPreview();
+    aiSetStatus("Foto aplicada ao formulário!", "success");
+  }
+});
+
 const storedPassword = sessionStorage.getItem(PASSWORD_KEY);
 if (storedPassword === ADMIN_PASSWORD) {
   passwordInput.value = storedPassword;
