@@ -29,7 +29,7 @@
           </div>
           <div class="hero__copy">
             <h1>Escolha sua marmita e peça no Whats</h1>
-            <p class="hero__note">Peça rápido pelo WhatsApp e confirme a disponibilidade do dia.</p>
+            <p class="hero__note">Pratos feitos na hora, com sabor de comida de verdade.</p>
           </div>
         </header>
 
@@ -58,9 +58,9 @@
               <span>Filtrar por preço</span>
               <select id="price-filter">
                 <option value="todos">Todos os preços</option>
-                <option value="ate-22">Até R$ 22,00</option>
-                <option value="23-24">R$ 23,00 a R$ 24,00</option>
-                <option value="25-mais">R$ 25,00 ou mais</option>
+                <option value="ate-30">Até R$30</option>
+                <option value="ate-40">Até R$40</option>
+                <option value="40-mais">Acima de R$40</option>
               </select>
             </label>
           </div>
@@ -120,6 +120,15 @@
     <div class="toast hidden" id="cart-toast">
       <span>Adicionado ao carrinho</span>
       <span class="toast__sub">Deseja mais algum prato?</span>
+    </div>
+
+    <div class="site-overlay hidden" id="closed-overlay" aria-hidden="true">
+      <div class="site-overlay__backdrop"></div>
+      <div class="site-overlay__dialog" role="dialog" aria-modal="true" aria-labelledby="closed-overlay-title">
+        <h2 id="closed-overlay-title">Estamos fechados!</h2>
+        <p>Nosso horário é de Segunda à Sábado: 10:00h às 20h.</p>
+        <button class="site-overlay__button" id="closed-overlay-close" type="button">Entendi</button>
+      </div>
     </div>
 
     <script src="./script.js"></script>

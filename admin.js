@@ -35,32 +35,68 @@ const photoUploadBar = document.querySelector("#photo-upload-bar");
 const STORAGE_KEY = "edi-restaurante-pratos";
 const PASSWORD_KEY = "edi-admin-senha";
 const ADMIN_PASSWORD = "edi2024";
+const FEIJOADA_VARIANTS = [
+  { label: "Pequena", preco: 49, descricao: "1 bisteca" },
+  { label: "Média", preco: 59, descricao: "1 bisteca" },
+  { label: "Grande", preco: 79, descricao: "2 bistecas" },
+];
+const updatedDishPhotos = {
+  "Virado a Paulista": "./fotos/Virado a Paulista.png",
+  "Strogonoff de frango": "./fotos/Strogonoff de Frango.png",
+  Feijoada: "./fotos/Feijoada.png",
+  "Macarrão com frango assado": "./fotos/Macarrão com frango assado.png",
+  "Filé de Merluza frito": "./fotos/Filé de Merluza Frito.png",
+  "Tilápia em posta frito": "./fotos/Tilápia em posta frito.png",
+  "Bife acebolado": "./fotos/Bife acebolado.png",
+  "Filé de frango à milanesa": "./fotos/Filé de frango à milanesa.png",
+  "Omelete com presunto e queijo": "./fotos/Omelete com presunto e queijo.png",
+  "Costela com mandioca": "./fotos/Costela com mandioca.png",
+  "Picadinho": "./fotos/Picadinho.png",
+  "Bisteca acebolada": "./fotos/Bisteca acebolada.png",
+  "Frango ao molho": "./fotos/Frango ao molho.png",
+  "Calabresa": "./fotos/Calabresa.png",
+  "Bife de fígado acebolado": "./fotos/Bife de fígado acebolado.png",
+  "Almôndegas": "./fotos/Almôndegas.png",
+  "Parmegiana de carne": "./fotos/Parmegiana de carne.png",
+  "Parmegiana de frango": "./fotos/Parmegiana de frango.png",
+};
 
 const DEFAULT_DISHES = [
-  { id: 1, dia_semana: "Segunda", nome: "Virado a Paulista", descricao: "Arroz, tutu de feijão, bisteca, calabresa, torresmo, ovo, couve, banana frita.", preco: 40, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/fotos/virado-a-paulista.jpg", ordem: 1, ativo: true },
-  { id: 2, dia_semana: "Terça", nome: "Strogonoff de frango", descricao: "Arroz, batata palha, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/fotos/strogonoff-de-frango.jpg", ordem: 1, ativo: true },
-  { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/fotos/feijoada.jpg", ordem: 1, ativo: true, variacoes: [{ label: "Pequena", preco: 49 }, { label: "Média", preco: 59, descricao: "com bisteca" }, { label: "Grande", preco: 79, descricao: "2 bistecas" }] },
-  { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/fotos/macarrao-com-frango-assado.jpg", ordem: 1, ativo: true },
-  { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/fotos/file-de-merluza-frito.jpg", ordem: 1, ativo: true },
-  { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/tilapia-em-posta-frito.jpg", ordem: 2, ativo: true },
-  { id: 7, dia_semana: "Sábado", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./assets/fotos/feijoada.jpg", ordem: 1, ativo: true, variacoes: [{ label: "Pequena", preco: 49 }, { label: "Média", preco: 59, descricao: "com bisteca" }, { label: "Grande", preco: 79, descricao: "2 bistecas" }] },
-  { id: 8, dia_semana: "Diário", nome: "Bife acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/bife-acebolado.jpg", ordem: 1, ativo: true, diario: true },
-  { id: 9, dia_semana: "Diário", nome: "Filé de frango à milanesa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/file-de-frango-a-milanesa.jpg", ordem: 2, ativo: true, diario: true },
-  { id: 10, dia_semana: "Diário", nome: "Omelete com presunto e queijo", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/omelete-com-presunto-e-queijo.jpg", ordem: 3, ativo: true, diario: true },
-  { id: 11, dia_semana: "Diário", nome: "Costela com mandioca", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/costela-com-mandioca.jpg", ordem: 4, ativo: true, diario: true },
-  { id: 12, dia_semana: "Diário", nome: "Picadinho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/picadinho.jpg", ordem: 5, ativo: true, diario: true },
-  { id: 13, dia_semana: "Diário", nome: "Bisteca acebolada", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/bisteca-acebolada.jpg", ordem: 6, ativo: true, diario: true },
-  { id: 14, dia_semana: "Diário", nome: "Frango ao molho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/frango-ao-molho.jpg", ordem: 7, ativo: true, diario: true },
-  { id: 15, dia_semana: "Diário", nome: "Calabresa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/calabresa.jpg", ordem: 8, ativo: true, diario: true },
-  { id: 16, dia_semana: "Diário", nome: "Bife de fígado acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/bife-de-figado-acebolado.jpg", ordem: 9, ativo: true, diario: true },
-  { id: 17, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/almondegas.jpg", ordem: 10, ativo: true, diario: true },
-  { id: 18, dia_semana: "Diário", nome: "Parmegiana de carne", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 42, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/parmegiana-de-carne.jpg", ordem: 11, ativo: true, diario: true },
-  { id: 19, dia_semana: "Diário", nome: "Parmegiana de frango", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 40, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/parmegiana-de-frango.jpg", ordem: 12, ativo: true, diario: true },
-  { id: 20, dia_semana: "Diário", nome: "Adicional de fritas", descricao: "Porção extra de fritas.", preco: 8, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./assets/fotos/adicional-de-fritas.jpg", ordem: 13, ativo: true, diario: true },
+  { id: 1, dia_semana: "Segunda", nome: "Virado a Paulista", descricao: "Arroz, tutu de feijão, bisteca, calabresa, torresmo, ovo, couve, banana frita.", preco: 40, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Virado a Paulista.png", ordem: 1, ativo: true },
+  { id: 2, dia_semana: "Terça", nome: "Strogonoff de frango", descricao: "Arroz, batata palha, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Strogonoff de Frango.png", ordem: 1, ativo: true },
+  { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.png", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
+  { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Macarrão com frango assado.png", ordem: 1, ativo: true },
+  { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Filé de Merluza Frito.png", ordem: 1, ativo: true },
+  { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Tilápia em posta frito.png", ordem: 2, ativo: true },
+  { id: 7, dia_semana: "Sábado", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.png", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
+  { id: 8, dia_semana: "Diário", nome: "Bife acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bife acebolado.png", ordem: 1, ativo: true, diario: true },
+  { id: 9, dia_semana: "Diário", nome: "Filé de frango à milanesa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Filé de frango à milanesa.png", ordem: 2, ativo: true, diario: true },
+  { id: 10, dia_semana: "Diário", nome: "Omelete com presunto e queijo", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Omelete com presunto e queijo.png", ordem: 3, ativo: true, diario: true },
+  { id: 11, dia_semana: "Diário", nome: "Costela com mandioca", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Costela com mandioca.png", ordem: 4, ativo: true, diario: true },
+  { id: 12, dia_semana: "Diário", nome: "Picadinho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Picadinho.png", ordem: 5, ativo: true, diario: true },
+  { id: 13, dia_semana: "Diário", nome: "Bisteca acebolada", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bisteca acebolada.png", ordem: 6, ativo: true, diario: true },
+  { id: 14, dia_semana: "Diário", nome: "Frango ao molho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Frango ao molho.png", ordem: 7, ativo: true, diario: true },
+  { id: 15, dia_semana: "Diário", nome: "Calabresa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Calabresa.png", ordem: 8, ativo: true, diario: true },
+  { id: 16, dia_semana: "Diário", nome: "Bife de fígado acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bife de fígado acebolado.png", ordem: 9, ativo: true, diario: true },
+  { id: 17, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Almôndegas.png", ordem: 10, ativo: true, diario: true },
+  { id: 18, dia_semana: "Diário", nome: "Parmegiana de carne", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 42, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Parmegiana de carne.png", ordem: 11, ativo: true, diario: true },
+  { id: 19, dia_semana: "Diário", nome: "Parmegiana de frango", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 40, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Parmegiana de frango.png", ordem: 12, ativo: true, diario: true },
+  { id: 20, dia_semana: "Diário", nome: "Adicional de fritas", descricao: "Porção extra de fritas.", preco: 8, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Batata frita.png", ordem: 13, ativo: true, diario: true },
 ];
 
 let dishes = [];
 let nextId = 1;
+
+function applyUpdatedDishPhotos(items) {
+  return items.map((item) => {
+    const updatedPhoto = updatedDishPhotos[item.nome];
+    const next = updatedPhoto ? { ...item, foto_url: updatedPhoto } : { ...item };
+    if (next.nome === "Feijoada") {
+      next.variacoes = FEIJOADA_VARIANTS;
+    }
+    return next;
+  });
+}
 
 function showAdminPanel() {
   authSection.classList.add("hidden");
@@ -87,11 +123,12 @@ function formatPrice(value) {
 function loadDishes() {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
-    dishes = JSON.parse(stored);
+    dishes = applyUpdatedDishPhotos(JSON.parse(stored));
   } else {
-    dishes = JSON.parse(JSON.stringify(DEFAULT_DISHES));
+    dishes = applyUpdatedDishPhotos(JSON.parse(JSON.stringify(DEFAULT_DISHES)));
     saveDishes();
   }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(dishes));
   if (dishes.length > 0) {
     nextId = Math.max(...dishes.map((d) => d.id)) + 1;
   }
