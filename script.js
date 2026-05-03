@@ -7,7 +7,7 @@ const updatedDishPhotos = {
   "Virado a Paulista": "./fotos/Virado a Paulista.png",
   "Strogonoff de frango": "./fotos/Strogonoff de Frango.jpg",
   Feijoada: "./fotos/Feijoada.jpg",
-  "Macarrão com frango assado": "./fotos/Macarrão com frango assado.png",
+  "Macarrão com frango assado": "./fotos/Macarrão com frango assado.jpg",
   "Filé de Merluza frito": "./fotos/Filé de Merluza Frito.jpg",
   "Tilápia em posta frito": "./fotos/Tilápia em posta frito.jpg",
   "Bife acebolado": "./fotos/Bife acebolado.jpg",
@@ -68,7 +68,7 @@ const menuData = [
   // === QUARTA ===
   { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.jpg", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
   // === QUINTA ===
-  { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Macarrão com frango assado.png", ordem: 1, ativo: true },
+  { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Macarrão com frango assado.jpg", ordem: 1, ativo: true },
   // === SEXTA ===
   { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Filé de Merluza Frito.jpg", ordem: 1, ativo: true },
   { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Tilápia em posta frito.jpg", ordem: 2, ativo: true },
