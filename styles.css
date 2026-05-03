@@ -305,7 +305,7 @@ textarea {
 }
 
 .menu-block + .menu-block {
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 
 .menu-block--catalog .menu-block__header,

@@ -25,7 +25,6 @@ const updatedDishPhotos = {
 };
 
 const menuContainer = document.querySelector("#menu-container");
-const mainWhatsapp = document.querySelector("#main-whatsapp");
 const searchInput = document.querySelector("#search-input");
 const dayFilter = document.querySelector("#day-filter");
 const priceFilter = document.querySelector("#price-filter");
@@ -475,7 +474,6 @@ function renderMenu() {
 }
 
 function setupMainCta() {
-  mainWhatsapp.href = createWhatsappLink(`Oi! Quero saber mais sobre as marmitas congeladas do ${restaurantName}.`);
   const overlayWhats = document.querySelector("#closed-overlay-whatsapp");
   if (overlayWhats) {
     overlayWhats.href = createWhatsappLink(`Oi! Gostaria de pedir no ${restaurantName}.`);
