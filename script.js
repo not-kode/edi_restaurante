@@ -405,31 +405,27 @@ function updateCartUI() {
 function buildWhatsAppMessage() {
   if (cart.length === 0) return `Olá! Gostaria de saber mais sobre o ${restaurantName}.`;
 
-  const divider = "──────────────────";
-  let msg = `📋 *PEDIDO ${orderNumber}*\n\n`;
+  let msg = `#Pedido ${orderNumber}\n\n`;
   msg += `Olá, acabei de finalizar o meu pedido:\n\n`;
-  msg += `🍽️ *Itens:*\n`;
+  msg += `#Itens\n`;
 
   cart.forEach((item) => {
     const label = item.label ? ` (${item.label})` : "";
     const dayInfo = item.dayLabel === "hoje" ? "" : ` — ${item.dayLabel}`;
-    const qty = item.qty > 1 ? ` ${item.qty}x` : "";
-    msg += `•${qty} ${item.name}${label}${dayInfo}\n`;
-    msg += `  ${formatPrice(item.price * item.qty)}\n`;
+    const qty = item.qty > 1 ? `${item.qty}x ` : "";
+    msg += `${qty}${item.name}${label}${dayInfo} — ${formatPrice(item.price * item.qty)}\n`;
   });
 
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const payment = getPaymentMethod();
 
-  msg += `\n${divider}\n`;
-  msg += `💰 *Total: ${formatPrice(total)}*\n`;
-  msg += `💳 *Pagamento: ${payment}*\n`;
-  msg += `${divider}\n`;
+  msg += `\n#Total: ${formatPrice(total)}\n`;
+  msg += `#Pagamento: ${payment}\n`;
 
   const obs = document.querySelector("#cart-obs")?.value?.trim();
-  if (obs) msg += `\n📝 *Obs.:* ${obs}\n`;
+  if (obs) msg += `\n#Obs.: ${obs}\n`;
 
-  msg += `\n_Pedido feito pelo site. Aguardando confirmação!_`;
+  msg += `\nPedido feito pelo site. Aguardando confirmação!`;
 
   return msg;
 }
