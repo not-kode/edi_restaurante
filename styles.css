@@ -75,11 +75,7 @@ button {
   margin: 0 auto;
 }
 
-.hero-shell,
-.menu-section,
-.cta-section,
-.hero__media,
-.hero__copy {
+.menu-section {
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background: var(--surface);
@@ -179,6 +175,25 @@ body.site-admin .section-header__admin-link {
   line-height: 1;
   text-transform: uppercase;
   color: #4a2419;
+}
+
+.section-header__hero {
+  margin: 0 0 0.3rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green);
+  line-height: 130px;
+}
+
+.section-header__note {
+  margin: 0.35rem 0 0;
+  max-width: 34rem;
+  color: var(--text-soft);
+  line-height: 1.45;
+  font-size: 0.875rem;
 }
 
 .content-layout {
@@ -1454,10 +1469,8 @@ body.site-admin .cta-panel__button:focus-visible {
   }
 }
 
-.hero,
 .menu-section,
-.menu-card,
-.cta-section {
+.menu-card {
   animation: rise 520ms ease both;
 }
 
