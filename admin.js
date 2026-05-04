@@ -369,7 +369,9 @@ authForm.addEventListener("submit", (event) => {
   fetchAdminMenu();
 });
 
-refreshButton.addEventListener("click", fetchAdminMenu);
+if (refreshButton) {
+  refreshButton.addEventListener("click", fetchAdminMenu);
+}
 dishForm.addEventListener("submit", saveDish);
 resetFormButton.addEventListener("click", resetForm);
 fields.foto_url.addEventListener("input", updatePhotoPreview);
