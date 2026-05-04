@@ -42,46 +42,46 @@ const FEIJOADA_VARIANTS = [
 ];
 const updatedDishPhotos = {
   "Virado a Paulista": "./fotos/Virado a Paulista.png",
-  "Strogonoff de frango": "./fotos/Strogonoff de Frango.png",
-  Feijoada: "./fotos/Feijoada.png",
-  "Macarrão com frango assado": "./fotos/Macarrão com frango assado.png",
-  "Filé de Merluza frito": "./fotos/Filé de Merluza Frito.png",
-  "Tilápia em posta frito": "./fotos/Tilápia em posta frito.png",
-  "Bife acebolado": "./fotos/Bife acebolado.png",
-  "Filé de frango à milanesa": "./fotos/Filé de frango à milanesa.png",
-  "Omelete com presunto e queijo": "./fotos/Omelete com presunto e queijo.png",
-  "Costela com mandioca": "./fotos/Costela com mandioca.png",
-  "Picadinho": "./fotos/Picadinho.png",
-  "Bisteca acebolada": "./fotos/Bisteca acebolada.png",
-  "Frango ao molho": "./fotos/Frango ao molho.png",
-  "Calabresa": "./fotos/Calabresa.png",
-  "Bife de fígado acebolado": "./fotos/Bife de fígado acebolado.png",
-  "Almôndegas": "./fotos/Almôndegas.png",
-  "Parmegiana de carne": "./fotos/Parmegiana de carne.png",
-  "Parmegiana de frango": "./fotos/Parmegiana de frango.png",
+  "Strogonoff de frango": "./fotos/Strogonoff de Frango.jpg",
+  Feijoada: "./fotos/Feijoada.jpg",
+  "Macarrão com frango assado": "./fotos/Macarrao com frango assado.jpg",
+  "Filé de Merluza frito": "./fotos/File de Merluza Frito.jpg",
+  "Tilápia em posta frito": "./fotos/Tilapia em posta frito.jpg",
+  "Bife acebolado": "./fotos/Bife acebolado.jpg",
+  "Filé de frango à milanesa": "./fotos/File de frango a milanesa.jpg",
+  "Omelete com presunto e queijo": "./fotos/Omelete com presunto e queijo.jpg",
+  "Costela com mandioca": "./fotos/Costela com mandioca.jpg",
+  "Picadinho": "./fotos/Picadinho.jpg",
+  "Bisteca acebolada": "./fotos/Bisteca acebolada.jpg",
+  "Frango ao molho": "./fotos/Frango ao molho.jpg",
+  "Calabresa": "./fotos/Calabresa.jpg",
+  "Bife de fígado acebolado": "./fotos/Bife de figado acebolado.jpg",
+  "Almôndegas": "./fotos/Almondegas.jpg",
+  "Parmegiana de carne": "./fotos/Parmegiana de carne.jpg",
+  "Parmegiana de frango": "./fotos/Parmegiana de frango.jpeg",
 };
 
 const DEFAULT_DISHES = [
   { id: 1, dia_semana: "Segunda", nome: "Virado a Paulista", descricao: "Arroz, tutu de feijão, bisteca, calabresa, torresmo, ovo, couve, banana frita.", preco: 40, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Virado a Paulista.png", ordem: 1, ativo: true },
-  { id: 2, dia_semana: "Terça", nome: "Strogonoff de frango", descricao: "Arroz, batata palha, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Strogonoff de Frango.png", ordem: 1, ativo: true },
-  { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.png", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
-  { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Macarrão com frango assado.png", ordem: 1, ativo: true },
-  { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Filé de Merluza Frito.png", ordem: 1, ativo: true },
-  { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Tilápia em posta frito.png", ordem: 2, ativo: true },
-  { id: 7, dia_semana: "Sábado", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.png", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
-  { id: 8, dia_semana: "Diário", nome: "Bife acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bife acebolado.png", ordem: 1, ativo: true, diario: true },
-  { id: 9, dia_semana: "Diário", nome: "Filé de frango à milanesa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Filé de frango à milanesa.png", ordem: 2, ativo: true, diario: true },
-  { id: 10, dia_semana: "Diário", nome: "Omelete com presunto e queijo", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Omelete com presunto e queijo.png", ordem: 3, ativo: true, diario: true },
-  { id: 11, dia_semana: "Diário", nome: "Costela com mandioca", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Costela com mandioca.png", ordem: 4, ativo: true, diario: true },
-  { id: 12, dia_semana: "Diário", nome: "Picadinho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Picadinho.png", ordem: 5, ativo: true, diario: true },
-  { id: 13, dia_semana: "Diário", nome: "Bisteca acebolada", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bisteca acebolada.png", ordem: 6, ativo: true, diario: true },
-  { id: 14, dia_semana: "Diário", nome: "Frango ao molho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Frango ao molho.png", ordem: 7, ativo: true, diario: true },
-  { id: 15, dia_semana: "Diário", nome: "Calabresa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Calabresa.png", ordem: 8, ativo: true, diario: true },
-  { id: 16, dia_semana: "Diário", nome: "Bife de fígado acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bife de fígado acebolado.png", ordem: 9, ativo: true, diario: true },
-  { id: 17, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Almôndegas.png", ordem: 10, ativo: true, diario: true },
-  { id: 18, dia_semana: "Diário", nome: "Parmegiana de carne", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 42, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Parmegiana de carne.png", ordem: 11, ativo: true, diario: true },
-  { id: 19, dia_semana: "Diário", nome: "Parmegiana de frango", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 40, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Parmegiana de frango.png", ordem: 12, ativo: true, diario: true },
-  { id: 20, dia_semana: "Diário", nome: "Adicional de fritas", descricao: "Porção extra de fritas.", preco: 8, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Batata frita.png", ordem: 13, ativo: true, diario: true },
+  { id: 2, dia_semana: "Terça", nome: "Strogonoff de frango", descricao: "Arroz, batata palha, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Strogonoff de Frango.jpg", ordem: 1, ativo: true },
+  { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.jpg", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
+  { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 1, ativo: true },
+  { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/File de Merluza Frito.jpg", ordem: 1, ativo: true },
+  { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Tilapia em posta frito.jpg", ordem: 2, ativo: true },
+  { id: 7, dia_semana: "Sábado", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.jpg", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
+  { id: 8, dia_semana: "Diário", nome: "Bife acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bife acebolado.jpg", ordem: 1, ativo: true, diario: true },
+  { id: 9, dia_semana: "Diário", nome: "Filé de frango à milanesa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/File de frango a milanesa.jpg", ordem: 2, ativo: true, diario: true },
+  { id: 10, dia_semana: "Diário", nome: "Omelete com presunto e queijo", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 30, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Omelete com presunto e queijo.jpg", ordem: 3, ativo: true, diario: true },
+  { id: 11, dia_semana: "Diário", nome: "Costela com mandioca", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Costela com mandioca.jpg", ordem: 4, ativo: true, diario: true },
+  { id: 12, dia_semana: "Diário", nome: "Picadinho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 32, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Picadinho.jpg", ordem: 5, ativo: true, diario: true },
+  { id: 13, dia_semana: "Diário", nome: "Bisteca acebolada", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bisteca acebolada.jpg", ordem: 6, ativo: true, diario: true },
+  { id: 14, dia_semana: "Diário", nome: "Frango ao molho", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Frango ao molho.jpg", ordem: 7, ativo: true, diario: true },
+  { id: 15, dia_semana: "Diário", nome: "Calabresa", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Calabresa.jpg", ordem: 8, ativo: true, diario: true },
+  { id: 16, dia_semana: "Diário", nome: "Bife de fígado acebolado", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Bife de figado acebolado.jpg", ordem: 9, ativo: true, diario: true },
+  { id: 17, dia_semana: "Diário", nome: "Almôndegas", descricao: "Arroz, feijão, salada (acompanha: cebola, tomate e alface).", preco: 28, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Almondegas.jpg", ordem: 10, ativo: true, diario: true },
+  { id: 18, dia_semana: "Diário", nome: "Parmegiana de carne", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 42, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Parmegiana de carne.jpg", ordem: 11, ativo: true, diario: true },
+  { id: 19, dia_semana: "Diário", nome: "Parmegiana de frango", descricao: "Arroz, feijão, fritas e salada (acompanha: cebola, tomate e alface).", preco: 40, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Parmegiana de frango.jpeg", ordem: 12, ativo: true, diario: true },
+  { id: 20, dia_semana: "Diário", nome: "Adicional de fritas", descricao: "Porção extra de fritas.", preco: 8, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Batata frita.jpg", ordem: 13, ativo: true, diario: true },
 ];
 
 let dishes = [];
@@ -166,9 +166,7 @@ function fetchAdminMenu() {
 function renderDishList() {
   if (!dishes.length) {
     adminList.innerHTML = `
-      <div class="admin-list__empty">
-        <p>Nenhuma marmita cadastrada ainda.</p>
-      </div>
+      <tr><td colspan="7" class="admin-table__empty">Nenhuma marmita cadastrada ainda.</td></tr>
     `;
     return;
   }
@@ -185,30 +183,22 @@ function renderDishList() {
   adminList.innerHTML = sorted
     .map(
       (dish) => `
-        <article class="admin-list__item">
-          <div class="admin-list__visual">
-            <img class="admin-list__thumb" src="${dish.foto_url || "./assets/hero.jpg"}" alt="${dish.nome}" onerror="this.src='./assets/hero.jpg'" />
-          </div>
-          <div class="admin-list__content">
-            <p class="admin-list__eyebrow">${dish.dia_semana}</p>
-            <h3>${dish.nome}</h3>
-            <p>${dish.descricao || "Sem descrição."}</p>
-            <div class="admin-list__meta">
-              <span>${formatPrice(dish.preco)}</span>
-              ${dish.promocao && dish.preco_promocional ? `<span>Promo: ${formatPrice(dish.preco_promocional)}</span>` : ""}
-              ${dish.destaque_dia ? "<span>Destaque</span>" : ""}
-              ${!dish.ativo ? "<span>Inativo</span>" : ""}
+        <tr>
+          <td>
+            <img class="admin-table__photo" src="${dish.foto_url || "./assets/hero.jpg"}" alt="${dish.nome}" onerror="this.src='./assets/hero.jpg'" />
+          </td>
+          <td><span class="admin-table__name">${dish.nome}</span></td>
+          <td><span class="admin-table__day">${dish.dia_semana}</span></td>
+          <td><span class="admin-table__price">${formatPrice(dish.preco)}</span></td>
+          <td><span class="admin-table__badge ${dish.destaque_dia ? 'admin-table__badge--yes' : 'admin-table__badge--no'}">${dish.destaque_dia ? 'Sim' : 'Não'}</span></td>
+          <td><span class="admin-table__badge ${dish.ativo ? 'admin-table__badge--yes' : 'admin-table__badge--no'}">${dish.ativo ? 'Sim' : 'Não'}</span></td>
+          <td>
+            <div class="admin-table__actions">
+              <button class="admin-table__btn" type="button" data-action="edit" data-id="${dish.id}">Editar</button>
+              <button class="admin-table__btn admin-table__btn--danger" type="button" data-action="delete" data-id="${dish.id}">Excluir</button>
             </div>
-          </div>
-          <div class="admin-list__actions">
-            <button class="admin-secondary-button" type="button" data-action="edit" data-id="${dish.id}">
-              Editar
-            </button>
-            <button class="admin-danger-button" type="button" data-action="delete" data-id="${dish.id}">
-              Excluir
-            </button>
-          </div>
-        </article>
+          </td>
+        </tr>
       `
     )
     .join("");
@@ -276,6 +266,17 @@ function resetForm() {
   resetUploadState();
 }
 
+function openDrawer() {
+  document.querySelector("#admin-drawer").classList.remove("hidden");
+  document.querySelector("#admin-drawer-overlay").classList.remove("hidden");
+}
+
+function closeDrawer() {
+  document.querySelector("#admin-drawer").classList.add("hidden");
+  document.querySelector("#admin-drawer-overlay").classList.add("hidden");
+  resetForm();
+}
+
 function fillForm(dish) {
   fields.id.value = dish.id || "";
   fields.nome.value = dish.nome || "";
@@ -289,9 +290,9 @@ function fillForm(dish) {
   fields.destaque_dia.checked = Boolean(dish.destaque_dia);
   fields.promocao.checked = Boolean(dish.promocao);
   fields.diario.checked = Boolean(dish.diario);
-  formTitle.textContent = `Editando: ${dish.nome}`;
+  formTitle.textContent = `Editar: ${dish.nome}`;
   updatePhotoPreview();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  openDrawer();
 }
 
 function saveDish(event) {
@@ -330,6 +331,7 @@ function saveDish(event) {
   resetForm();
   renderDishList();
   setStatus("Marmita salva com sucesso.", "success");
+  closeDrawer();
 }
 
 function deleteDish(id) {
@@ -423,6 +425,20 @@ adminList.addEventListener("click", (event) => {
   }
 });
 
+// ─── Admin Drawer ─────────────────────────────────────
+const openDrawerBtn = document.querySelector("#open-drawer-btn");
+const adminDrawerOverlay = document.querySelector("#admin-drawer-overlay");
+const adminDrawerClose = document.querySelector("#admin-drawer-close");
+
+openDrawerBtn.addEventListener("click", () => {
+  resetForm();
+  formTitle.textContent = "Nova marmita";
+  openDrawer();
+});
+
+adminDrawerOverlay.addEventListener("click", closeDrawer);
+adminDrawerClose.addEventListener("click", closeDrawer);
+
 // ─── IA Image Generation (Pollinations.ai) ─────────────────
 
 const aiToggleBtn = document.querySelector("#ai-toggle-btn");
@@ -430,6 +446,7 @@ const aiBody = document.querySelector("#ai-body");
 const aiToggleArrow = document.querySelector("#ai-toggle-arrow");
 const aiGenerateBtn = document.querySelector("#ai-generate-btn");
 const aiPrompt = document.querySelector("#ai-prompt");
+const aiModel = document.querySelector("#ai-model");
 const aiStatus = document.querySelector("#ai-status");
 const aiPreviewWrapper = document.querySelector("#ai-preview-wrapper");
 const aiPreview = document.querySelector("#ai-preview");
@@ -479,7 +496,7 @@ aiGenerateBtn.addEventListener("click", async () => {
     const res = await fetch("/api/generate-image", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt, width: 1024, height: 768 }),
+      body: JSON.stringify({ prompt, model: aiModel.value, width: 1024, height: 768 }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Erro ao gerar imagem");

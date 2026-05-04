@@ -41,143 +41,130 @@
                 <h2>Gerenciar marmitas</h2>
                 <p class="section-header__note">Painel interno para atualizar o cardápio do restaurante.</p>
               </div>
-              <a class="section-header__admin-link" href="./index.html">Voltar ao cardápio</a>
+              <div class="admin-header-actions">
+                <button id="open-drawer-btn" class="cta-panel__button" type="button">+ Adicionar marmita</button>
+                <a class="section-header__admin-link" href="./index.html">Ver cardápio</a>
+              </div>
             </div>
 
-            <div class="admin-grid">
-              <section class="admin-card admin-card--nested">
-                <div class="admin-list-header">
-                  <h2>Marmitas cadastradas</h2>
-                  <button id="refresh-admin" class="admin-secondary-button" type="button">
-                    Atualizar lista
-                  </button>
+            <div class="admin-toolbar">
+              <button id="refresh-admin" class="admin-secondary-button" type="button">
+                Atualizar lista
+              </button>
+              <span id="admin-status" class="menu-status" aria-live="polite"></span>
+            </div>
+
+            <div class="admin-table-wrapper">
+              <table class="admin-table" id="admin-table">
+                <thead>
+                  <tr>
+                    <th>Foto</th>
+                    <th>Nome</th>
+                    <th>Dia</th>
+                    <th>Preço</th>
+                    <th>Destaque</th>
+                    <th>Ativo</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-list"></tbody>
+              </table>
+            </div>
+        </section>
+
+        <div class="admin-drawer-overlay hidden" id="admin-drawer-overlay"></div>
+        <div class="admin-drawer hidden" id="admin-drawer">
+          <div class="admin-drawer__header">
+            <h2 id="form-title">Nova marmita</h2>
+            <button class="admin-drawer__close" id="admin-drawer-close" type="button">✕</button>
+          </div>
+          <div class="admin-drawer__body">
+            <form id="dish-form" class="admin-form">
+              <input id="dish-id" type="hidden" />
+
+              <label class="toolbar-field">
+                <span>Nome</span>
+                <input id="dish-name" type="text" required />
+              </label>
+
+              <label class="toolbar-field">
+                <span>Descrição</span>
+                <textarea id="dish-description" rows="3"></textarea>
+              </label>
+
+              <div class="admin-form__row">
+                <label class="toolbar-field">
+                  <span>Preço</span>
+                  <input id="dish-price" type="number" min="0" step="0.01" required />
+                </label>
+                <label class="toolbar-field">
+                  <span>Preço promocional</span>
+                  <input id="dish-sale-price" type="number" min="0" step="0.01" />
+                </label>
+              </div>
+
+              <div class="admin-form__row">
+                <label class="toolbar-field">
+                  <span>Dia da semana</span>
+                  <select id="dish-day" required>
+                    <option value="">Selecione</option>
+                    <option value="Segunda">Segunda</option>
+                    <option value="Terça">Terça</option>
+                    <option value="Quarta">Quarta</option>
+                    <option value="Quinta">Quinta</option>
+                    <option value="Sexta">Sexta</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Diário">Diário (todos os dias)</option>
+                  </select>
+                </label>
+                <label class="toolbar-field">
+                  <span>Ordem</span>
+                  <input id="dish-order" type="number" min="0" step="1" value="0" />
+                </label>
+              </div>
+
+              <div class="admin-upload" id="photo-upload-zone">
+                <input id="dish-photo-file" type="file" accept="image/*" hidden />
+                <div class="admin-upload__prompt">
+                  <p>Arraste uma foto aqui ou <button type="button" class="admin-upload__link" id="photo-browse-btn">escolha do computador</button></p>
+                  <p class="admin-upload__hint">JPG, PNG ou WEBP — máx. 5 MB</p>
                 </div>
-                <div id="admin-status" class="menu-status" aria-live="polite"></div>
-                <div id="admin-list" class="admin-list"></div>
-              </section>
+                <div class="admin-upload__progress" id="photo-upload-progress">
+                  <div class="admin-upload__bar" id="photo-upload-bar"></div>
+                </div>
+              </div>
 
-              <section class="admin-card admin-card--nested">
-                <h2 id="form-title">Nova marmita</h2>
+              <input id="dish-photo-url" type="hidden" />
+              <div class="admin-preview">
+                <img id="dish-photo-preview" src="" alt="Pré-visualização da foto" />
+              </div>
 
-                <form id="dish-form" class="admin-form">
-                  <input id="dish-id" type="hidden" />
+              <div class="admin-checkboxes">
+                <label class="admin-checkbox">
+                  <input id="dish-active" type="checkbox" checked />
+                  <span>Ativo</span>
+                </label>
+                <label class="admin-checkbox">
+                  <input id="dish-highlight" type="checkbox" />
+                  <span>Destaque do dia</span>
+                </label>
+                <label class="admin-checkbox">
+                  <input id="dish-sale" type="checkbox" />
+                  <span>Em promoção</span>
+                </label>
+                <label class="admin-checkbox">
+                  <input id="dish-diario" type="checkbox" />
+                  <span>Prato diário</span>
+                </label>
+              </div>
 
-                  <label class="toolbar-field">
-                    <span>Nome</span>
-                    <input id="dish-name" type="text" required />
-                  </label>
-
-                  <label class="toolbar-field">
-                    <span>Descrição</span>
-                    <textarea id="dish-description" rows="4"></textarea>
-                  </label>
-
-                  <div class="admin-form__row">
-                    <label class="toolbar-field">
-                      <span>Preço</span>
-                      <input id="dish-price" type="number" min="0" step="0.01" required />
-                    </label>
-
-                    <label class="toolbar-field">
-                      <span>Preço promocional</span>
-                      <input id="dish-sale-price" type="number" min="0" step="0.01" />
-                    </label>
-                  </div>
-
-                  <div class="admin-form__row">
-                    <label class="toolbar-field">
-                      <span>Dia da semana</span>
-                      <select id="dish-day" required>
-                        <option value="">Selecione</option>
-                        <option value="Segunda">Segunda</option>
-                        <option value="Terça">Terça</option>
-                        <option value="Quarta">Quarta</option>
-                        <option value="Quinta">Quinta</option>
-                        <option value="Sexta">Sexta</option>
-                        <option value="Sábado">Sábado</option>
-                        <option value="Diário">Diário (todos os dias)</option>
-                      </select>
-                    </label>
-
-                    <label class="toolbar-field">
-                      <span>Ordem</span>
-                      <input id="dish-order" type="number" min="0" step="1" value="0" />
-                    </label>
-                  </div>
-
-                  <div class="admin-upload" id="photo-upload-zone">
-                    <input id="dish-photo-file" type="file" accept="image/*" hidden />
-                    <div class="admin-upload__prompt">
-                      <p>Arraste uma foto aqui ou <button type="button" class="admin-upload__link" id="photo-browse-btn">escolha do computador</button></p>
-                      <p class="admin-upload__hint">JPG, PNG ou WEBP — máx. 5 MB</p>
-                    </div>
-                    <div class="admin-upload__progress" id="photo-upload-progress">
-                      <div class="admin-upload__bar" id="photo-upload-bar"></div>
-                    </div>
-                  </div>
-
-                  <div class="admin-ai-section" id="ai-image-section">
-                    <button type="button" class="admin-ai-toggle" id="ai-toggle-btn">
-                      <span>Gerar imagem com IA (grátis)</span>
-                      <span class="admin-ai-toggle__arrow" id="ai-toggle-arrow">&#9660;</span>
-                    </button>
-                    <div class="admin-ai-body" id="ai-body">
-                      <p class="admin-ai__hint">Descreva a foto do prato em inglês, com detalhes de composição, ângulo, iluminação e estilo. Ex: <em>Brazilian feijoada, overhead shot, white ceramic plate, black beans, pork, rice, collard greens, farofa, natural window light, food photography, appetizing, 4k</em></p>
-                      <label class="toolbar-field">
-                        <span>Prompt da imagem (em inglês)</span>
-                        <textarea id="ai-prompt" rows="3" placeholder="Brazilian dish feijoada, top-down view, white plate, black beans with pork, rice, collard greens, farofa, natural daylight, food photography, high resolution"></textarea>
-                      </label>
-                      <button type="button" class="cta-panel__button admin-ai-generate" id="ai-generate-btn">
-                        Gerar imagem
-                      </button>
-                      <div class="admin-ai-status" id="ai-status" aria-live="polite"></div>
-                      <div class="admin-ai-preview" id="ai-preview-wrapper">
-                        <img id="ai-preview" src="" alt="Pré-visualização da imagem gerada por IA" />
-                      </div>
-                      <button type="button" class="admin-secondary-button admin-ai-use" id="ai-use-btn" style="display:none;">
-                        Usar esta foto
-                      </button>
-                    </div>
-                  </div>
-
-                  <input id="dish-photo-url" type="hidden" />
-
-                  <div class="admin-preview">
-                    <img id="dish-photo-preview" src="" alt="Pré-visualização da foto" />
-                  </div>
-
-                  <div class="admin-checkboxes">
-                    <label class="admin-checkbox">
-                      <input id="dish-active" type="checkbox" checked />
-                      <span>Ativo</span>
-                    </label>
-
-                    <label class="admin-checkbox">
-                      <input id="dish-highlight" type="checkbox" />
-                      <span>Destaque do dia</span>
-                    </label>
-
-                    <label class="admin-checkbox">
-                      <input id="dish-sale" type="checkbox" />
-                      <span>Em promoção</span>
-                    </label>
-
-                    <label class="admin-checkbox">
-                      <input id="dish-diario" type="checkbox" />
-                      <span>Prato diário (todos os dias)</span>
-                    </label>
-                  </div>
-
-                  <div class="admin-actions">
-                    <button class="cta-panel__button" type="submit">Salvar marmita</button>
-                    <button id="reset-form" class="admin-secondary-button" type="button">
-                      Limpar formulário
-                    </button>
-                  </div>
-                </form>
-              </section>
-            </div>
-          </section>
+              <div class="admin-actions">
+                <button class="cta-panel__button" type="submit">Salvar marmita</button>
+                <button id="reset-form" class="admin-secondary-button" type="button">Limpar</button>
+              </div>
+            </form>
+          </div>
+        </div>
         </section>
       </main>
     </div>
