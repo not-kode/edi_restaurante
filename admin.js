@@ -34,6 +34,14 @@ const photoUploadBar = document.querySelector("#photo-upload-bar");
 
 const STORAGE_KEY = "edi-restaurante-pratos";
 const PASSWORD_KEY = "edi-admin-senha";
+const dayTagColors = {
+  Segunda: { bg: "#fef3c7", text: "#92400e" },
+  Terça:  { bg: "#cffafe", text: "#155e75" },
+  Quarta:  { bg: "#ede9fe", text: "#6d28d9" },
+  Quinta:  { bg: "#d1fae5", text: "#065f46" },
+  Sexta:   { bg: "#fce7f3", text: "#be185d" },
+  Sábado:  { bg: "#ffedd5", text: "#c2410c" },
+};
 const ADMIN_PASSWORD = "edi2024";
 const FEIJOADA_VARIANTS = [
   { label: "Pequena", preco: 49, descricao: "1 bisteca" },
@@ -188,7 +196,7 @@ function renderDishList() {
             <img class="admin-table__photo" src="${dish.foto_url || "./assets/hero.jpg"}" alt="${dish.nome}" onerror="this.src='./assets/hero.jpg'" />
           </td>
           <td><span class="admin-table__name">${dish.nome}</span></td>
-          <td><span class="admin-table__day">${dish.dia_semana}</span></td>
+          <td><span class="admin-table__day" style="background:${(dayTagColors[dish.dia_semana] || {bg:"#efe7e2",text:"#3b1f16"}).bg};color:${(dayTagColors[dish.dia_semana] || {bg:"#efe7e2",text:"#3b1f16"}).text}">${dish.dia_semana}</span></td>
           <td><span class="admin-table__price">${formatPrice(dish.preco)}</span></td>
           <td><span class="admin-table__badge ${dish.destaque_dia ? 'admin-table__badge--yes' : 'admin-table__badge--no'}">${dish.destaque_dia ? 'Sim' : 'Não'}</span></td>
           <td><span class="admin-table__badge ${dish.ativo ? 'admin-table__badge--yes' : 'admin-table__badge--no'}">${dish.ativo ? 'Sim' : 'Não'}</span></td>
