@@ -25,6 +25,32 @@ const updatedDishPhotos = {
   "Adicional de fritas": "./fotos/Batata frita.jpg",
 };
 
+const menuContainer = document.querySelector("#menu-container");
+const searchInput = document.querySelector("#search-input");
+const dayFilter = document.querySelector("#day-filter");
+const priceFilter = document.querySelector("#price-filter");
+const resultsSummary = document.querySelector("#results-summary");
+const clearFiltersButton = document.querySelector("#clear-filters");
+const menuStatus = document.querySelector("#menu-status");
+const closedOverlay = document.querySelector("#closed-overlay");
+const closedOverlayBackdrop = document.querySelector("#closed-overlay .site-overlay__backdrop");
+let activeDayFilter = "todos";
+let activePriceFilter = "todos";
+const FEIJOADA_VARIANTS = [
+  { label: "Pequena", preco: 49, descricao: "1 bisteca" },
+  { label: "Média", preco: 59, descricao: "1 bisteca" },
+  { label: "Grande", preco: 79, descricao: "2 bistecas" },
+];
+
+const dayNotes = {
+  Segunda: { kicker: "Viradouuu!", note: "Virado a Paulista — clássico de segunda." },
+  Terça: { kicker: "Tá com fome? Strogonoff!", note: "Strogonoff de frango fresquinho." },
+  Quarta: { kicker: "É dia de FEIJOADA! 🔥", note: "Pequena, média ou grande — escolha a sua." },
+  Quinta: { kicker: "Quinta que encanta", note: "Macarrão com frango assado." },
+  Sexta: { kicker: "Sextou com peixe!", note: "Peixe frito: merluza ou tilápia." },
+  Sábado: { kicker: "Sábado também é FEIJOADA! 🔥", note: "Repeteco de quarta — porque ninguém cansa." },
+};
+
 const dayTagColors = {
   Segunda: { bg: "#fef3c7", text: "#92400e" },
   Terça:  { bg: "#cffafe", text: "#155e75" },
