@@ -67,6 +67,7 @@ const updatedDishPhotos = {
   "Almôndegas": "./fotos/Almondegas.jpg",
   "Parmegiana de carne": "./fotos/Parmegiana de carne.jpg",
   "Parmegiana de frango": "./fotos/Parmegiana de frango.jpeg",
+  "Adicional de fritas": "./fotos/Batata frita.jpg",
 };
 
 const DEFAULT_DISHES = [
