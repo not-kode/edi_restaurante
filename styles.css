@@ -1916,8 +1916,59 @@ body.site-admin .cta-panel__button:focus-visible {
 }
 
 @media (max-width: 719px) {
-  .page-shell,
-  .menu-section,
+  .page-shell {
+    padding-inline: 12px;
+  }
+
+  .menu-section {
+    padding: 20px 12px 48px;
+  }
+
+  .content-layout {
+    gap: 22px;
+  }
+
+  .menu-block {
+    gap: 22px;
+  }
+
+  .menu-block + .menu-block {
+    margin-top: 22px;
+  }
+
+  .menu-daily-grid,
+  .menu-days-row {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-today-block {
+    margin-inline: -12px;
+    width: calc(100% + 24px);
+  }
+
+  .menu-today-block .menu-card {
+    border-radius: 0 0 20px 20px;
+  }
+
+  .menu-card__variants {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .menu-card__variant {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .menu-card__variant-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+  }
+
   .hero__copy,
   .admin-card,
   .admin-auth-card,
