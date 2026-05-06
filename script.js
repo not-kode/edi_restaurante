@@ -406,8 +406,13 @@ function updateCartUI() {
 function buildWhatsAppMessage() {
   if (cart.length === 0) return `Olá! Gostaria de saber mais sobre o ${restaurantName}.`;
 
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const payment = getPaymentMethod();
+  const obs = document.querySelector("#cart-obs")?.value?.trim();
+
   let msg = `#Pedido ${orderNumber}\n\n`;
   msg += `Olá, acabei de finalizar o meu pedido:\n\n`;
+  if (obs) msg += `*Obs.: ${obs}*\n\n`;
   msg += `#Itens\n`;
 
   cart.forEach((item) => {
@@ -417,15 +422,9 @@ function buildWhatsAppMessage() {
     msg += `${qty}${item.name}${label}${dayInfo} — ${formatPrice(item.price * item.qty)}\n`;
   });
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const payment = getPaymentMethod();
-
   msg += `\n──────────────────\n`;
   msg += `#Total: ${formatPrice(total)}\n`;
   msg += `#Pagamento: ${payment}\n`;
-
-  const obs = document.querySelector("#cart-obs")?.value?.trim();
-  if (obs) msg += `\n#Obs.: ${obs}\n`;
 
   msg += `\nPedido feito pelo site. Aguardando confirmação!`;
 
