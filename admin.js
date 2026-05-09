@@ -251,18 +251,8 @@ function renderDishList() {
 }
 
 function updatePhotoPreview() {
-  const url = fields.foto_url.value;
-  if (url && !url.startsWith("data:")) {
-    photoPreview.src = url;
-    photoPreview.onerror = () => {
-      photoPreview.src = "./assets/hero.jpg";
-      setStatus("Imagem não encontrada. Verifique o caminho.", "error");
-    };
-    photoPreviewWrapper.classList.add("is-visible");
-  } else {
-    photoPreview.src = "";
-    photoPreviewWrapper.classList.remove("is-visible");
-  }
+  // Desabilitado para evitar erros 404
+  return;
 }
 
 function resetUploadState() {
@@ -284,17 +274,15 @@ function handleFileSelect(file) {
     return;
   }
 
-  // Limpa o nome do arquivo (remove espaços e caracteres especiais)
+  // Apenas sugere o nome limpo - não tenta carregar a imagem
   const cleanFileName = file.name
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-zA-Z0-9.\-_]/g, "-")
     .toLowerCase();
   
-  const suggestedPath = "./fotos/" + cleanFileName;
-  fields.foto_url.value = suggestedPath;
-  updatePhotoPreview();
-  setStatus("Nome do arquivo sugerido: " + cleanFileName + ". Upload manual necessário.", "info");
+  fields.foto_url.value = "./fotos/" + cleanFileName;
+  setStatus("Nome sugerido: " + cleanFileName + ". Suba a foto manualmente.", "info");
   
   resetUploadState();
 }
@@ -334,7 +322,9 @@ function fillForm(dish) {
   fields.promocao.checked = Boolean(dish.promocao);
   fields.diario.checked = Boolean(dish.diario);
   formTitle.textContent = `Editar: ${dish.nome}`;
-  updatePhotoPreview();
+  // Preview desabilitado para evitar erros 404
+  photoPreview.src = "";
+  photoPreviewWrapper.classList.remove("is-visible");
   openDrawer();
 }
 
