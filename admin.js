@@ -530,16 +530,21 @@ function aiHidePreview() {
 }
 
 function aiSetLoading(loading) {
-  aiGenerateBtn.disabled = loading;
-  aiGenerateBtn.textContent = loading ? "Gerando..." : "Gerar imagem";
+  if (aiGenerateBtn) {
+    aiGenerateBtn.disabled = loading;
+    aiGenerateBtn.textContent = loading ? "Gerando..." : "Gerar imagem";
+  }
 }
 
-aiToggleBtn.addEventListener("click", () => {
-  const isOpen = aiBody.classList.toggle("is-open");
-  aiToggleArrow.innerHTML = isOpen ? "&#9650;" : "&#9660;";
-});
+if (aiToggleBtn) {
+  aiToggleBtn.addEventListener("click", () => {
+    const isOpen = aiBody.classList.toggle("is-open");
+    aiToggleArrow.innerHTML = isOpen ? "&#9650;" : "&#9660;";
+  });
+}
 
-aiGenerateBtn.addEventListener("click", async () => {
+if (aiGenerateBtn) {
+  aiGenerateBtn.addEventListener("click", async () => {
   const prompt = aiPrompt.value.trim();
   if (!prompt) {
     aiSetStatus("Digite um prompt para gerar a imagem.", "error");
@@ -569,15 +574,18 @@ aiGenerateBtn.addEventListener("click", async () => {
   } finally {
     aiSetLoading(false);
   }
-});
+  });
+}
 
-aiUseBtn.addEventListener("click", () => {
-  if (aiGeneratedDataUrl) {
-    fields.foto_url.value = aiGeneratedDataUrl;
-    updatePhotoPreview();
-    aiSetStatus("Foto aplicada ao formulário!", "success");
-  }
-});
+if (aiUseBtn) {
+  aiUseBtn.addEventListener("click", () => {
+    if (aiGeneratedDataUrl) {
+      fields.foto_url.value = aiGeneratedDataUrl;
+      updatePhotoPreview();
+      aiSetStatus("Foto aplicada ao formulário!", "success");
+    }
+  });
+}
 
 const storedPassword = sessionStorage.getItem(PASSWORD_KEY);
 if (storedPassword === ADMIN_PASSWORD) {
