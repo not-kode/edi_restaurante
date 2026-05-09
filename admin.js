@@ -350,59 +350,54 @@ function fillForm(dish) {
   openDrawer();
 }
 
-function saveDish(event) {
-  event.preventDefault();
+function saveDish() {
+  console.log("saveDish chamado");
   
-  try {
-    const fotoUrl = fields.foto_url.value || null;
-    
-    // Impede salvar imagens base64 no localStorage (causa QuotaExceeded)
-    if (fotoUrl && fotoUrl.startsWith("data:")) {
-      setStatus("Erro: Imagem muito grande. Use apenas links como ./fotos/nome.jpg", "error");
-      return;
-    }
-    
-    const payload = {
-      id: fields.id.value ? Number(fields.id.value) : nextId,
-      nome: fields.nome.value.trim(),
-      descricao: fields.descricao.value.trim(),
-      preco: Number(fields.preco.value),
-      preco_promocional: fields.preco_promocional.value ? Number(fields.preco_promocional.value) : null,
-      foto_url: fotoUrl,
-      dia_semana: fields.dia_semana.value,
-      ordem: Number(fields.ordem.value),
-      ativo: fields.ativo.checked,
-      destaque_dia: fields.destaque_dia.checked,
-      promocao: fields.promocao.checked,
-      diario: fields.diario.checked,
-    };
+  const fotoUrl = fields.foto_url.value || null;
+
+  // Impede salvar imagens base64 no localStorage (causa QuotaExceeded)
+  if (fotoUrl && fotoUrl.startsWith("data:")) {
+    setStatus("Erro: Imagem muito grande. Use apenas links como ./fotos/nome.jpg", "error");
+    return;
+  }
+
+  const payload = {
+    id: fields.id.value ? Number(fields.id.value) : nextId,
+    nome: fields.nome.value.trim(),
+    descricao: fields.descricao.value.trim(),
+    preco: Number(fields.preco.value),
+    preco_promocional: fields.preco_promocional.value ? Number(fields.preco_promocional.value) : null,
+    foto_url: fotoUrl,
+    dia_semana: fields.dia_semana.value,
+    ordem: Number(fields.ordem.value),
+    ativo: fields.ativo.checked,
+    destaque_dia: fields.destaque_dia.checked,
+    promocao: fields.promocao.checked,
+    diario: fields.diario.checked,
+  };
 
   if (!payload.nome || !payload.dia_semana || isNaN(payload.preco)) {
     setStatus("Nome, dia da semana e preco sao obrigatorios.", "error");
     return;
   }
 
-    setStatus("Salvando prato ID: " + payload.id + "...", "info");
-    
-    const existingIndex = dishes.findIndex((d) => Number(d.id) === Number(payload.id));
-    
-    if (existingIndex >= 0) {
-      dishes[existingIndex] = payload;
-      setStatus("Marmita atualizada (ID: " + payload.id + ")", "success");
-    } else {
-      dishes.push(payload);
-      nextId = Math.max(nextId, payload.id + 1);
-      setStatus("Nova marmita salva (ID: " + payload.id + ")", "success");
-    }
+  setStatus("Salvando prato ID: " + payload.id + "...", "info");
 
-    saveDishes();
-    resetForm();
-    renderDishList();
-    closeDrawer();
-  } catch (error) {
-    setStatus("Erro ao salvar: " + error.message, "error");
-    console.error("Erro no saveDish:", error);
+  const existingIndex = dishes.findIndex((d) => Number(d.id) === Number(payload.id));
+
+  if (existingIndex >= 0) {
+    dishes[existingIndex] = payload;
+    setStatus("Marmita atualizada (ID: " + payload.id + ")", "success");
+  } else {
+    dishes.push(payload);
+    nextId = Math.max(nextId, payload.id + 1);
+    setStatus("Nova marmita salva (ID: " + payload.id + ")", "success");
   }
+
+  saveDishes();
+  resetForm();
+  renderDishList();
+  closeDrawer();
 }
 
 function deleteDish(id) {
@@ -434,7 +429,17 @@ authForm.addEventListener("submit", (event) => {
 if (refreshButton) {
   refreshButton.addEventListener("click", fetchAdminMenu);
 }
-dishForm.addEventListener("submit", saveDish);
+dishForm.addEventListener("submit", (e) => { e.preventDefault(); saveDish(); });
+
+// Fallback: onclick direto no botão
+const saveButton = document.querySelector("#dish-form button[type='submit']");
+if (saveButton) {
+  saveButton.onclick = () => {
+    console.log("Botão salvar clicado via onclick");
+    saveDish();
+    return false;
+  };
+}
 resetFormButton.addEventListener("click", resetForm);
 fields.foto_url.addEventListener("input", updatePhotoPreview);
 
