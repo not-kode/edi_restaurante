@@ -144,14 +144,6 @@ function loadDishes() {
   if (stored) {
     try {
       storedDishes = JSON.parse(stored);
-      // Remove fotos base64 e nomes inválidos para evitar erros 404
-      storedDishes = storedDishes.map(d => {
-        if (d.foto_url && (d.foto_url.startsWith("data:") || d.foto_url.includes("magnific") || d.foto_url.includes("%20"))) {
-          const defaultPhoto = updatedDishPhotos[d.nome];
-          return { ...d, foto_url: defaultPhoto || "./assets/hero.jpg" };
-        }
-        return d;
-      });
     } catch (e) {
       storedDishes = [];
     }
@@ -162,7 +154,7 @@ function loadDishes() {
   DEFAULT_DISHES.forEach(def => {
     const existing = storedDishes.find(d => Number(d.id) === Number(def.id));
     if (existing) {
-      dishes.push({...def, ...existing, foto_url: existing.foto_url && !existing.foto_url.startsWith("data:") ? existing.foto_url : def.foto_url });
+      dishes.push({...def, ...existing});
     } else {
       dishes.push({...def});
     }
