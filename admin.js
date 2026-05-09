@@ -144,10 +144,9 @@ function loadDishes() {
   if (stored) {
     try {
       storedDishes = JSON.parse(stored);
-      // Remove fotos base64 para evitar QuotaExceeded
+      // Remove fotos base64 e nomes inválidos para evitar erros 404
       storedDishes = storedDishes.map(d => {
-        if (d.foto_url && d.foto_url.startsWith("data:")) {
-          // Tenta usar o caminho padrão baseado no nome
+        if (d.foto_url && (d.foto_url.startsWith("data:") || d.foto_url.includes("magnific") || d.foto_url.includes("%20"))) {
           const defaultPhoto = updatedDishPhotos[d.nome];
           return { ...d, foto_url: defaultPhoto || "./assets/hero.jpg" };
         }
