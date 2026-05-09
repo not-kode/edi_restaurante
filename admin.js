@@ -531,3 +531,6 @@ if (storedPassword === ADMIN_PASSWORD) {
   loadDishes();
   renderDishList();
 }
+
+// Garante que saveDish esteja no escopo global
+window.saveDish = saveDish;
