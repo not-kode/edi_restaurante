@@ -341,19 +341,20 @@ function saveDish(event) {
     return;
   }
 
-  const existingIndex = dishes.findIndex((d) => d.id === payload.id);
+  const existingIndex = dishes.findIndex((d) => Number(d.id) === Number(payload.id));
 
   if (existingIndex >= 0) {
     dishes[existingIndex] = payload;
+    setStatus("Marmita atualizada com sucesso.", "success");
   } else {
     dishes.push(payload);
     nextId++;
+    setStatus("Marmita salva com sucesso.", "success");
   }
 
   saveDishes();
   resetForm();
   renderDishList();
-  setStatus("Marmita salva com sucesso.", "success");
   closeDrawer();
 }
 
