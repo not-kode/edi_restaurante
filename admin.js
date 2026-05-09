@@ -252,8 +252,12 @@ function renderDishList() {
 
 function updatePhotoPreview() {
   const url = fields.foto_url.value;
-  if (url) {
+  if (url && !url.startsWith("data:")) {
     photoPreview.src = url;
+    photoPreview.onerror = () => {
+      photoPreview.src = "./assets/hero.jpg";
+      setStatus("Imagem não encontrada. Verifique o caminho.", "error");
+    };
     photoPreviewWrapper.classList.add("is-visible");
   } else {
     photoPreview.src = "";
