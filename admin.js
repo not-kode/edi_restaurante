@@ -143,18 +143,26 @@ function loadDishes() {
   if (stored) {
     try {
       storedDishes = JSON.parse(stored);
+      // Remove fotos base64 para evitar QuotaExceeded
+      storedDishes = storedDishes.map(d => {
+        if (d.foto_url && d.foto_url.startsWith("data:")) {
+          // Tenta usar o caminho padrão baseado no nome
+          const defaultPhoto = updatedDishPhotos[d.nome];
+          return { ...d, foto_url: defaultPhoto || "./assets/hero.jpg" };
+        }
+        return d;
+      });
     } catch (e) {
       storedDishes = [];
     }
   }
   
-  // Garante que todos os pratos do DEFAULT_DISHES existam (força atualização)
+  // Garante que todos os pratos do DEFAULT_DISHES existam
   dishes = [];
   DEFAULT_DISHES.forEach(def => {
     const existing = storedDishes.find(d => Number(d.id) === Number(def.id));
     if (existing) {
-      // Mantém dados personalizados (como foto_url), mas garante que todos os campos existam
-      dishes.push({...def, ...existing});
+      dishes.push({...def, ...existing, foto_url: existing.foto_url && !existing.foto_url.startsWith("data:") ? existing.foto_url : def.foto_url });
     } else {
       dishes.push({...def});
     }
@@ -262,9 +270,24 @@ function resetUploadState() {
 
 function handleFileSelect(file) {
   if (!file || !file.type.startsWith("image/")) {
-    setStatus("Selecione um arquivo de imagem valido.", "error");
+    setStatus("Selecione um arquivo de imagem válido.", "error");
     return;
   }
+
+  const maxSize = 5 * 1024 * 1024;
+  if (file.size > maxSize) {
+    setStatus("A imagem deve ter no máximo 5 MB.", "error");
+    return;
+  }
+
+  // Apenas sugere o nome do arquivo - não converte para base64
+  const suggestedPath = "./fotos/" + file.name;
+  fields.foto_url.value = suggestedPath;
+  updatePhotoPreview();
+  setStatus("Digite o caminho correto da imagem. Upload manual necessário.", "info");
+  
+  resetUploadState();
+}
 
   const maxSize = 5 * 1024 * 1024;
   if (file.size > maxSize) {
@@ -337,13 +360,21 @@ function saveDish(event) {
   event.preventDefault();
   
   try {
+    const fotoUrl = fields.foto_url.value || null;
+    
+    // Impede salvar imagens base64 no localStorage (causa QuotaExceeded)
+    if (fotoUrl && fotoUrl.startsWith("data:")) {
+      setStatus("Erro: Imagem muito grande. Use apenas links como ./fotos/nome.jpg", "error");
+      return;
+    }
+    
     const payload = {
       id: fields.id.value ? Number(fields.id.value) : nextId,
       nome: fields.nome.value.trim(),
       descricao: fields.descricao.value.trim(),
       preco: Number(fields.preco.value),
       preco_promocional: fields.preco_promocional.value ? Number(fields.preco_promocional.value) : null,
-      foto_url: fields.foto_url.value || null,
+      foto_url: fotoUrl,
       dia_semana: fields.dia_semana.value,
       ordem: Number(fields.ordem.value),
       ativo: fields.ativo.checked,
