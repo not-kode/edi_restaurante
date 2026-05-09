@@ -1,4 +1,5 @@
 const authForm = document.querySelector("#admin-auth-form");
+// v3.0 - preview desabilitado
 const authSection = document.querySelector("#admin-auth-section");
 const passwordInput = document.querySelector("#admin-password");
 const adminPanel = document.querySelector("#admin-panel");
