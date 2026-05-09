@@ -99,7 +99,10 @@ let weeklyMenu = [];
 function applyUpdatedDishPhotos(items) {
   return items.map((item) => {
     const updatedPhoto = updatedDishPhotos[item.nome];
-    const next = updatedPhoto ? { ...item, foto_url: updatedPhoto } : { ...item };
+    const next = { ...item };
+    if (updatedPhoto && item.foto_url === updatedPhoto) {
+      next.foto_url = updatedPhoto;
+    }
     if (next.nome === "Feijoada") {
       next.variacoes = FEIJOADA_VARIANTS;
     }
@@ -175,7 +178,14 @@ function loadMenu() {
     try {
       const items = JSON.parse(stored);
       if (Array.isArray(items) && items.length > 0) {
-        const migratedItems = applyUpdatedDishPhotos(items);
+        // Aplica apenas variantes, mantendo fotos personalizadas
+        const migratedItems = items.map((item) => {
+          const next = { ...item };
+          if (next.nome === "Feijoada") {
+            next.variacoes = FEIJOADA_VARIANTS;
+          }
+          return next;
+        });
         localStorage.setItem(key, JSON.stringify(migratedItems));
         weeklyMenu = normalizeMenu(migratedItems.filter((i) => i.ativo !== false));
         populateDayFilter();

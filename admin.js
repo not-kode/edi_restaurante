@@ -103,7 +103,10 @@ let nextId = 1;
 function applyUpdatedDishPhotos(items) {
   return items.map((item) => {
     const updatedPhoto = updatedDishPhotos[item.nome];
-    const next = updatedPhoto ? { ...item, foto_url: updatedPhoto } : { ...item };
+    const next = { ...item };
+    if (updatedPhoto && item.foto_url === updatedPhoto) {
+      next.foto_url = updatedPhoto;
+    }
     if (next.nome === "Feijoada") {
       next.variacoes = FEIJOADA_VARIANTS;
     }
@@ -136,7 +139,14 @@ function formatPrice(value) {
 function loadDishes() {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
-    dishes = applyUpdatedDishPhotos(JSON.parse(stored));
+    dishes = JSON.parse(stored);
+    // Aplica apenas variantes em itens do localStorage
+    dishes = dishes.map((item) => {
+      if (item.nome === "Feijoada") {
+        return { ...item, variacoes: FEIJOADA_VARIANTS };
+      }
+      return item;
+    });
   } else {
     dishes = applyUpdatedDishPhotos(JSON.parse(JSON.stringify(DEFAULT_DISHES)));
     saveDishes();
