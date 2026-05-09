@@ -148,10 +148,14 @@ function loadDishes() {
     }
   }
   
-  // Garante que todos os pratos do DEFAULT_DISHES existam
-  dishes = [...storedDishes];
+  // Garante que todos os pratos do DEFAULT_DISHES existam (força atualização)
+  dishes = [];
   DEFAULT_DISHES.forEach(def => {
-    if (!dishes.find(d => Number(d.id) === Number(def.id))) {
+    const existing = storedDishes.find(d => Number(d.id) === Number(def.id));
+    if (existing) {
+      // Mantém dados personalizados (como foto_url), mas garante que todos os campos existam
+      dishes.push({...def, ...existing});
+    } else {
       dishes.push({...def});
     }
   });
@@ -457,9 +461,13 @@ adminList.addEventListener("click", (event) => {
   if (!button) return;
 
   const id = Number(button.dataset.id);
+  console.log("Clicou no botão:", button.dataset.action, "ID:", id);
+  
   const dish = dishes.find((item) => Number(item.id) === id);
+  console.log("Prato encontrado:", dish);
+  
   if (!dish) {
-    setStatus("Prato nao encontrado. Recarregue a pagina.", "error");
+    setStatus("Prato nao encontrado (ID: " + id + "). Recarregue a pagina.", "error");
     return;
   }
 
