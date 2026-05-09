@@ -286,35 +286,7 @@ function handleFileSelect(file) {
   updatePhotoPreview();
   setStatus("Digite o caminho correto da imagem. Upload manual necessário.", "info");
   
-  resetUploadState();
-}
-
-  const maxSize = 5 * 1024 * 1024;
-  if (file.size > maxSize) {
-    setStatus("A imagem deve ter no maximo 5 MB.", "error");
-    return;
-  }
-
-  photoUploadZone.classList.add("is-uploading");
-  photoUploadProgress.classList.add("is-active");
-  photoUploadBar.style.width = "50%";
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    photoUploadBar.style.width = "100%";
-    fields.foto_url.value = reader.result;
-    updatePhotoPreview();
-    setStatus("Foto carregada com sucesso.", "success");
-
-    setTimeout(() => {
-      resetUploadState();
-    }, 800);
-  };
-  reader.onerror = () => {
-    resetUploadState();
-    setStatus("Erro ao carregar a foto.", "error");
-  };
-  reader.readAsDataURL(file);
+   resetUploadState();
 }
 
 function resetForm() {
