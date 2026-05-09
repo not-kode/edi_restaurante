@@ -252,8 +252,18 @@ function renderDishList() {
 }
 
 function updatePhotoPreview() {
-  // Desabilitado para evitar erros 404
-  return;
+  const url = fields.foto_url.value;
+  if (url && url.startsWith("./fotos/")) {
+    photoPreview.src = url;
+    photoPreview.onerror = () => {
+      photoPreview.src = "./assets/hero.jpg";
+      setStatus("Imagem nao encontrada no servidor. Suba a foto via git.", "error");
+    };
+    photoPreviewWrapper.classList.add("is-visible");
+  } else {
+    photoPreview.src = "";
+    photoPreviewWrapper.classList.remove("is-visible");
+  }
 }
 
 function resetUploadState() {
@@ -323,9 +333,7 @@ function fillForm(dish) {
   fields.promocao.checked = Boolean(dish.promocao);
   fields.diario.checked = Boolean(dish.diario);
   formTitle.textContent = `Editar: ${dish.nome}`;
-  // Preview desabilitado para evitar erros 404
-  photoPreview.src = "";
-  photoPreviewWrapper.classList.remove("is-visible");
+  updatePhotoPreview();
   openDrawer();
 }
 
