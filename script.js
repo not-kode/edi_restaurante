@@ -8,6 +8,8 @@ const updatedDishPhotos = {
   "Strogonoff de frango": "./fotos/Strogonoff de Frango.jpg",
   Feijoada: "./fotos/Feijoada.jpg",
   "Macarrão com frango assado": "./fotos/Macarrao com frango assado.jpg",
+  "Macarrão com almôndegas": "./fotos/Macarrao com frango assado.jpg",
+  "Macarrão com frango ao molho": "./fotos/Macarrao com frango assado.jpg",
   "Filé de Merluza frito": "./fotos/File de Merluza Frito.jpg",
   "Tilápia em posta frito": "./fotos/Tilapia em posta frito.jpg",
   "Bife acebolado": "./fotos/Bife acebolado.jpg",
@@ -46,7 +48,7 @@ const dayNotes = {
   Segunda: { kicker: "Viradouuu!", note: "Virado a Paulista — clássico de segunda." },
   Terça: { kicker: "Tá com fome? Strogonoff!", note: "Strogonoff de frango fresquinho." },
   Quarta: { kicker: "É dia de FEIJOADA! 🔥", note: "Pequena, média ou grande — escolha a sua." },
-  Quinta: { kicker: "Quinta que encanta", note: "Macarrão com frango assado." },
+  Quinta: { kicker: "Quinta com macarrão! 🍝", note: "Escolha entre frango assado, almôndegas ou frango ao molho." },
   Sexta: { kicker: "Sextou com peixe!", note: "Peixe frito: merluza ou tilápia." },
   Sábado: { kicker: "Sábado também é FEIJOADA! 🔥", note: "Repeteco de quarta — porque ninguém cansa." },
 };
@@ -69,6 +71,8 @@ const menuData = [
   { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.jpg", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
   // === QUINTA ===
   { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 1, ativo: true },
+  { id: 21, dia_semana: "Quinta", nome: "Macarrão com almôndegas", descricao: "Macarrão, arroz, almôndegas, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 2, ativo: true },
+  { id: 22, dia_semana: "Quinta", nome: "Macarrão com frango ao molho", descricao: "Macarrão, arroz, frango ao molho, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 3, ativo: true },
   // === SEXTA ===
   { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/File de Merluza Frito.jpg", ordem: 1, ativo: true },
   { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Tilapia em posta frito.jpg", ordem: 2, ativo: true },
@@ -412,7 +416,7 @@ function buildWhatsAppMessage() {
 
   let msg = `#Pedido ${orderNumber}\n\n`;
   msg += `Olá, acabei de finalizar o meu pedido:\n\n`;
-  if (obs) msg += `*Obs.: ${obs}*\n\n`;
+  if (obs) msg += `Obs.: ${obs}\n\n`;
   msg += `#Itens\n`;
 
   cart.forEach((item) => {
