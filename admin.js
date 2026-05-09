@@ -454,8 +454,11 @@ adminList.addEventListener("click", (event) => {
   if (!button) return;
 
   const id = Number(button.dataset.id);
-  const dish = dishes.find((item) => item.id === id);
-  if (!dish) return;
+  const dish = dishes.find((item) => Number(item.id) === id);
+  if (!dish) {
+    setStatus("Prato nao encontrado. Recarregue a pagina.", "error");
+    return;
+  }
 
   if (button.dataset.action === "edit") {
     fillForm(dish);
