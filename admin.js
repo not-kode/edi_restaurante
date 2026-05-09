@@ -353,19 +353,22 @@ function saveDish(event) {
       return;
     }
 
+    setStatus("Salvando prato ID: " + payload.id + "...", "info");
+    
     const existingIndex = dishes.findIndex((d) => Number(d.id) === Number(payload.id));
     
     if (existingIndex >= 0) {
       dishes[existingIndex] = payload;
+      setStatus("Marmita atualizada (ID: " + payload.id + ")", "success");
     } else {
       dishes.push(payload);
       nextId = Math.max(nextId, payload.id + 1);
+      setStatus("Nova marmita salva (ID: " + payload.id + ")", "success");
     }
 
     saveDishes();
     resetForm();
     renderDishList();
-    setStatus(existingIndex >= 0 ? "Marmita atualizada com sucesso." : "Marmita salva com sucesso.", "success");
     closeDrawer();
   } catch (error) {
     setStatus("Erro ao salvar: " + error.message, "error");
