@@ -256,7 +256,6 @@ function updatePhotoPreview() {
     photoPreview.src = url;
     photoPreview.onerror = () => {
       photoPreview.src = "./assets/hero.jpg";
-      setStatus("Imagem não carregou. Verifique se o link está correto.", "error");
     };
     photoPreviewWrapper.classList.add("is-visible");
   } else {
@@ -279,33 +278,47 @@ function handleFileSelect(file) {
     return;
   }
 
-  const maxSize = 100 * 1024; // 100KB para preview apenas
+  const maxSize = 5 * 1024 * 1024;
   if (file.size > maxSize) {
-    setStatus("Imagem muito grande. Máximo 100KB para preview.", "error");
+    setStatus("A imagem deve ter no máximo 5 MB.", "error");
     return;
   }
 
-  // Preview apenas - não salva base64
+  photoUploadZone.classList.add("is-uploading");
+  photoUploadProgress.classList.add("is-active");
+  photoUploadBar.style.width = "50%";
+
   const reader = new FileReader();
-  reader.onload = () => {
-    photoPreview.src = reader.result;
-    photoPreviewWrapper.classList.add("is-visible");
-    resetUploadState();
-    setStatus("Preview carregado. Agora suba a foto no Imgur e cole o link no campo URL.", "info");
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      // Comprime a imagem (max 800px, qualidade 0.7)
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+      if (width > 800) {
+        height = (height * 800) / width;
+        width = 800;
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+      const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+      
+      photoUploadBar.style.width = "100%";
+      fields.foto_url.value = compressedDataUrl;
+      updatePhotoPreview();
+      setStatus("Foto carregada e comprimida com sucesso!", "success");
+      setTimeout(() => resetUploadState(), 800);
+    };
+    img.src = e.target.result;
   };
   reader.onerror = () => {
     resetUploadState();
     setStatus("Erro ao carregar a foto.", "error");
   };
   reader.readAsDataURL(file);
-  
-  // Sugere o caminho baseado no nome do arquivo (para uso manual)
-  const cleanFileName = file.name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-zA-Z0-9.\-_]/g, "-")
-    .toLowerCase();
-  fields.foto_url.value = "./fotos/" + cleanFileName;
 }
 
   const maxSize = 5 * 1024 * 1024;
@@ -398,7 +411,6 @@ function saveDish(event) {
     return;
   }
 
-  // Permite qualquer URL válida (http, https, ./fotos/)
   const fotoUrl = fields.foto_url.value || null;
 
     setStatus("Salvando prato ID: " + payload.id + "...", "info");
