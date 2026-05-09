@@ -430,16 +430,7 @@ if (refreshButton) {
   refreshButton.addEventListener("click", fetchAdminMenu);
 }
 dishForm.addEventListener("submit", (e) => { e.preventDefault(); saveDish(); });
-
-// Fallback: onclick direto no botão
-const saveButton = document.querySelector("#dish-form button[type='submit']");
-if (saveButton) {
-  saveButton.onclick = () => {
-    console.log("Botão salvar clicado via onclick");
-    saveDish();
-    return false;
-  };
-}
+resetFormButton.addEventListener("click", resetForm);
 resetFormButton.addEventListener("click", resetForm);
 fields.foto_url.addEventListener("input", updatePhotoPreview);
 
