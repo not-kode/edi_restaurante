@@ -1,5 +1,25 @@
+const SUPABASE_URL = "https://aflxyphkzxnctbcxmxbg.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmbHh5cGhrenhuY3RiY3hteGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwODY4MTAsImV4cCI6MjA4NjY2MjgxMH0.C4FqNCBSN6d07uZ6laEj1DDXiHIR03px4Y6KQpwE-Pg";
+const PHOTO_BUCKET = "fotos-pratos";
+
+async function uploadPhotoToSupabase(blob, filename) {
+  const res = await fetch(
+    `${SUPABASE_URL}/storage/v1/object/${PHOTO_BUCKET}/${encodeURIComponent(filename)}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        "Content-Type": blob.type,
+        "x-upsert": "true",
+      },
+      body: blob,
+    }
+  );
+  if (!res.ok) throw new Error(await res.text());
+  return `${SUPABASE_URL}/storage/v1/object/public/${PHOTO_BUCKET}/${encodeURIComponent(filename)}`;
+}
+
 const authForm = document.querySelector("#admin-auth-form");
-// v3.0 - preview desabilitado
 const authSection = document.querySelector("#admin-auth-section");
 const passwordInput = document.querySelector("#admin-password");
 const adminPanel = document.querySelector("#admin-panel");
@@ -291,7 +311,8 @@ function handleFileSelect(file) {
 
   photoUploadZone.classList.add("is-uploading");
   photoUploadProgress.classList.add("is-active");
-  photoUploadBar.style.width = "50%";
+  photoUploadBar.style.width = "30%";
+  setStatus("Enviando foto...", "info");
 
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -306,15 +327,25 @@ function handleFileSelect(file) {
       }
       canvas.width = width;
       canvas.height = height;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0, width, height);
-      const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
-      
-      photoUploadBar.style.width = "100%";
-      fields.foto_url.value = compressedDataUrl;
-      updatePhotoPreview();
-      setStatus("Foto carregada e comprimida com sucesso!", "success");
-      setTimeout(() => resetUploadState(), 800);
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      photoUploadBar.style.width = "60%";
+
+      canvas.toBlob(async (blob) => {
+        try {
+          const dishName = fields.nome.value.trim() || "prato";
+          const safeName = dishName.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "-");
+          const filename = `${safeName}-${Date.now()}.jpg`;
+          const publicUrl = await uploadPhotoToSupabase(blob, filename);
+          photoUploadBar.style.width = "100%";
+          fields.foto_url.value = publicUrl;
+          updatePhotoPreview();
+          setStatus("Foto enviada com sucesso!", "success");
+          setTimeout(() => resetUploadState(), 800);
+        } catch (err) {
+          resetUploadState();
+          setStatus("Erro ao enviar foto: " + err.message, "error");
+        }
+      }, "image/jpeg", 0.7);
     };
     img.src = e.target.result;
   };
