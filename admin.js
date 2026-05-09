@@ -280,13 +280,19 @@ function handleFileSelect(file) {
     return;
   }
 
-  // Apenas sugere o nome do arquivo - não converte para base64
-  const suggestedPath = "./fotos/" + file.name;
+  // Limpa o nome do arquivo (remove espaços e caracteres especiais)
+  const cleanFileName = file.name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9.\-_]/g, "-")
+    .toLowerCase();
+  
+  const suggestedPath = "./fotos/" + cleanFileName;
   fields.foto_url.value = suggestedPath;
   updatePhotoPreview();
-  setStatus("Digite o caminho correto da imagem. Upload manual necessário.", "info");
+  setStatus("Nome do arquivo sugerido: " + cleanFileName + ". Upload manual necessário.", "info");
   
-   resetUploadState();
+  resetUploadState();
 }
 
 function resetForm() {
