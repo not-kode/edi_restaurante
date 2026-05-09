@@ -252,16 +252,11 @@ function renderDishList() {
 
 function updatePhotoPreview() {
   const url = fields.foto_url.value;
-  if (url && url.startsWith("data:")) {
-    // Base64 - mostra preview apenas
-    photoPreview.src = url;
-    photoPreviewWrapper.classList.add("is-visible");
-  } else if (url && url.startsWith("./fotos/")) {
-    // Caminho normal - tenta carregar
+  if (url) {
     photoPreview.src = url;
     photoPreview.onerror = () => {
       photoPreview.src = "./assets/hero.jpg";
-      setStatus("Imagem não encontrada no servidor. Verifique o caminho.", "error");
+      setStatus("Imagem não carregou. Verifique se o link está correto.", "error");
     };
     photoPreviewWrapper.classList.add("is-visible");
   } else {
@@ -296,7 +291,7 @@ function handleFileSelect(file) {
     photoPreview.src = reader.result;
     photoPreviewWrapper.classList.add("is-visible");
     resetUploadState();
-    setStatus("Preview carregado. Agora digite o caminho no campo URL da foto.", "info");
+    setStatus("Preview carregado. Agora suba a foto no Imgur e cole o link no campo URL.", "info");
   };
   reader.onerror = () => {
     resetUploadState();
@@ -304,7 +299,7 @@ function handleFileSelect(file) {
   };
   reader.readAsDataURL(file);
   
-  // Sugere o caminho baseado no nome do arquivo
+  // Sugere o caminho baseado no nome do arquivo (para uso manual)
   const cleanFileName = file.name
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -398,10 +393,13 @@ function saveDish(event) {
       diario: fields.diario.checked,
     };
 
-    if (!payload.nome || !payload.dia_semana || isNaN(payload.preco)) {
-      setStatus("Nome, dia da semana e preco sao obrigatorios.", "error");
-      return;
-    }
+  if (!payload.nome || !payload.dia_semana || isNaN(payload.preco)) {
+    setStatus("Nome, dia da semana e preco sao obrigatorios.", "error");
+    return;
+  }
+
+  // Permite qualquer URL válida (http, https, ./fotos/)
+  const fotoUrl = fields.foto_url.value || null;
 
     setStatus("Salvando prato ID: " + payload.id + "...", "info");
     
