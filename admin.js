@@ -252,17 +252,23 @@ function renderDishList() {
 
 function updatePhotoPreview() {
   const url = fields.foto_url.value;
-  if (url && url.startsWith("./fotos/")) {
+  if (url && url.startsWith("data:")) {
+    // Base64 - mostra preview apenas
+    photoPreview.src = url;
+    photoPreviewWrapper.classList.add("is-visible");
+  } else if (url && url.startsWith("./fotos/")) {
+    // Caminho normal - tenta carregar
     photoPreview.src = url;
     photoPreview.onerror = () => {
       photoPreview.src = "./assets/hero.jpg";
-      setStatus("Imagem nao encontrada no servidor. Suba a foto via git.", "error");
+      setStatus("Imagem não encontrada no servidor. Verifique o caminho.", "error");
     };
     photoPreviewWrapper.classList.add("is-visible");
   } else {
     photoPreview.src = "";
     photoPreviewWrapper.classList.remove("is-visible");
   }
+}
 }
 
 function resetUploadState() {
@@ -277,6 +283,35 @@ function handleFileSelect(file) {
     setStatus("Selecione um arquivo de imagem válido.", "error");
     return;
   }
+
+  const maxSize = 100 * 1024; // 100KB para preview apenas
+  if (file.size > maxSize) {
+    setStatus("Imagem muito grande. Máximo 100KB para preview.", "error");
+    return;
+  }
+
+  // Preview apenas - não salva base64
+  const reader = new FileReader();
+  reader.onload = () => {
+    photoPreview.src = reader.result;
+    photoPreviewWrapper.classList.add("is-visible");
+    resetUploadState();
+    setStatus("Preview carregado. Agora digite o caminho no campo URL da foto.", "info");
+  };
+  reader.onerror = () => {
+    resetUploadState();
+    setStatus("Erro ao carregar a foto.", "error");
+  };
+  reader.readAsDataURL(file);
+  
+  // Sugere o caminho baseado no nome do arquivo
+  const cleanFileName = file.name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9.\-_]/g, "-")
+    .toLowerCase();
+  fields.foto_url.value = "./fotos/" + cleanFileName;
+}
 
   const maxSize = 5 * 1024 * 1024;
   if (file.size > maxSize) {
