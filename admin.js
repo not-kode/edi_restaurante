@@ -54,8 +54,8 @@ const updatedDishPhotos = {
   "Strogonoff de frango": "./fotos/Strogonoff de Frango.jpg",
   Feijoada: "./fotos/Feijoada.jpg",
   "Macarrão com frango assado": "./fotos/Macarrao com frango assado.jpg",
-  "Macarrão com almôndegas": "./fotos/Macarrao com frango assado.jpg",
-  "Macarrão com frango ao molho": "./fotos/Macarrao com frango assado.jpg",
+  "Macarrão com almôndegas": "./fotos/Macarrão com almondega.jpg",
+  "Macarrão com frango ao molho": "./fotos/Macarrão com frango ao molho.jpg",
   "Filé de Merluza frito": "./fotos/File de Merluza Frito.jpg",
   "Tilápia em posta frito": "./fotos/Tilapia em posta frito.jpg",
   "Bife acebolado": "./fotos/Bife acebolado.jpg",
@@ -78,8 +78,8 @@ const DEFAULT_DISHES = [
   { id: 2, dia_semana: "Terça", nome: "Strogonoff de frango", descricao: "Arroz, batata palha, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Strogonoff de Frango.jpg", ordem: 1, ativo: true },
   { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.jpg", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
   { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 1, ativo: true },
-  { id: 21, dia_semana: "Quinta", nome: "Macarrão com almôndegas", descricao: "Macarrão, arroz, almôndegas, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 2, ativo: true },
-  { id: 22, dia_semana: "Quinta", nome: "Macarrão com frango ao molho", descricao: "Macarrão, arroz, frango ao molho, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 3, ativo: true },
+  { id: 21, dia_semana: "Quinta", nome: "Macarrão com almôndegas", descricao: "Macarrão, arroz, almôndegas, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrão com almondega.jpg", ordem: 2, ativo: true },
+  { id: 22, dia_semana: "Quinta", nome: "Macarrão com frango ao molho", descricao: "Macarrão, arroz, frango ao molho, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrão com frango ao molho.jpg", ordem: 3, ativo: true },
   { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/File de Merluza Frito.jpg", ordem: 1, ativo: true },
   { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Tilapia em posta frito.jpg", ordem: 2, ativo: true },
   { id: 7, dia_semana: "Sábado", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.jpg", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
@@ -105,14 +105,39 @@ function applyUpdatedDishPhotos(items) {
   return items.map((item) => {
     const updatedPhoto = updatedDishPhotos[item.nome];
     const next = { ...item };
-    if (updatedPhoto && item.foto_url === updatedPhoto) {
-      next.foto_url = updatedPhoto;
+    const legacyPhotos = {
+      "Macarrão com almôndegas": ["./fotos/Macarrao com frango assado.jpg"],
+      "Macarrão com frango ao molho": ["./fotos/Macarrao com frango assado.jpg"],
+    };
+    if (updatedPhoto) {
+      const shouldUpdate =
+        !next.foto_url ||
+        Boolean(legacyPhotos[item.nome]?.includes(next.foto_url));
+      if (shouldUpdate) {
+        next.foto_url = updatedPhoto;
+      }
     }
     if (next.nome === "Feijoada") {
       next.variacoes = FEIJOADA_VARIANTS;
     }
     return next;
   });
+}
+
+function mergeDefaultDishes(storedDishes) {
+  const defaultIds = new Set(DEFAULT_DISHES.map((dish) => Number(dish.id)));
+  const byId = new Map(storedDishes.map((dish) => [Number(dish.id), dish]));
+
+  const mergedDefaults = DEFAULT_DISHES.map((def) => {
+    const existing = byId.get(Number(def.id));
+    return applyUpdatedDishPhotos([{ ...def, ...(existing || {}) }])[0];
+  });
+
+  const extras = storedDishes
+    .filter((dish) => !defaultIds.has(Number(dish.id)))
+    .map((dish) => applyUpdatedDishPhotos([{ ...dish }])[0]);
+
+  return [...mergedDefaults, ...extras];
 }
 
 function showAdminPanel() {
@@ -140,42 +165,32 @@ function formatPrice(value) {
 function loadDishes() {
   const stored = localStorage.getItem(STORAGE_KEY);
   let storedDishes = [];
-  
+
   if (stored) {
     try {
-      storedDishes = JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      storedDishes = Array.isArray(parsed) ? parsed : [];
     } catch (e) {
       storedDishes = [];
     }
   }
-  
-  // Garante que todos os pratos do DEFAULT_DISHES existam
-  dishes = [];
-  DEFAULT_DISHES.forEach(def => {
-    const existing = storedDishes.find(d => Number(d.id) === Number(def.id));
-    if (existing) {
-      dishes.push({...def, ...existing});
-    } else {
-      dishes.push({...def});
-    }
-  });
-  
-  // Aplica variacoes para Feijoada
-  dishes = dishes.map(item => {
-    if (item.nome === "Feijoada") {
-      return { ...item, variacoes: FEIJOADA_VARIANTS };
-    }
-    return item;
-  });
-  
+
+  dishes = mergeDefaultDishes(storedDishes);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(dishes));
   nextId = Math.max(...dishes.map(d => Number(d.id)), 0) + 1;
   exportDishesToSite();
 }
 
 function saveDishes() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(dishes));
-  exportDishesToSite();
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dishes));
+    exportDishesToSite();
+    return true;
+  } catch (error) {
+    console.error("Falha ao salvar pratos no localStorage:", error);
+    setStatus("Nao foi possivel salvar a marmita. O armazenamento do navegador pode estar cheio.", "error");
+    return false;
+  }
 }
 
 function exportDishesToSite() {
@@ -183,7 +198,6 @@ function exportDishesToSite() {
   script.textContent = `
     (function() {
       var data = ${JSON.stringify(dishes)};
-      localStorage.setItem("${STORAGE_KEY}", JSON.stringify(data));
       window.dispatchEvent(new CustomEvent("menu-updated", { detail: data }));
       if (document.querySelector("#menu-container") && document.querySelector("#menu-container").innerHTML !== "") {
         var event = new Event("menurefresh");
@@ -352,14 +366,8 @@ function fillForm(dish) {
 
 function saveDish() {
   console.log("saveDish chamado");
-  
-  const fotoUrl = fields.foto_url.value || null;
 
-  // Impede salvar imagens base64 no localStorage (causa QuotaExceeded)
-  if (fotoUrl && fotoUrl.startsWith("data:")) {
-    setStatus("Erro: Imagem muito grande. Use apenas links como ./fotos/nome.jpg", "error");
-    return;
-  }
+  const fotoUrl = fields.foto_url.value || null;
 
   const payload = {
     id: fields.id.value ? Number(fields.id.value) : nextId,
@@ -394,7 +402,10 @@ function saveDish() {
     setStatus("Nova marmita salva (ID: " + payload.id + ")", "success");
   }
 
-  saveDishes();
+  if (!saveDishes()) {
+    return;
+  }
+
   resetForm();
   renderDishList();
   closeDrawer();
@@ -430,7 +441,6 @@ if (refreshButton) {
   refreshButton.addEventListener("click", fetchAdminMenu);
 }
 dishForm.addEventListener("submit", (e) => { e.preventDefault(); saveDish(); });
-resetFormButton.addEventListener("click", resetForm);
 resetFormButton.addEventListener("click", resetForm);
 fields.foto_url.addEventListener("input", updatePhotoPreview);
 

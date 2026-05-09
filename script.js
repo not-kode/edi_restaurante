@@ -8,8 +8,8 @@ const updatedDishPhotos = {
   "Strogonoff de frango": "./fotos/Strogonoff de Frango.jpg",
   Feijoada: "./fotos/Feijoada.jpg",
   "Macarrão com frango assado": "./fotos/Macarrao com frango assado.jpg",
-  "Macarrão com almôndegas": "./fotos/Macarrao com frango assado.jpg",
-  "Macarrão com frango ao molho": "./fotos/Macarrao com frango assado.jpg",
+  "Macarrão com almôndegas": "./fotos/Macarrão com almondega.jpg",
+  "Macarrão com frango ao molho": "./fotos/Macarrão com frango ao molho.jpg",
   "Filé de Merluza frito": "./fotos/File de Merluza Frito.jpg",
   "Tilápia em posta frito": "./fotos/Tilapia em posta frito.jpg",
   "Bife acebolado": "./fotos/Bife acebolado.jpg",
@@ -71,8 +71,8 @@ const menuData = [
   { id: 3, dia_semana: "Quarta", nome: "Feijoada", descricao: "Arroz, couve, torresmo, farofa, vinagrete, molho.", preco: 49, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Feijoada.jpg", ordem: 1, ativo: true, variacoes: FEIJOADA_VARIANTS },
   // === QUINTA ===
   { id: 4, dia_semana: "Quinta", nome: "Macarrão com frango assado", descricao: "Macarrão, arroz, frango assado, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 1, ativo: true },
-  { id: 21, dia_semana: "Quinta", nome: "Macarrão com almôndegas", descricao: "Macarrão, arroz, almôndegas, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 2, ativo: true },
-  { id: 22, dia_semana: "Quinta", nome: "Macarrão com frango ao molho", descricao: "Macarrão, arroz, frango ao molho, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrao com frango assado.jpg", ordem: 3, ativo: true },
+  { id: 21, dia_semana: "Quinta", nome: "Macarrão com almôndegas", descricao: "Macarrão, arroz, almôndegas, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrão com almondega.jpg", ordem: 2, ativo: true },
+  { id: 22, dia_semana: "Quinta", nome: "Macarrão com frango ao molho", descricao: "Macarrão, arroz, frango ao molho, feijão, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Macarrão com frango ao molho.jpg", ordem: 3, ativo: true },
   // === SEXTA ===
   { id: 5, dia_semana: "Sexta", nome: "Filé de Merluza frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: true, foto_url: "./fotos/File de Merluza Frito.jpg", ordem: 1, ativo: true },
   { id: 6, dia_semana: "Sexta", nome: "Tilápia em posta frito", descricao: "Arroz, feijão, purê de batata, salada (acompanha: cebola, tomate e alface).", preco: 39, preco_promocional: null, promocao: false, destaque_dia: false, foto_url: "./fotos/Tilapia em posta frito.jpg", ordem: 2, ativo: true },
@@ -100,14 +100,39 @@ function applyUpdatedDishPhotos(items) {
   return items.map((item) => {
     const updatedPhoto = updatedDishPhotos[item.nome];
     const next = { ...item };
-    if (updatedPhoto && item.foto_url === updatedPhoto) {
-      next.foto_url = updatedPhoto;
+    const legacyPhotos = {
+      "Macarrão com almôndegas": ["./fotos/Macarrao com frango assado.jpg"],
+      "Macarrão com frango ao molho": ["./fotos/Macarrao com frango assado.jpg"],
+    };
+    if (updatedPhoto) {
+      const shouldUpdate =
+        !next.foto_url ||
+        Boolean(legacyPhotos[item.nome]?.includes(next.foto_url));
+      if (shouldUpdate) {
+        next.foto_url = updatedPhoto;
+      }
     }
     if (next.nome === "Feijoada") {
       next.variacoes = FEIJOADA_VARIANTS;
     }
     return next;
   });
+}
+
+function mergeDefaultMenu(storedItems) {
+  const defaultIds = new Set(menuData.map((item) => Number(item.id)));
+  const byId = new Map(storedItems.map((item) => [Number(item.id), item]));
+
+  const mergedDefaults = menuData.map((def) => {
+    const existing = byId.get(Number(def.id));
+    return applyUpdatedDishPhotos([{ ...def, ...(existing || {}) }])[0];
+  });
+
+  const extras = storedItems
+    .filter((item) => !defaultIds.has(Number(item.id)))
+    .map((item) => applyUpdatedDishPhotos([{ ...item }])[0]);
+
+  return [...mergedDefaults, ...extras];
 }
 
 function createWhatsappLink(message) {
@@ -178,14 +203,7 @@ function loadMenu() {
     try {
       const items = JSON.parse(stored);
       if (Array.isArray(items) && items.length > 0) {
-        // Aplica apenas variantes, mantendo fotos personalizadas
-        const migratedItems = items.map((item) => {
-          const next = { ...item };
-          if (next.nome === "Feijoada") {
-            next.variacoes = FEIJOADA_VARIANTS;
-          }
-          return next;
-        });
+        const migratedItems = mergeDefaultMenu(items);
         localStorage.setItem(key, JSON.stringify(migratedItems));
         weeklyMenu = normalizeMenu(migratedItems.filter((i) => i.ativo !== false));
         populateDayFilter();
