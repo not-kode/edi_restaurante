@@ -138,23 +138,34 @@ function formatPrice(value) {
 
 function loadDishes() {
   const stored = localStorage.getItem(STORAGE_KEY);
+  let storedDishes = [];
+  
   if (stored) {
-    dishes = JSON.parse(stored);
-    // Aplica apenas variantes em itens do localStorage
-    dishes = dishes.map((item) => {
-      if (item.nome === "Feijoada") {
-        return { ...item, variacoes: FEIJOADA_VARIANTS };
-      }
-      return item;
-    });
-  } else {
-    dishes = applyUpdatedDishPhotos(JSON.parse(JSON.stringify(DEFAULT_DISHES)));
-    saveDishes();
+    try {
+      storedDishes = JSON.parse(stored);
+    } catch (e) {
+      storedDishes = [];
+    }
   }
+  
+  // Garante que todos os pratos do DEFAULT_DISHES existam
+  dishes = [...storedDishes];
+  DEFAULT_DISHES.forEach(def => {
+    if (!dishes.find(d => Number(d.id) === Number(def.id))) {
+      dishes.push({...def});
+    }
+  });
+  
+  // Aplica variacoes para Feijoada
+  dishes = dishes.map(item => {
+    if (item.nome === "Feijoada") {
+      return { ...item, variacoes: FEIJOADA_VARIANTS };
+    }
+    return item;
+  });
+  
   localStorage.setItem(STORAGE_KEY, JSON.stringify(dishes));
-  if (dishes.length > 0) {
-    nextId = Math.max(...dishes.map((d) => d.id)) + 1;
-  }
+  nextId = Math.max(...dishes.map(d => Number(d.id)), 0) + 1;
   exportDishesToSite();
 }
 
@@ -320,42 +331,46 @@ function fillForm(dish) {
 
 function saveDish(event) {
   event.preventDefault();
+  
+  try {
+    const payload = {
+      id: fields.id.value ? Number(fields.id.value) : nextId,
+      nome: fields.nome.value.trim(),
+      descricao: fields.descricao.value.trim(),
+      preco: Number(fields.preco.value),
+      preco_promocional: fields.preco_promocional.value ? Number(fields.preco_promocional.value) : null,
+      foto_url: fields.foto_url.value || null,
+      dia_semana: fields.dia_semana.value,
+      ordem: Number(fields.ordem.value),
+      ativo: fields.ativo.checked,
+      destaque_dia: fields.destaque_dia.checked,
+      promocao: fields.promocao.checked,
+      diario: fields.diario.checked,
+    };
 
-  const payload = {
-    id: fields.id.value ? Number(fields.id.value) : nextId,
-    nome: fields.nome.value.trim(),
-    descricao: fields.descricao.value.trim(),
-    preco: Number(fields.preco.value),
-    preco_promocional: fields.preco_promocional.value ? Number(fields.preco_promocional.value) : null,
-    foto_url: fields.foto_url.value || null,
-    dia_semana: fields.dia_semana.value,
-    ordem: Number(fields.ordem.value),
-    ativo: fields.ativo.checked,
-    destaque_dia: fields.destaque_dia.checked,
-    promocao: fields.promocao.checked,
-    diario: fields.diario.checked,
-  };
+    if (!payload.nome || !payload.dia_semana || isNaN(payload.preco)) {
+      setStatus("Nome, dia da semana e preco sao obrigatorios.", "error");
+      return;
+    }
 
-  if (!payload.nome || !payload.dia_semana || isNaN(payload.preco)) {
-    setStatus("Nome, dia da semana e preco sao obrigatorios.", "error");
-    return;
+    const existingIndex = dishes.findIndex((d) => Number(d.id) === Number(payload.id));
+    
+    if (existingIndex >= 0) {
+      dishes[existingIndex] = payload;
+    } else {
+      dishes.push(payload);
+      nextId = Math.max(nextId, payload.id + 1);
+    }
+
+    saveDishes();
+    resetForm();
+    renderDishList();
+    setStatus(existingIndex >= 0 ? "Marmita atualizada com sucesso." : "Marmita salva com sucesso.", "success");
+    closeDrawer();
+  } catch (error) {
+    setStatus("Erro ao salvar: " + error.message, "error");
+    console.error("Erro no saveDish:", error);
   }
-
-  const existingIndex = dishes.findIndex((d) => Number(d.id) === Number(payload.id));
-
-  if (existingIndex >= 0) {
-    dishes[existingIndex] = payload;
-    setStatus("Marmita atualizada com sucesso.", "success");
-  } else {
-    dishes.push(payload);
-    nextId++;
-    setStatus("Marmita salva com sucesso.", "success");
-  }
-
-  saveDishes();
-  resetForm();
-  renderDishList();
-  closeDrawer();
 }
 
 function deleteDish(id) {
