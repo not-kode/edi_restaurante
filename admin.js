@@ -255,7 +255,6 @@ function updatePhotoPreview() {
     photoPreviewWrapper.classList.remove("is-visible");
   }
 }
-}
 
 function resetUploadState() {
   photoFileInput.value = "";
@@ -284,7 +283,6 @@ function handleFileSelect(file) {
   reader.onload = (e) => {
     const img = new Image();
     img.onload = () => {
-      // Comprime a imagem (max 800px, qualidade 0.7)
       const canvas = document.createElement("canvas");
       let width = img.width;
       let height = img.height;
@@ -311,25 +309,6 @@ function handleFileSelect(file) {
     setStatus("Erro ao carregar a foto.", "error");
   };
   reader.readAsDataURL(file);
-}
-
-  const maxSize = 5 * 1024 * 1024;
-  if (file.size > maxSize) {
-    setStatus("A imagem deve ter no máximo 5 MB.", "error");
-    return;
-  }
-
-  // Apenas sugere o nome limpo - não tenta carregar a imagem
-  const cleanFileName = file.name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-zA-Z0-9.\-_]/g, "-")
-    .toLowerCase();
-  
-  fields.foto_url.value = "./fotos/" + cleanFileName;
-  setStatus("Nome sugerido: " + cleanFileName + ". Suba a foto manualmente.", "info");
-  
-  resetUploadState();
 }
 
 function resetForm() {
@@ -402,8 +381,6 @@ function saveDish(event) {
     setStatus("Nome, dia da semana e preco sao obrigatorios.", "error");
     return;
   }
-
-  const fotoUrl = fields.foto_url.value || null;
 
     setStatus("Salvando prato ID: " + payload.id + "...", "info");
     
