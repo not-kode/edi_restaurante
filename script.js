@@ -444,7 +444,7 @@ function buildWhatsAppMessage() {
 
   let msg = `#Pedido ${orderNumber}\n\n`;
   msg += `Olá, acabei de finalizar o meu pedido:\n\n`;
-  if (obs) msg += `Obs.: ${obs}\n\n`;
+  if (obs) msg += `*Obs: "${obs}"*\n\n`;
   msg += `#Itens\n`;
 
   cart.forEach((item) => {
@@ -560,6 +560,15 @@ function setupCart() {
     radio.addEventListener("change", () => {
       document.querySelector("#cart-whatsapp").href = createWhatsappLink(buildWhatsAppMessage());
     });
+  });
+
+  document.querySelector("#cart-obs").addEventListener("input", () => {
+    document.querySelector("#cart-whatsapp").href = createWhatsappLink(buildWhatsAppMessage());
+  });
+
+  document.querySelector("#cart-whatsapp").addEventListener("click", () => {
+    const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    if (window.va) window.va("event", { name: "pedido_whatsapp", data: { itens: cart.length, total_centavos: Math.round(total * 100) } });
   });
 
   document.querySelector("#cart-items").addEventListener("click", (e) => {
